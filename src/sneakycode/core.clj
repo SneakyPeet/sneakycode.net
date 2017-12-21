@@ -10,7 +10,13 @@
 (def edn-ext ".edn")
 (def html-ext ".html")
 (def md-ext ".md")
-(def md-setting-split "-----")
+(def md-setting-split "\n-----\n")
+
+
+(defn rename-html [file-name]
+  (if (string/ends-with? file-name "index.html")
+    file-name
+    (string/replace file-name html-ext "/")))
 
 
 ;;;; TEMPLATES
@@ -35,6 +41,7 @@
    [:meta {:name "theme-color" :content "#ffffff"}]])
 
 (defn layout-page [{:keys [title content]}]
+  (prn content)
   (let [head-head [[:meta {:charset "utf-8"}]
                    [:meta {:name "viewport"
                            :content "width=device-width, initial-scale=1"}]
@@ -47,8 +54,8 @@
      [:body
       [:section.section
        [:div.container
-        [:h1.title "HELLO"]
-        [:p.subtitle "WORLD"]]]])))
+        content]]])))
+
 
 
 ;;;; PAGES
@@ -57,7 +64,8 @@
   (let [pages (stasis/slurp-directory "resources/pages" (re-pattern edn-ext))]
     (zipmap
      (->> (keys pages)
-          (map #(string/replace % edn-ext html-ext)))
+          (map #(string/replace % edn-ext html-ext))
+          (map rename-html))
      (->> (vals pages)
           (map read-string)
           (map layout-page)))))
@@ -76,7 +84,8 @@
   (let [posts (stasis/slurp-directory "resources/posts" (re-pattern md-ext))]
     (zipmap
      (->> (keys posts)
-          (map #(string/replace % md-ext html-ext)))
+          (map #(string/replace % md-ext html-ext))
+          (map rename-html))
      (->> (vals posts)
           (map parse-markdown)
           (map layout-page)))))
@@ -85,10 +94,10 @@
 ;;;; EXPORT
 
 (defn get-site []
-  (merge
-   (stasis/slurp-directory "resources/css" #".css")
-   (get-pages)
-   (get-posts)))
+  (stasis/merge-page-sources
+   {:css   (stasis/slurp-directory "resources/css" #".css")
+    :pages (get-pages)
+    :posts (get-posts)}))
 
 
 ;;;; DEV

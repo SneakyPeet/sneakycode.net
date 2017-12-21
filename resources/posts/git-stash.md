@@ -1,0 +1,36 @@
+{:tags ("git" "source control"), :title "Git Goodies That You Might Not Know About: git stash", :date "2015-01-04"}
+-----
+We sometimes find ourselves with code that does not belong in a commit. This might be because we are on a wrong branch, just trying new things or need to quickly do something else and are not prepared to commit the code yet. Bottom line is we sit with code that we want to persist somehow but that we do not want in our source control history. Enter git stash.
+
+Git stash will save your local modifications away and revert your working directory to match the HEAD commit. You can then at a later stage re-apply these modifications wherever you want.
+
+To stash your changes you first need to add them so git can track them and then you simply run git stash to stash them.
+<pre><code class="language-css">$ git add
+$ git stash</code></pre>
+
+Your changes have now been pigeon holed and the branch reverted.
+
+There are two ways to re-apply your stashed code. 
+
+<pre><code class="language-bash">$ git stash pop</code></pre>
+Pop treats all your stashed changes as a first-in last-out queue. Thus running the pop command will apply your last stash and remove it from your stashed items.
+
+<pre><code class="language-bash">$ git stash apply {stash-id}</code></pre>
+Apply will apply a specific stash without removing it from your stash list. 
+
+You can view all stashed items using
+
+<pre><code class="language-bash">$ git stash list</code></pre>
+You can remove all stashed items or a specific stash using clear and drop respectively.
+
+<pre><code class="language-bash">$ git stash clear
+$ git stash drop {stash-id}</code></pre>
+Simple, effective and awesome. GIT ALL THE THINGS.
+
+Read more here
+
+Also see [git bisect](/git-bisect/)
+___
+*This post was first published on [blog.entelect.co.za](http://blog.entelect.co.za/home)*
+
+<a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a>

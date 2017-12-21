@@ -8,7 +8,9 @@
                  [ring "1.6.3"]
                  [org.clojure/tools.logging "0.4.0"]
                  [hiccup "1.0.5"]
-                 [me.raynes/cegdown "0.1.1"]]
+                 [me.raynes/cegdown "0.1.1"]
+                 [cheshire "5.8.0"]
+                 [clj-time "0.14.2"]]
   :plugins [[lein-ring "0.10.0"]]
   :ring {:handler sneakycode.core/app
          :init sneakycode.core/app-init}
