@@ -14,8 +14,11 @@
 
 
 (defn parse-edn [file-content]
-  (let [{:keys [content] :as file-content} (read-string file-content)
-        content (eval content)] ;; transforms it into function
+  (let [{:keys [content] :as file-content}
+        (->> file-content
+             read-string
+             (map (fn [[k v]] [k (eval v)])) ;; make functions
+             (into {}))]
     (if (clojure.test/function? content)
       (assoc file-content :content (content file-content))
       file-content)))
@@ -37,6 +40,9 @@
 
 (defn remove-file-name-date [file-name]
   (str "/" (subs file-name 12)))
+
+(defn grab-file-name-date [file-name]
+  (subs file-name 0 11))
 
 (defn rename-html [file-name]
   (if (string/ends-with? file-name "index.html")
@@ -68,8 +74,12 @@
                   parse (if is-edn? parse-edn parse-markdown)]
               (hash-map
                (-> file-name remove-file-name-date replace-extension rename-html)
-               (fn [req]
-                 (-> file-content parse views/post-page)))))) ;; returning a function means we only parse a file on request
+               (fn [req] ;; returning a function means we only parse a file on request
+                 (let [date (grab-file-name-date file-name)]
+                   (-> file-content
+                       parse
+                       (assoc :date date)
+                       views/post-page)))))))
          (apply merge))))
 
 

@@ -23,29 +23,27 @@
 
 
 (def social
-  [{:link "https://github.com/sneakypeet" :icon "github"}
-   {:link "https://twitter.com/PieterKoornhof" :icon "twitter"}])
+  [{:aria "home" :link "/" :icon "bath"}
+   {:aria "about" :link "/about" :icon "meh-o"}
+   {:aria "github" :link "https://github.com/sneakypeet" :icon "github" :away? true}
+   {:aria "twitter ":link "https://twitter.com/PieterKoornhof" :icon "twitter" :away? true}])
 
 
 (def menu
   [:nav.navbar.is-fixed-top.is-dark
-   {:role "navigation" :aria-label "main navigation"}
+   {:role "navigation"}
    [:div.navbar-brand
-    [:a.navbar-item {:href "/"} "SneakyCode"]
-    [:button.button.navbar-burger [:span] [:span] [:span]]]
-   [:div.navbar-menu
-    [:div.navbar-start
-     [:a.navbar-item {:href "/about"} "about"]]
-    [:div.navbar-end]]])
+    [:a.navbar-item {:href "/"} "SneakyCode"]]])
 
 (def footer
   [:nav.navbar.is-fixed-bottom.is-dark
-   {:role "navigation" :aria-label "navigation"}
+   {:role "navigation" :aria-label "main navigation"}
    [:div.navbar-brand
     (->> social
          (map
-          (fn [{:keys [link icon]}]
-            [:a.navbar-item {:target "_blank" :href link}
+          (fn [{:keys [aria link icon away?]}]
+            [:a.navbar-item (merge (when away? {:target "_blank"})
+                                   {:href link :aria-label aria})
              [:span.icon
               [:i.fa.fa-lg {:class (str "fa-" icon)}]]])))]])
 
@@ -69,11 +67,15 @@
         content]]])))
 
 
-(defn post-page [{:keys [title content] :as post}]
+(defn post-page [{:keys [title content tags date] :as post}]
   (layout-page
    (assoc post
           :content
           [:section.section
            [:div.container
             [:h1.title title]
+            [:p.subtitle.is-6
+             [:span.tags
+              [:span.tag.is-primary date]
+              (->> tags (map (fn [t] [:span.tag t])))]]
             content]])))
