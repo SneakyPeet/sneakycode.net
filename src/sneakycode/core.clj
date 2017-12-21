@@ -14,7 +14,11 @@
 
 
 (defn parse-edn [file-content]
-  (-> file-content read-string))
+  (let [{:keys [content] :as file-content} (read-string file-content)
+        content (eval content)] ;; transforms it into function
+    (if (clojure.test/function? content)
+      (assoc file-content :content (content file-content))
+      file-content)))
 
 
 (defn parse-markdown [file-content]

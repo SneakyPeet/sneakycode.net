@@ -45,7 +45,7 @@
     (->> social
          (map
           (fn [{:keys [link icon]}]
-            [:a.navbar-item
+            [:a.navbar-item {:target "_blank" :href link}
              [:span.icon
               [:i.fa.fa-lg {:class (str "fa-" icon)}]]])))]])
 
@@ -65,9 +65,8 @@
       [:body
        menu
        footer
-       [:section.section
-        [:div.container
-         content]]]])))
+       [:div
+        content]]])))
 
 
 (defn post-page [{:keys [title content] :as post}]
@@ -75,5 +74,6 @@
    (assoc post
           :content
           [:section.section
-           [:h1 title]
-           content])))
+           [:div.container
+            [:h1.title title]
+            content]])))
