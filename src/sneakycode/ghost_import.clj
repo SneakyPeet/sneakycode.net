@@ -51,7 +51,7 @@
 
 
 (defn spit-file [{:keys [date slug markdown] :as post}]
-  (let [file-name (str slug ".md")
+  (let [file-name (format "%s-%s.md" date slug)
         meta (str (dissoc post :slug :markdown))
         content (format "%s\n-----\n%s" meta markdown)]
     (spit (format "./resources/posts/%s" file-name) content)))

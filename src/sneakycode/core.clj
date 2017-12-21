@@ -57,21 +57,9 @@
         content]]])))
 
 
+(defn parse-edn [file-content]
+  (-> file-content read-string))
 
-;;;; PAGES
-
-(defn get-pages []
-  (let [pages (stasis/slurp-directory "resources/pages" (re-pattern edn-ext))]
-    (zipmap
-     (->> (keys pages)
-          (map #(string/replace % edn-ext html-ext))
-          (map rename-html))
-     (map #(fn [req]
-             (-> % read-string layout-page))
-          (vals pages)))))
-
-
-;;;; POSTS
 
 (defn parse-markdown [file-content]
   (let [[settings markdown] (string/split file-content (re-pattern md-setting-split))]
@@ -80,16 +68,44 @@
         (assoc :content markdown)
         (update :content md/to-html))))
 
+(defn swap-extension [ext file-name]
+  (string/replace file-name ext html-ext))
 
-(defn get-posts[]
-  (let [posts (stasis/slurp-directory "resources/posts" (re-pattern md-ext))]
+(def swap-markdown-extension (partial swap-extension md-ext))
+
+(def swap-edn-extension (partial swap-extension edn-ext))
+
+(defn remove-file-name-date [file-name]
+  (str "/" (subs file-name 12)))
+
+;;;; PAGES
+
+(defn get-pages []
+  (let [pages (stasis/slurp-directory "resources/pages" (re-pattern edn-ext))]
     (zipmap
-     (->> (keys posts)
-          (map #(string/replace % md-ext html-ext))
+     (->> (keys pages)
+          (map swap-edn-extension)
           (map rename-html))
-     (map #(fn [req]
-             (-> % parse-markdown layout-page))
-          (vals posts)))))
+     (->> (vals pages)
+          (map (fn [content]
+                 (fn [req] ;; returning a function means we only parse a file on request
+                   (-> content parse-edn layout-page))))))))
+
+;;;; POSTS
+
+(defn get-posts []
+  (let [posts (stasis/slurp-directory "resources/posts" #".*\.(md|edn)$")]
+    (->> posts
+         (map
+          (fn [[file-name file-content]]
+            (let [is-edn? (string/ends-with? file-name edn-ext)
+                  replace-extension (if is-edn? swap-edn-extension swap-markdown-extension)
+                  parse (if is-edn? parse-edn parse-markdown)]
+              (hash-map
+               (-> file-name remove-file-name-date replace-extension rename-html)
+               (fn [req]
+                 (-> file-content parse layout-page)))))) ;; returning a function means we only parse a file on request
+         (apply merge))))
 
 
 ;;;; EXPORT
