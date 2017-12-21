@@ -1,14 +1,20 @@
 # sneakycode
 
-A Clojure library designed to ... well, that part is up to you.
+## DEV
 
-## Usage
+`lein dev`
 
-FIXME
+## styles
 
-## License
+```
+sudo gem install sass
 
-Copyright © 2017 FIXME
+cd resources/styles
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+npm install
+
+
+
+```
+
+

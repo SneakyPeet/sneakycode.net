@@ -3,25 +3,30 @@
             [clojure.string :as string]
             [stasis.core :as stasis]
             [hiccup.page :refer [html5]]
-            [me.raynes.cegdown :as md]))
+            [me.raynes.cegdown :as md]
+            [ring.middleware.content-type :refer [wrap-content-type]]))
 
 (def edn-ext ".edn")
 (def html-ext ".html")
 (def md-ext ".md")
 (def md-setting-split "-----")
+
+
 ;;;; TEMPLATES
 
 (defn layout-page [{:keys [title content]}]
-  (prn content)
   (html5
    [:head
     [:meta {:charset "utf-8"}]
     [:meta {:name "viewport"
-            :content "width=device-width, initial-scale=1.0"}]
-    [:title title]]
-    ;[:link {:rel "stylesheet" :href "/styles/styles.css"}]]
+            :content "width=device-width, initial-scale=1"}]
+    [:title title]
+    [:link {:rel "stylesheet" :href "/style.css"}]]
    [:body
-    [:div.body content]]))
+    [:section.section
+     [:div.container
+      [:h1.title "HELLO"]
+      [:p.subtitle "WORLD"]]]]))
 
 
 ;;;; PAGES
@@ -59,7 +64,7 @@
 
 (defn get-site []
   (merge
-   (stasis/slurp-directory "resources/public" #".*\.(css|js)$")
+   (stasis/slurp-directory "resources/css" #".css")
    (get-pages)
    (get-posts)))
 
@@ -71,4 +76,5 @@
 
 
 (def app
-  (-> (stasis/serve-pages get-site)))
+  (-> (stasis/serve-pages get-site)
+      wrap-content-type))
