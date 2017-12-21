@@ -66,9 +66,10 @@
      (->> (keys pages)
           (map #(string/replace % edn-ext html-ext))
           (map rename-html))
-     (->> (vals pages)
-          (map read-string)
-          (map layout-page)))))
+     (map #(fn [req]
+             (-> % read-string layout-page))
+          (vals pages)))))
+
 
 ;;;; POSTS
 
@@ -86,9 +87,9 @@
      (->> (keys posts)
           (map #(string/replace % md-ext html-ext))
           (map rename-html))
-     (->> (vals posts)
-          (map parse-markdown)
-          (map layout-page)))))
+     (map #(fn [req]
+             (-> % parse-markdown layout-page))
+          (vals posts)))))
 
 
 ;;;; EXPORT
