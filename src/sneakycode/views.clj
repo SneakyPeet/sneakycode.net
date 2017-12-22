@@ -75,22 +75,25 @@
     (fn [_]
       [:section.section
        [:div.container
-        [:h1.title title]
-        [:p.subtitle.is-6
-         [:span.tags
-          [:span.tag.is-primary date]
-          (->> tags (map (fn [t] [:span.tag t])))]]
-        (render post)
-        [:div.content
-         [:p
-          [:nav.pagination.is-centered.is-rounded.is-small
-           {:role "navigation"
-            :aria-label "pagination"}
-           (when-let [{:keys [title slug]} previous]
-             [:a.pagination-previous {:href slug}
-              [:span.icon.is-pulled-left [:i.fa.fa-arrow-left]]
-              title])
-           (when-let [{:keys [title slug]} next]
-             [:a.pagination-next {:href slug}
-              title
-              [:span.icon [:i.fa.fa-arrow-right]]])]]]]]))))
+        [:div.columns.is-8.is-variable.is-desktop
+         [:article.column.is-three-quarters-desktop
+          [:h1.title title]
+          [:p.subtitle.is-6
+           [:span.tags
+            [:span.tag.is-primary date]
+            (->> tags sort (map (fn [t] [:span.tag t])))]]
+          [:div.has-text-justified
+           (render post)]]
+         [:nav.column {:role "navigation" :aria-label "pagination"}
+          [:div.notification
+           [:ul.is-size-6
+            (when-let [{:keys [title slug]} next]
+              [:li
+               [:strong "Next "]
+               [:a.has-text-primary {:href slug} title]])
+            (when-let [{:keys [title slug]} previous]
+              [:li
+               [:strong "Prev "]
+               [:a.has-text-primary {:href slug} title]])
+            [:li
+             [:strong "Related"]]]]]]]]))))
