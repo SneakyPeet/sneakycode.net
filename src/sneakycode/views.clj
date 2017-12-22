@@ -33,7 +33,7 @@
   [:nav.navbar.is-fixed-top.is-dark
    {:role "navigation"}
    [:div.navbar-brand
-    [:a.navbar-item {:href "/"} "SneakyCode"]]])
+    [:a.navbar-item.has-text-weight-bold {:href "/"} "SNEAKYCODE"]]])
 
 (def footer
   [:nav.navbar.is-fixed-bottom.is-dark
@@ -48,7 +48,7 @@
               [:i.fa.fa-lg {:class (str "fa-" icon)}]]])))]])
 
 
-(defn layout-page [{:keys [title content]}]
+(defn layout-page [{:keys [title render] :as page}]
   (let [head-head [[:meta {:charset "utf-8"}]
                    [:meta {:name "viewport"
                            :content "width=device-width, initial-scale=1"}]
@@ -64,18 +64,20 @@
        menu
        footer
        [:div
-        content]]])))
+        (render page)]]])))
 
 
-(defn post-page [{:keys [title content tags date] :as post}]
+(defn post-page [{:keys [title render tags date] :as post}]
   (layout-page
-   (assoc post
-          :content
-          [:section.section
-           [:div.container
-            [:h1.title title]
-            [:p.subtitle.is-6
-             [:span.tags
-              [:span.tag.is-primary date]
-              (->> tags (map (fn [t] [:span.tag t])))]]
-            content]])))
+   (assoc
+    post
+    :render
+    (fn [_]
+      [:section.section
+       [:div.container
+        [:h1.title title]
+        [:p.subtitle.is-6
+         [:span.tags
+          [:span.tag.is-primary date]
+          (->> tags (map (fn [t] [:span.tag t])))]]
+        (render post)]]))))

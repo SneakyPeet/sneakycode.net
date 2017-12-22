@@ -5,82 +5,100 @@
             [me.raynes.cegdown :as md]
             [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.resource :refer [wrap-resource]]
-            [sneakycode.views :as views]))
+            [sneakycode.views :as views])
+  (:import [org.apache.commons.io FilenameUtils]))
 
-(def edn-ext ".edn")
-(def html-ext ".html")
-(def md-ext ".md")
+
 (def md-setting-split "\n-----\n")
 
+(def file-extensions #".*\.(md|edn)$")
 
-(defn parse-edn [file-content]
-  (let [{:keys [content] :as file-content}
-        (->> file-content
-             read-string
-             (map (fn [[k v]] [k (eval v)])) ;; make functions
-             (into {}))]
-    (if (clojure.test/function? content)
-      (assoc file-content :content (content file-content))
-      file-content)))
+;;; FILE NAMES
 
-
-(defn parse-markdown [file-content]
-  (let [[settings markdown] (string/split file-content (re-pattern md-setting-split))]
-    (-> settings
-        read-string
-        (assoc :content markdown)
-        (update :content md/to-html))))
-
-(defn swap-extension [ext file-name]
-  (string/replace file-name ext html-ext))
-
-(def swap-markdown-extension (partial swap-extension md-ext))
-
-(def swap-edn-extension (partial swap-extension edn-ext))
+(defn prep-file-extension [s]
+  (cond-> s
+    true  FilenameUtils/getBaseName
+    true (#(str "/" % ".html"))))
+    ;(not (string/ends-with? s "index.html")) (string/replace ".html" "/")))
 
 (defn remove-file-name-date [file-name]
   (str "/" (subs file-name 12)))
 
 (defn grab-file-name-date [file-name]
-  (subs file-name 0 11))
+  (subs file-name 1 11))
 
-(defn rename-html [file-name]
-  (if (string/ends-with? file-name "index.html")
-    file-name
-    (string/replace file-name html-ext "/")))
+
+(defmulti prep-file-name (fn [type name] type))
+
+(defmethod prep-file-name :post [_ file-name]
+  {:file-name (-> file-name remove-file-name-date prep-file-extension)
+   :date (grab-file-name-date file-name)})
+
+(defmethod prep-file-name :page [_ file-name]
+  {:file-name (prep-file-extension file-name)
+   :date nil})
+
+
+(defn prep-edn
+  "parses edn string and converts function lists into functions. assumes a map"
+  [s]
+  (->> s
+       read-string
+       (map (fn [[k v]] [k (eval v)]))
+       (into {})))
+
+
+;;;; FILES
+
+(defn file-content-type [s] (keyword (FilenameUtils/getExtension s)))
+
+(defmulti prep-file (fn [file-type [file-name file-content]] (file-content-type file-name)))
+
+(defmethod prep-file :edn [file-type [file-name file-content]]
+  (merge
+   (prep-edn file-content)
+   (prep-file-name file-type file-name)
+   {:render (fn [{:keys [content] :as file-config}]
+              (if (clojure.test/function? content)
+                (content file-config)
+                content))}))
+
+
+
+(defmethod prep-file :md [file-type [file-name file-content]]
+  (let [[file-config markdown] (string/split file-content (re-pattern md-setting-split))]
+    (merge
+     (read-string file-config)
+     (prep-file-name file-type file-name)
+     {:content markdown
+      :render (fn [{:keys [content]}]
+                  (md/to-html content))})))
+
+
 
 ;;;; PAGES
 
 (defn get-pages []
-  (let [pages (stasis/slurp-directory "resources/pages" (re-pattern edn-ext))]
-    (zipmap
-     (->> (keys pages)
-          (map swap-edn-extension)
-          (map rename-html))
-     (->> (vals pages)
-          (map (fn [content]
-                 (fn [req] ;; returning a function means we only parse a file on request
-                   (-> content parse-edn views/layout-page))))))))
+  (->> (stasis/slurp-directory "resources/pages" file-extensions)
+       (map #(prep-file :page %))
+       (map (fn [{:keys [file-name] :as file-config}]
+              [file-name (fn [req] (-> file-config views/layout-page))]))
+       (into {})))
+
 
 ;;;; POSTS
 
-(defn get-posts []
-  (let [posts (stasis/slurp-directory "resources/posts" #".*\.(md|edn)$")]
-    (->> posts
-         (map
-          (fn [[file-name file-content]]
-            (let [is-edn? (string/ends-with? file-name edn-ext)
-                  replace-extension (if is-edn? swap-edn-extension swap-markdown-extension)
-                  parse (if is-edn? parse-edn parse-markdown)]
-              (hash-map
-               (-> file-name remove-file-name-date replace-extension rename-html)
-               (fn [req] ;; returning a function means we only parse a file on request
-                 (let [date (grab-file-name-date file-name)]
-                   (-> file-content
-                       parse
-                       (assoc :date date)
-                       views/post-page)))))))
-         (apply merge))))
+(defn get-posts-config []
+  (let [posts (->> (stasis/slurp-directory "resources/posts" file-extensions)
+                   (map #(prep-file :post %))
+                   (sort-by :date)
+                   reverse)]
+    {:posts posts
+     :posts-map (->> posts
+                     (map (fn [{:keys [file-name] :as file-config}]
+                            [file-name (fn [req] (-> file-config views/post-page))]))
+                     (into {}))}))
+
 
 
 ;;;; EXPORT
@@ -89,10 +107,30 @@
   (stasis/merge-page-sources
    {:css   (stasis/slurp-directory "resources/css" #".css")
     :pages (get-pages)
-    :posts (get-posts)}))
+    :posts (:posts-map (get-posts-config))}))
 
 
 ;;;; DEV
+
+(defn wrap-file-extension
+  "As part of dev we want /my-route to point to /my-route.html"
+  [handler]
+  (fn [{:keys [uri] :as req}]
+    (cond
+      (= uri "/")
+      (handler req)
+      (not (empty? (FilenameUtils/getBaseName uri)))
+      (handler req)
+      :else
+      (handler
+       (assoc req :uri
+              (if (string/ends-with? uri "/")
+                (-> uri
+                    drop-last
+                    (concat [".html"])
+                    (#(string/join "" %)))
+                (str uri ".html")))))))
+
 
 (defn app-init []
   (log/info "Initialising"))
@@ -100,5 +138,6 @@
 
 (def app
   (-> (stasis/serve-pages get-site)
+      wrap-file-extension
       (wrap-resource "images")
       wrap-content-type))
