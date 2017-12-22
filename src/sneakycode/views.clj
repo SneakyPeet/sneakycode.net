@@ -67,7 +67,7 @@
         (render page)]]])))
 
 
-(defn post-page [{:keys [title render tags date] :as post}]
+(defn post-page [{:keys [title render tags date next previous] :as post}]
   (layout-page
    (assoc
     post
@@ -80,4 +80,17 @@
          [:span.tags
           [:span.tag.is-primary date]
           (->> tags (map (fn [t] [:span.tag t])))]]
-        (render post)]]))))
+        (render post)
+        [:div.content
+         [:p
+          [:nav.pagination.is-centered.is-rounded.is-small
+           {:role "navigation"
+            :aria-label "pagination"}
+           (when-let [{:keys [title slug]} previous]
+             [:a.pagination-previous {:href slug}
+              [:span.icon.is-pulled-left [:i.fa.fa-arrow-left]]
+              title])
+           (when-let [{:keys [title slug]} next]
+             [:a.pagination-next {:href slug}
+              title
+              [:span.icon [:i.fa.fa-arrow-right]]])]]]]]))))

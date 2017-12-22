@@ -16,10 +16,15 @@
 ;;; FILE NAMES
 
 (defn prep-file-extension [s]
-  (cond-> s
-    true  FilenameUtils/getBaseName
-    true (#(str "/" % ".html"))))
-    ;(not (string/ends-with? s "index.html")) (string/replace ".html" "/")))
+  (-> s FilenameUtils/getBaseName  (#(str "/" % ".html"))))
+
+(defn prep-file-slug [s]
+  (->> s
+       (#(string/split % #"\."))
+       drop-last
+       (string/join ".")))
+
+
 
 (defn remove-file-name-date [file-name]
   (str "/" (subs file-name 12)))
@@ -32,10 +37,12 @@
 
 (defmethod prep-file-name :post [_ file-name]
   {:file-name (-> file-name remove-file-name-date prep-file-extension)
+   :slug (-> file-name remove-file-name-date prep-file-slug)
    :date (grab-file-name-date file-name)})
 
 (defmethod prep-file-name :page [_ file-name]
   {:file-name (prep-file-extension file-name)
+   :slug (prep-file-slug file-name)
    :date nil})
 
 
@@ -88,11 +95,26 @@
 
 ;;;; POSTS
 
+(defn link-posts [posts]
+  (let [posts (->> posts (sort-by :date) reverse)]
+    (loop [previous  nil
+           remainder posts
+           result    []]
+      (if (empty? remainder)
+        result
+        (let [next    (second remainder)
+              current (assoc (first remainder)
+                             :next next
+                             :previous previous)]
+          (recur current
+                 (rest remainder)
+                 (into result [current])))))))
+
+
 (defn get-posts-config []
   (let [posts (->> (stasis/slurp-directory "resources/posts" file-extensions)
                    (map #(prep-file :post %))
-                   (sort-by :date)
-                   reverse)]
+                   link-posts)]
     {:posts posts
      :posts-map (->> posts
                      (map (fn [{:keys [file-name] :as file-config}]
