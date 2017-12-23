@@ -10,7 +10,7 @@
            content]])
  :content
  (fn [{:keys [tile interests]}]
-   [:section.section
+   [:section
     [:div.tile.is-ancestor
      (tile "is-primary" "Me" "a")
      (tile "is-white" "Interests"

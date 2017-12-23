@@ -1,3 +1,33 @@
 {:title "SneakyCode"
+ :post-tile
+ (fn [{:keys [title slug tags render-description date]}]
+   [:article
+    [:p.title.is-marginless.is-4.has-text-primary title]
+    [:p (render-description)]
+    [:br]
+    [:div.level.is-mobile
+     [:div.level-left
+      [:div.level-item
+       [:span.tag date]]]
+     [:div.level-right
+      [:div.level-item
+       [:a.button.is-primary.is-small.is-outlined
+        {:href slug}
+        "Read More"]]]]
+    [:hr]])
+
+
  :content
- [:h1 "foo"]}
+ (fn [{:keys [all-posts post-tile] :as conf}]
+   (let [posts (->> all-posts
+                    (sort-by :date)
+                    reverse
+                    (take 3)
+                    (map post-tile))]
+     [:div.columns
+      [:div.column.is-one-quarter]
+      [:div.column
+       posts
+       [:div.has-text-centered
+        [:a.button.is-primary "More Posts"]]]
+      [:div.column.is-one-quarter]]))}

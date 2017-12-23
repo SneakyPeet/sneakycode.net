@@ -5,7 +5,8 @@
             [me.raynes.cegdown :as md]
             [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.resource :refer [wrap-resource]]
-            [sneakycode.views :as views])
+            [sneakycode.views :as views]
+            [clojure.test :refer [function?]])
   (:import [org.apache.commons.io FilenameUtils]))
 
 
@@ -62,34 +63,43 @@
 (defmulti prep-file (fn [file-type [file-name file-content]] (file-content-type file-name)))
 
 (defmethod prep-file :edn [file-type [file-name file-content]]
-  (merge
-   (prep-edn file-content)
-   (prep-file-name file-type file-name)
-   {:render (fn [{:keys [content] :as file-config}]
-              (if (clojure.test/function? content)
-                (content file-config)
-                content))}))
+  (let [file-config (prep-edn file-content)]
+    (merge
+     file-config
+     (prep-file-name file-type file-name)
+     {:render (fn [{:keys [content] :as file-config}]
+                (if (function? content)
+                  (content file-config)
+                  content))
+      :render-description #(get file-config :description)})))
 
 
 
 (defmethod prep-file :md [file-type [file-name file-content]]
-  (let [[file-config markdown] (string/split file-content (re-pattern md-setting-split))]
+  (let [[file-config markdown] (string/split file-content (re-pattern md-setting-split))
+        file-config (read-string file-config)]
     (merge
-     (read-string file-config)
+     file-config
      (prep-file-name file-type file-name)
      {:content markdown
       :render (fn [{:keys [content]}]
-                  (md/to-html content))})))
+                (md/to-html content))
+      :render-description #(when-let [desc (:description file-config)]
+                             (md/to-html desc))})))
+
 
 
 
 ;;;; PAGES
 
-(defn get-pages []
+(defn get-pages [posts tags]
   (->> (stasis/slurp-directory "resources/pages" file-extensions)
        (map #(prep-file :page %))
        (map (fn [{:keys [file-name] :as file-config}]
-              [file-name (fn [req] (-> file-config views/layout-page))]))
+              [file-name (fn [req] (-> file-config
+                                      (assoc :all-tags tags
+                                             :all-posts posts)
+                                      views/layout-page))]))
        (into {})))
 
 
@@ -131,7 +141,9 @@
      :tags      tags
      :posts-map (->> posts
                      (map (fn [{:keys [file-name] :as file-config}]
-                            [file-name (fn [req] (-> file-config views/post-page))]))
+                            [file-name (fn [req] (-> file-config
+                                                    (assoc :all-tags tags)
+                                                    views/post-page))]))
                      (into {}))
      :tags-map  (->> tags
                      (map (fn [{:keys [file-name] :as tag-config}]
@@ -143,10 +155,10 @@
 ;;;; EXPORT
 
 (defn get-site []
-  (let [{:keys [posts-map tags-map]} (get-posts-config)]
+  (let [{:keys [posts-map tags-map posts tags]} (get-posts-config)]
     (stasis/merge-page-sources
      {:css   (stasis/slurp-directory "resources/css" #".css")
-      :pages (get-pages)
+      :pages (get-pages posts tags)
       :posts posts-map
       :tags tags-map})))
 

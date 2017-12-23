@@ -63,40 +63,56 @@
       [:body
        menu
        footer
-       [:div
+       [:div.section
         (render page)]]])))
 
 
-(defn post-page [{:keys [title render tags date next previous] :as post}]
-  (layout-page
-   (assoc
-    post
-    :render
-    (fn [_]
-      [:section.section
-       [:div.container
-        [:div.columns.is-8.is-variable.is-desktop
-         [:article.column.is-three-quarters-desktop
-          [:h1.title title]
-          [:p.subtitle.is-6
-           [:span.tags
-            [:span.tag.is-primary date]
-            (->> tags sort (map (fn [t] [:a.tag {:href (str "/" t)} t])))]]
-          [:div.has-text-justified
-           (render post)]]
-         [:nav.column {:role "navigation" :aria-label "pagination"}
-          [:div.notification
-           [:ul.is-size-6
-            (when-let [{:keys [title slug]} next]
+(defn post-page [{:keys [title render tags date next previous all-tags] :as post}]
+  (let [all-tags (->> all-tags
+                      (map #(hash-map (:tag %) (:posts %)))
+                      (into {}))]
+    (layout-page
+     (assoc
+      post
+      :render
+      (fn [_]
+        [:section
+         [:div.container
+          [:div.columns.is-8.is-variable.is-desktop
+           [:article.column.is-three-quarters-desktop
+            [:h1.title title]
+            [:p.subtitle.is-6
+             [:span.tags
+              [:span.tag.is-primary date]
+              (->> tags sort (map (fn [t] [:a.tag {:href (str "/" t)} t])))]]
+            [:div.has-text-justified
+             (render post)]]
+           [:nav.column {:role "navigation" :aria-label "pagination"}
+            [:div.notification
+             [:ul.is-size-6
+              (when-let [{:keys [title slug]} next]
+                [:li
+                 [:strong "Next "]
+                 [:a.has-text-primary {:href slug} title]])
+              (when-let [{:keys [title slug]} previous]
+                [:li
+                 [:strong "Prev "]
+                 [:a.has-text-primary {:href slug} title]])
               [:li
-               [:strong "Next "]
-               [:a.has-text-primary {:href slug} title]])
-            (when-let [{:keys [title slug]} previous]
-              [:li
-               [:strong "Prev "]
-               [:a.has-text-primary {:href slug} title]])
-            [:li
-             [:strong "Related"]]]]]]]]))))
+               [:strong "Related"]]
+              (->> tags
+                   (map
+                    (fn [tag]
+                      [:ul
+                       [:li [:strong tag]]
+                       (->> (get all-tags tag)
+                            (remove #(= title (:title %)))
+                            (map (fn [{:keys [title slug]}]
+                                   [:li
+                                    [:a.has-text-primary
+                                     {:href slug}
+                                     title]])))])))]]]]]])))))
+
 
 
 (defn tags-page [{:keys [tag posts]}]
@@ -104,7 +120,7 @@
    {:title tag
     :render
     (fn [_]
-      [:section.section
+      [:section
        [:div.container
         [:h1.title.is-capitalized tag]
         [:ul

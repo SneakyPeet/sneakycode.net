@@ -14,4 +14,4 @@
   :plugins [[lein-ring "0.10.0"]]
   :ring {:handler sneakycode.core/app
          :init sneakycode.core/app-init}
-  :aliases {"dev" ["ring" "server-headless"]})
+  :aliases {"dev" ["ring" "server-headless" "4321"]})
