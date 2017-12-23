@@ -24,7 +24,6 @@
 
 (def social
   [{:aria "home" :link "/" :icon "bath"}
-   {:aria "about" :link "/about" :icon "meh-o"}
    {:aria "github" :link "https://github.com/sneakypeet" :icon "github" :away? true}
    {:aria "twitter ":link "https://twitter.com/PieterKoornhof" :icon "twitter" :away? true}])
 
@@ -84,7 +83,7 @@
             [:p.subtitle.is-6
              [:span.tags
               [:span.tag.is-primary date]
-              (->> tags sort (map (fn [t] [:a.tag {:href (str "/" t)} t])))]]
+              (->> tags sort (map (fn [t] [:a.tag {:href (str "/tag/" t)} t])))]]
             [:div.has-text-justified
              (render post)]]
            [:nav.column {:role "navigation" :aria-label "pagination"}

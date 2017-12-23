@@ -29,5 +29,5 @@
       [:div.column
        posts
        [:div.has-text-centered
-        [:a.button.is-primary "More Posts"]]]
+        [:a.button.is-primary {:href "/all-posts"} "More Posts"]]]
       [:div.column.is-one-quarter]]))}

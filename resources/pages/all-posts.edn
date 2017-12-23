@@ -1,0 +1,18 @@
+{:title "All Pages"
+ :content
+ (fn [{:keys [all-posts]}]
+   [:div.container
+    (->> all-posts
+         (map #(update % :date (fn [date] (subs date 0 7))))
+         (group-by :date)
+         (sort-by first)
+         (reverse)
+         (map (fn [[tag posts]]
+                [:div
+                 [:ul
+                  [:li [:strong tag]]
+                  (->>
+                   posts
+                   (map
+                    (fn [{:keys [title slug]}]
+                      [:li [:a {:href slug} title]])))]])))])}

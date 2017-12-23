@@ -134,8 +134,8 @@
                    (map (fn [[tag posts]]
                           (let [file-name (prep-file-extension tag)]
                             {:tag       tag
-                             :slug      (prep-file-slug file-name)
-                             :file-name file-name
+                             :slug      (str "/tag" (prep-file-slug file-name))
+                             :file-name (str "/tag" file-name)
                              :posts     posts}))))]
     {:posts     posts
      :tags      tags
