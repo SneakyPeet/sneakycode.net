@@ -81,7 +81,7 @@
           [:p.subtitle.is-6
            [:span.tags
             [:span.tag.is-primary date]
-            (->> tags sort (map (fn [t] [:span.tag t])))]]
+            (->> tags sort (map (fn [t] [:a.tag {:href (str "/" t)} t])))]]
           [:div.has-text-justified
            (render post)]]
          [:nav.column {:role "navigation" :aria-label "pagination"}
@@ -97,3 +97,19 @@
                [:a.has-text-primary {:href slug} title]])
             [:li
              [:strong "Related"]]]]]]]]))))
+
+
+(defn tags-page [{:keys [tag posts]}]
+  (layout-page
+   {:title tag
+    :render
+    (fn [_]
+      [:section.section
+       [:div.container
+        [:h1.title.is-capitalized tag]
+        [:ul
+         (->> posts
+              (map (fn [{:keys[ date title slug]}]
+                     [:li
+                      [:a {:href slug}
+                       date " " title]])))]]])}))

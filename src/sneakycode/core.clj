@@ -114,11 +114,28 @@
 (defn get-posts-config []
   (let [posts (->> (stasis/slurp-directory "resources/posts" file-extensions)
                    (map #(prep-file :post %))
-                   link-posts)]
-    {:posts posts
+                   link-posts)
+        tags  (->> posts
+                   (map (fn [{:keys [tags] :as post}]
+                          (->> tags
+                               (map #(assoc post :tag %)))))
+                   (reduce concat)
+                   (group-by :tag)
+                   (map (fn [[tag posts]]
+                          (let [file-name (prep-file-extension tag)]
+                            {:tag       tag
+                             :slug      (prep-file-slug file-name)
+                             :file-name file-name
+                             :posts     posts}))))]
+    {:posts     posts
+     :tags      tags
      :posts-map (->> posts
                      (map (fn [{:keys [file-name] :as file-config}]
                             [file-name (fn [req] (-> file-config views/post-page))]))
+                     (into {}))
+     :tags-map  (->> tags
+                     (map (fn [{:keys [file-name] :as tag-config}]
+                            [file-name (fn [req] (-> tag-config views/tags-page))]))
                      (into {}))}))
 
 
@@ -126,10 +143,12 @@
 ;;;; EXPORT
 
 (defn get-site []
-  (stasis/merge-page-sources
-   {:css   (stasis/slurp-directory "resources/css" #".css")
-    :pages (get-pages)
-    :posts (:posts-map (get-posts-config))}))
+  (let [{:keys [posts-map tags-map]} (get-posts-config)]
+    (stasis/merge-page-sources
+     {:css   (stasis/slurp-directory "resources/css" #".css")
+      :pages (get-pages)
+      :posts posts-map
+      :tags tags-map})))
 
 
 ;;;; DEV
