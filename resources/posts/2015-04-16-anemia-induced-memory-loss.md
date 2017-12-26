@@ -1,4 +1,4 @@
-{:tags ("Domain Driven Design" "Aggregates" "Anemic Domain" "Rich Domain"), :title "Anemia induced memory loss", :date "2015-04-16"}
+{:tags ("domain driven design" "ddd" "aggregates" "anemic domain" "rich domain"), :title "Anemia induced memory loss", :date "2015-04-16"}
 -----
 I have been reading [Implementing Domain Driven Design](https://vaughnvernon.co/?page_id=168) by Vaughn Vernon. In it he mentions the concept of Anemia induced memory loss. Say what? Basically an anemic domain is a domain that lacks information about itself. All of its information lives in other places(like services). For you to learn about the domain, you have to know where to go look. This usually also requires some context about the decisions that the developer that wrote that piece of functionality made. As time goes by, this context gets lost, meaning all those details you had to know is either hard to find or completely lost. There is no one place to find the context thus you have to look everywhere. This is what anemia induced memory loss means.
 

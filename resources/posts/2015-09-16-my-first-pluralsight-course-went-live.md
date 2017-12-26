@@ -1,4 +1,4 @@
-{:tags [], :title "My First Pluralsight Course Went Live", :date "2015-09-16"}
+{:tags ["pluralsight" "talks"], :title "My First Pluralsight Course Went Live", :date "2015-09-16"}
 -----
 **Fact:** I have not been blogging as often as I would have liked
 

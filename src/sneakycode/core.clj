@@ -70,9 +70,7 @@
      {:render (fn [{:keys [content] :as file-config}]
                 (if (function? content)
                   (content file-config)
-                  content))
-      :render-description #(get file-config :description)})))
-
+                  content))})))
 
 
 (defmethod prep-file :md [file-type [file-name file-content]]
@@ -83,11 +81,7 @@
      (prep-file-name file-type file-name)
      {:content markdown
       :render (fn [{:keys [content]}]
-                (md/to-html content))
-      :render-description #(when-let [desc (:description file-config)]
-                             (md/to-html desc))})))
-
-
+                (md/to-html content))})))
 
 
 ;;;; PAGES
@@ -151,6 +145,7 @@
                      (into {}))}))
 
 
+;;;; RSS
 
 ;;;; EXPORT
 

@@ -1,4 +1,4 @@
-{:tags ("Domain Driven Design" "Value Objects" "immutability"), :title "Value Objects", :date "2015-02-11"}
+{:tags ("domain driven design" "ddd" "value objects" "immutability"), :title "Value Objects", :date "2015-02-11"}
 -----
 Continuing on the domain object theme from [my previous post](http://sneakycode.net/entity-is-for-identity/), we will be discussing Value Objects.
 

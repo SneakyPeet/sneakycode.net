@@ -1,4 +1,4 @@
-{:tags [], :title "Better Test Documentation", :date "2016-01-25"}
+{:tags ["testing"], :title "Better Test Documentation", :date "2016-01-25"}
 -----
 Let's look at some tests.
 

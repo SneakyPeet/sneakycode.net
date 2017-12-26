@@ -1,4 +1,4 @@
-{:tags ("Domain Driven Design" "DDD"), :title "Reflecting on Domain Driven Design", :date "2015-07-22"}
+{:tags ("domain driven design" "ddd"), :title "Reflecting on Domain Driven Design", :date "2015-07-22"}
 -----
 When I started blogging about DDD, I mentioned that my plan was to build up a [DDD project template](https://github.com/SneakyPeet/SimpleDDD). I wanted to do this because there are very few examples out there on how to do DDD. 
 

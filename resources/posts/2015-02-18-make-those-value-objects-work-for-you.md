@@ -1,4 +1,4 @@
-{:tags ("Domain Driven Design" "Value Objects" "immutability"), :title "Make Those Value Objects Work For You", :date "2015-02-18"}
+{:tags ("domain driven design" "ddd" "calue objects" "immutability"), :title "Make Those Value Objects Work For You", :date "2015-02-18"}
 -----
 We can have value objects be more than just information carriers. We can have them do some work for us.
 

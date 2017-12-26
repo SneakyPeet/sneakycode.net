@@ -1,4 +1,4 @@
-{:tags ("Domain Driven Design" "DDD" "Application Design"), :title "Domain Driven Design App Structure", :date "2015-01-24"}
+{:tags ("domain driven design" "ddd" "application design"), :title "Domain Driven Design App Structure", :date "2015-01-24"}
 -----
 At the center of our DDD universe lies the **Domain**. It is the beating heart of our application. The life of our application flows out of the domain like blood through the body. **DRAMA!** What I am trying to get at is that the domain is really important. I mean it is right there in the name: *Domain* Driven Design. It is the place where we model our real life problem. We share this domain with the experts in the field. We use the same concepts and language that they use and we continuously engage with these experts so our model can evolve and grow as our project grows. 
 

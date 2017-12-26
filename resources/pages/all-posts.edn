@@ -1,4 +1,4 @@
-{:title "All Pages"
+{:title "All Posts"
  :content
  (fn [{:keys [all-posts]}]
    [:div.container

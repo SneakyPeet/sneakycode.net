@@ -1,4 +1,4 @@
-{:tags ("ChatOps" "DevOps" "Hubot"), :title "Getting Started With Chat Ops", :date "2015-02-24"}
+{:tags ("chatops" "devops" "hubot"), :title "Getting Started With Chat Ops", :date "2015-02-24"}
 -----
 I recently gave a talk about ChatOps at [Entelect's Dev Day](http://entelect.co.za). The talk went really well and after some discussion with attendees I thought it might be useful to write  a post about how to get started with chat ops.
 

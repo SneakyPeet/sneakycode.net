@@ -24,8 +24,11 @@
 
 (def social
   [{:aria "home" :link "/" :icon "bath"}
+   {:aria "tags" :link "/tags" :icon "tags"}
+   {:aria "rss" :link "/rss" :icon "rss"}
    {:aria "github" :link "https://github.com/sneakypeet" :icon "github" :away? true}
    {:aria "twitter ":link "https://twitter.com/PieterKoornhof" :icon "twitter" :away? true}])
+
 
 
 (def menu
@@ -91,27 +94,29 @@
              [:ul.is-size-6
               (when-let [{:keys [title slug]} next]
                 [:li
-                 [:strong "Next "]
+                 [:strong "Older "]
                  [:a.has-text-primary {:href slug} title]])
               (when-let [{:keys [title slug]} previous]
                 [:li
-                 [:strong "Prev "]
+                 [:strong "Newer  "]
                  [:a.has-text-primary {:href slug} title]])
               [:li
                [:strong "Related"]]
               (->> tags
                    (map
                     (fn [tag]
-                      [:ul
-                       [:li [:strong tag]]
-                       (->> (get all-tags tag)
-                            (remove #(= title (:title %)))
-                            (map (fn [{:keys [title slug]}]
-                                   [:li
-                                    [:a.has-text-primary
-                                     {:href slug}
-                                     title]])))])))]]]]]])))))
-
+                      (let [tag-posts (->> (get all-tags tag)
+                                           (remove #(= title (:title %))))]
+                        (if (empty? tag-posts)
+                          [:ul]
+                          [:ul
+                           [:li [:strong tag]]
+                           (->> tag-posts
+                                (map (fn [{:keys [title slug]}]
+                                       [:li
+                                        [:a.has-text-primary
+                                         {:href slug}
+                                         title]])))])))))]]]]]])))))
 
 
 (defn tags-page [{:keys [tag posts]}]
@@ -124,6 +129,8 @@
         [:h1.title.is-capitalized tag]
         [:ul
          (->> posts
+              (sort-by :date)
+              reverse
               (map (fn [{:keys[ date title slug]}]
                      [:li
                       [:a {:href slug}

@@ -1,4 +1,5 @@
-{:tags ("Event Sourcing" "Accidental Complexity" "DevDay" "Talks"), :title "Event Sourcing and Battling Accidental Complexity (DevDay2016)", :date "2016-04-21"}
+{:tags ("event sourcing" "accidental complexity" "talks"), :title "Event Sourcing and Battling Accidental Complexity (DevDay2016)",
+ :description "For the last year I have been delving into Event Sourcing in my free time. From total ignorance to complete understanding, back to not having an idea what is going on and then epiphany after epiphany, it has been a fun, eye opening journey."}
 -----
 
 For the last year I have been delving into Event Sourcing in my free time. From total ignorance to complete understanding, back to not having an idea what is going on and then epiphany after epiphany, it has been a fun, eye opening journey. It is such a different way of thinking, and ties in so beautifully with Domain Driven Design, CQRS and Clean Code. It solves so many problems that I did not even realize I had. It simplifies implementation, highlights the application features, separates concerns, provide flexibility, maintainability, scalability and many more things. 

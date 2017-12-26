@@ -1,9 +1,9 @@
 {:title "SneakyCode"
  :post-tile
- (fn [{:keys [title slug tags render-description date]}]
+ (fn [{:keys [title slug tags description date]}]
    [:article
     [:p.title.is-marginless.is-4.has-text-primary title]
-    [:p (render-description)]
+    [:p.has-text-justified description]
     [:br]
     [:div.level.is-mobile
      [:div.level-left
@@ -29,5 +29,5 @@
       [:div.column
        posts
        [:div.has-text-centered
-        [:a.button.is-primary {:href "/all-posts"} "More Posts"]]]
+        [:a.button.is-primary.is-outlined {:href "/all-posts"} "More Posts"]]]
       [:div.column.is-one-quarter]]))}

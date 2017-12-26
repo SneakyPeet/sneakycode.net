@@ -1,4 +1,5 @@
-{:tags ("clean code" "dependency injection" "ioc" "castle windsor"), :title "Delayed Dependency Resolution the Right Way", :date "2016-03-01"}
+{:tags ("clean code" "dependency injection" "ioc" "castle windsor"), :title "Delayed Dependency Resolution the Right Way",
+ :description "I have been playing around with CQRS/Event Sourcing and using lightweight, immutable command messages to trigger actions in my application. The great thing about this is that you can specify a single point of entry into your application by using a very simple interface."}
 -----
 I have been playing around with CQRS/Event Sourcing and using lightweight, immutable command messages to trigger actions in my application. The great thing about this is that you can specify a single point of entry into your application by using a very simple interface. 
 

@@ -1,0 +1,15 @@
+{:title "Tags"
+ :content
+ (fn [{:keys [all-tags]}]
+   [:div.container
+    (->> all-tags
+         (sort-by :tag)
+         (map (fn [{:keys [tag posts]}]
+                [:div
+                 [:ul
+                  [:li [:strong.is-capitalized tag]]
+                  (->>
+                   posts
+                   (map
+                    (fn [{:keys [title slug]}]
+                      [:li [:a {:href slug} title]])))]])))])}

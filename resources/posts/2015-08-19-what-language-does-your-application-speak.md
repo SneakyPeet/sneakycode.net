@@ -1,4 +1,4 @@
-{:tags ("clean code" "Domain Driven Design" "DDD" "ubiquitous language"), :title "What Language Does Your Application Speak", :date "2015-08-19"}
+{:tags ("clean code" "domain driven design" "ddd" "ubiquitous language"), :title "What Language Does Your Application Speak", :date "2015-08-19"}
 -----
 If you are doing Domain Driven Design (or any application with business logic for that matter), you should be talking in two languages. 
 

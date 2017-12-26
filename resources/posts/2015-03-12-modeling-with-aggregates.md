@@ -1,4 +1,4 @@
-{:tags ("Domain Driven Design" "Aggregates"), :title "Modeling with Aggregates", :date "2015-03-12"}
+{:tags ("domain driven design" "ddd" "aggregates"), :title "Modeling with Aggregates", :date "2015-03-12"}
 -----
 Modeling is at the heart of Domain Driven Design. It is also the reason that there are not many DDD examples out there. It is easy to give an example of an architecture like MVC as the different parts are very logical. But with DDD each solution is so tightly coupled to the domain and the problem that needs to be solved that simple examples rarely captures the essence of what a successful model might be. Learning how to model cannot just be taught in a blog post, or even a few. It is a learned skill that takes time, some might say years, to learn. You need to get your hands dirty. That said there are tools that you use with you modeling. Entities and value objects form part of these tools, but probably the most important one is the aggregate.
 

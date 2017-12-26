@@ -1,4 +1,4 @@
-{:tags ("c#" "csharp"), :title "Job Tracking using Quartz for .net", :date "2015-03-04"}
+{:tags ("csharp" "quartz"), :title "Job Tracking using Quartz for .net", :date "2015-03-04"}
 -----
 A project that I recently worked on has a worker role that runs about 40 jobs. With some of these jobs running for hours it became imperative that we knew when these jobs were running, if they were currently running, how long they were running, if they were overlapping with other dependent jobs etc.  
 

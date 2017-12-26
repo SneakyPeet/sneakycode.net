@@ -1,6 +1,6 @@
-{:tags ("clean code" "Database"), :title "Database Rant"
+{:tags ("clean code" "database"), :title "Database Rant"
  :description
- "**What is the primary purpose of the database?**
+ "What is the primary purpose of the database?
 
   I won't blame you for saying data storage. In most software projects it is the place where we store our data. I will however tell you that you are wrong. "
 }

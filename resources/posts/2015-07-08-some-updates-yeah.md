@@ -1,4 +1,4 @@
-{:tags ("ChatOps" "Update" "jsinsa" "pluralsight"), :title "Some Updates Yeah", :date "2015-07-08"}
+{:tags ("chatops" "jsinsa" "pluralsight"), :title "Some Updates Yeah", :date "2015-07-08"}
 -----
 So I have not posted a new blog post in a while, but don't fret! I have a bunch of Domain Driven Design and Clean Code content that I will get out to you in the next few month. Exciting stuff!
 

@@ -1,4 +1,4 @@
-{:tags ("clean code" "Domain Driven Design" "DDD" "Application Design"), :title "Domain Driven Design App Structure part 2", :date "2015-01-27"}
+{:tags ("clean code" "omain driven design" "ddd" "application design"), :title "Domain Driven Design App Structure part 2", :date "2015-01-27"}
 -----
 In my [previous post](http://sneakycode.net/domain-driven-design-app-structure/), I gave an overview of what an implementation of a Domain Driven Design Application might look like.
 

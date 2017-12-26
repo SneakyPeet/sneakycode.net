@@ -1,4 +1,4 @@
-{:tags [], :title "Aggregates and Persistence", :date "2015-04-01"}
+{:tags ["domain driven design", "ddd", "testing", "aggregates"], :title "Aggregates and Persistence", :date "2015-04-01"}
 -----
 In a previous post I gave an overview of [aggregates](http://sneakycode.net/modeling-with-aggregates/). In that post I said that aggregates are self-contained units that we work with to avoid messing up our code. Aggregates help us build a rich domain. This is a domain that knows about itself. When you want to know something, you ask the domain. When you want something done, you ask the domain. For the domain to be able to answer your questions and perform your tasks, it needs all the information. To do this we construct our aggregates with all the data that they need. Ideally we would like our control flow to look something like this:
 

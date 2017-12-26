@@ -1,4 +1,4 @@
-{:tags ("Domain Driven Design" "DDD"), :title "Introduction To Practical Domain Driven Design", :date "2015-01-19"}
+{:tags ("domain driven design" "ddd"), :title "Introduction To Practical Domain Driven Design", :date "2015-01-19"}
 -----
 **Domain Driven Design** (DDD) is a very theoretical field ([Go Read The Big Blue Book](http://www.amazon.com/exec/obidos/ASIN/0321125215/domainlanguag-20)). Even though all the concepts of DDD (like entities and repositories) are easily implemented, few examples of these exist under the DDD banner. The reason for this is that the focus of DDD is just that, it highlights the Domain. Domain driven design differentiates itself from concepts like MVC and SOA, by not providing a blue print for how code will be structured. Instead it focusses primarily on the problem domain. A well implemented DDD application will highlight domain and not architecture. 
 

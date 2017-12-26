@@ -1,4 +1,4 @@
-{:tags ("Domain Driven Design" "DDD" "Entity" "Identity"), :title "Entity is for Identity", :date "2015-02-05"}
+{:tags ("domain driven design" "ddd" "entity" "identity"), :title "Entity is for Identity", :date "2015-02-05"}
 -----
 Continuing on our Domain Driven Design thread, we will talk about domain specific objects in the next few posts.
 

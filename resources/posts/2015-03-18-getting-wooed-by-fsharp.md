@@ -1,4 +1,4 @@
-{:tags ("Domain Driven Design" "F#" "FSharp"), :title "Getting wooed by F#", :date "2015-03-18"}
+{:tags ("domain driven design" "ddd" "fsharp"), :title "Getting wooed by F#", :date "2015-03-18"}
 -----
 One of my goals this year is to learn a new programming language. This language should use a programming style different than what I am familiar with (currently C# and Javascript). As I am settled in the .net space I decided to go with F#. I am only about a week in, but man I have to say I am excited. So excited that I could not hold it in any longer and decided to write about what is getting me excited. I have to stress that my F# skills are equivalent to a baby sliding around on its stomach learning to crawl. Regardless, what I have seen so far is awesome.
 

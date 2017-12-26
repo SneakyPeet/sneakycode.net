@@ -1,4 +1,4 @@
-{:tags ("c#" "csharp" "signalR" "hello world" "javascript" "js" "asp.net"), :title "SignalR Hello World (That is not a chat app)", :date "2015-01-07"}
+{:tags ("csharp" "signalR" "javascript" "js" "asp.net"), :title "SignalR Hello World (That is not a chat app)", :date "2015-01-07"}
 -----
 I have been wanting to try out SignalR for a while now and finally came up with an idea that is simple enough to start with (that is not a chat application).
 
