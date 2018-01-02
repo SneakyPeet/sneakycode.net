@@ -10,7 +10,8 @@
                  [hiccup "1.0.5"]
                  [me.raynes/cegdown "0.1.1"]
                  [cheshire "5.8.0"]
-                 [clj-time "0.14.2"]]
+                 [clj-time "0.14.2"]
+                 [clj-rss "0.2.3"]]
   :plugins [[lein-ring "0.10.0"]]
   :ring {:handler sneakycode.core/app
          :init sneakycode.core/app-init}

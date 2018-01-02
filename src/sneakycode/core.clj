@@ -5,8 +5,10 @@
             [me.raynes.cegdown :as md]
             [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.resource :refer [wrap-resource]]
+            [sneakycode.config :as conf]
             [sneakycode.views :as views]
-            [clojure.test :refer [function?]])
+            [clojure.test :refer [function?]]
+            [clj-rss.core :as rss])
   (:import [org.apache.commons.io FilenameUtils]))
 
 
@@ -147,6 +149,42 @@
 
 ;;;; RSS
 
+
+(defn cdata [s] (format "<![CDATA[%s]]>" s))
+
+(defn get-rss [posts]
+  (let [get-rss
+        (fn [req]
+          (let [items
+                (->> posts
+                     (map
+                      (fn [p]
+                        (let [{:keys [render slug tags date]} p
+                              url                          (str conf/domain slug "/")]
+                          (-> p
+                              (update :title cdata)
+                              (assoc :description (cdata (render p))
+                                     :link url
+                                     :guid url
+                                     :pubDate (.parse conf/date-format date)
+                                     :category (map cdata tags)
+                                     :source (str conf/domain "/rss"))
+                              (select-keys [:title :description :link :guid :category
+                                            :pubDate :source]))))))
+                feed
+                (rss/channel-xml
+                 {:title         (cdata conf/title)
+                  :description   (cdata conf/description)
+                  :link          (str conf/domain "/")
+                  :lastBuildDate (java.util.Date.)
+                  :ttl           "60"}
+                 items)]
+            feed))]
+    {"/rss.rss" get-rss
+     "/feed.rss" get-rss
+     "/atom.rss" get-rss}))
+
+
 ;;;; EXPORT
 
 (defn get-site []
@@ -155,7 +193,8 @@
      {:css   (stasis/slurp-directory "resources/css" #".css")
       :pages (get-pages posts tags)
       :posts posts-map
-      :tags tags-map})))
+      :tags  tags-map
+      :rss   (get-rss posts)})))
 
 
 ;;;; DEV
