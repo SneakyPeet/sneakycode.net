@@ -113,7 +113,11 @@
 (defn post-page [{:keys [title render tags date next previous all-tags all-posts group slug] :as post}]
   (let [all-tags (->> all-tags
                       (map #(hash-map (:tag %) (:posts %)))
-                      (into {}))]
+                      (into {}))
+        group-posts (->> all-posts
+                         (filter #(= group (:group %)))
+                         (sort-by :date)
+                         reverse)]
     (layout-page
      (assoc
       post
@@ -131,10 +135,10 @@
             [:div.has-text-justified
              (render post)]]
            [:nav.column {:role "navigation" :aria-label "pagination"}
-            (when group
+            (when (and group (> (count group-posts) 1))
               [:div.notification
                [:ul.is-size-6
-                [:li [:strong "More From This Series"]]
+                [:li "More from " [:strong group]]
                 (map-indexed
                  (fn [i p]
                    [:li
@@ -142,11 +146,7 @@
                     (if (= (:slug p) slug)
                       [:span (:title p)]
                       [:a.has-text-primary {:href (:slug p)} (:title p)])])
-                 (->> all-posts
-                      (filter #(= group (:group %)))
-                      (sort-by :date)
-                      reverse))]])
-
+                 group-posts)]])
             [:div.notification
              [:ul.is-size-6
               (when-let [{:keys [title slug]} next]
