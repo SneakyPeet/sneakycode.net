@@ -11,8 +11,13 @@
                  [me.raynes/cegdown "0.1.1"]
                  [cheshire "5.8.0"]
                  [clj-time "0.14.2"]
-                 [clj-rss "0.2.3"]]
+                 [clj-rss "0.2.3"]
+                 [me.raynes/fs "1.4.6"]
+                 [clj-http "3.7.0"]
+                 [com.google.api-client/google-api-client "1.19.1"]
+                 [com.novemberain/pantomime "2.9.0"]]
   :plugins [[lein-ring "0.10.0"]]
   :ring {:handler sneakycode.core/app
          :init sneakycode.core/app-init}
-  :aliases {"dev" ["ring" "server-headless" "4321"]})
+  :aliases {"dev" ["ring" "server-headless" "4321"]
+            "deploy" ["run" "-m" "sneakycode.deploy"]})
