@@ -24,7 +24,7 @@ Short answer, yes! Long answer, it depends. For the simple example above it migh
 
 Below is an example of an InvoiceLineCalculator as a ValueObject.
 
-```language-csharp
+```csharp
 public class WeeklyRetainerLineCalculator : IInvoiceLineCalculator
 {
     public bool ShouldInvoice { get; private set; }

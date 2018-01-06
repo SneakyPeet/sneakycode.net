@@ -80,7 +80,7 @@
      (prep-file-name file-type file-name)
      {:content markdown
       :render (fn [{:keys [content]}]
-                (md/to-html content))})))
+                (md/to-html content [:autolinks :fenced-code-blocks :strikethrough]))})))
 
 
 ;;;; PAGES

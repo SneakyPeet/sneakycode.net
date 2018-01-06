@@ -17,9 +17,9 @@ Each of these provides you with methods that get called on various events. More 
 **Setup**
 
 First you need to create the implementation of whatever listener you want.
-<pre><code class="language-csharp">public class MyJobListener : IJobListener</code></pre>
+<pre><code class="csharp">public class MyJobListener : IJobListener</code></pre>
 Then you need to register the listener with your scheduler.
-<pre><code class="language-csharp">var scheduler = SchedulerFactory.GetScheduler();
+<pre><code class="csharp">var scheduler = SchedulerFactory.GetScheduler();
 scheduler.ListenerManager.AddJobListener(myInstanceOfJobListener);
 scheduler.ListenerManager.AddSchedulerListener(myInstanceOfScheduleListener);</code></pre>
 All that is left is to implement the methods for the events you want to hook into.
@@ -29,7 +29,7 @@ You can register multiple listeners of the same type.
 
 For my solution I hooked into the following methods
 On IScheduleListener:
-<pre><code class="language-csharp">public void JobScheduled(ITrigger trigger)
+<pre><code class="csharp">public void JobScheduled(ITrigger trigger)
 {
     var name = trigger.JobKey.Name;
     DateTime? nextStartDate = null;
@@ -42,7 +42,7 @@ On IScheduleListener:
 This method gets called each time a job is scheduled. I use this so keep track of all the jobs that are scheduled and can easily extract which jobs have never ran. If you need to you can also extract the trigger type. You can then use the trigger type to form some kind of calendar view of when jobs will run.
 
 On IJobListener:
-<pre><code class="language-csharp">public void JobToBeExecuted(IJobExecutionContext context)
+<pre><code class="csharp">public void JobToBeExecuted(IJobExecutionContext context)
 {
     var name = context.JobDetail.JobType.Name;
     DateTime startTime = context.FireTimeUtc.HasValue ? context.FireTimeUtc.Value.DateTime : DateTime.UtcNow;

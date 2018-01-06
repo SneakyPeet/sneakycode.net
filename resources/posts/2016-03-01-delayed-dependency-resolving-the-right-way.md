@@ -3,16 +3,15 @@
 -----
 I have been playing around with CQRS/Event Sourcing and using lightweight, immutable command messages to trigger actions in my application. The great thing about this is that you can specify a single point of entry into your application by using a very simple interface. 
 
-```language-csharp
-
-	public interface IApplication
-	{
-		void Execute<T>(T command) where T : ICommand;
-	}
+```csharp
+public interface IApplication
+{
+    void Execute<T>(T command) where T : ICommand;
+}
 ```
 This means that every time you want to expose a new actionable feature, you just provide the client with a simple command object.
 
-```language-csharp
+```csharp
 
 	// this is F#
 	type HireEmployee = {
@@ -26,7 +25,7 @@ This means that every time you want to expose a new actionable feature, you just
 
 No more creating a bunch of Application Interfaces that your client needs to consume. You just add the appropriate command handler implementation inside of your application.
 
-```language-csharp
+```csharp
 
 	public class HireEmployeeHandler : ICommandHandler<HireEmployee>
 	{
@@ -38,7 +37,7 @@ No more creating a bunch of Application Interfaces that your client needs to con
 
 Simple you say! I'll just pass my container into the code that resolves my command handler.
 
-```language-csharp
+```csharp
 
 	class CommandDispatcher : ICommandDispatcher
     {
@@ -64,7 +63,7 @@ The clean code god's will smite you for introducing the concept of a container i
 
 `#rant` Let's get back to solving the problem. A better solution would be to do something like this.
 
-```language-csharp
+```csharp
 
 	class CommandDispatcher : ICommandDispatcher
     {
@@ -94,7 +93,7 @@ How is this different? First of all you are expressing your needs without pollut
 
 If you are using [Castle Windsor](https://github.com/castleproject/Windsor) you are in luck. They provide a [Typed Factory Facility](https://github.com/castleproject/Windsor/blob/master/docs/typed-factory-facility.md) which means you do not even have to implement `ICommandHandlerFactory`! You just need initialize the factory in you container wireup and bob is your uncle again!
 
-```language-csharp
+```csharp
 
 	container.AddFacility<TypedFactoryFacility>();
 

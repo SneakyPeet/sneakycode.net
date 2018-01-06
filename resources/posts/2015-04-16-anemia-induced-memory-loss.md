@@ -16,7 +16,7 @@ ___
 ###Anemic Domain
 Typically we will have a `LeaveEntry` poco that we use everywhere. We might also have a `LeaveService` that is responsible for control flow (mapping, validation, persistence) and business rules.
 
-```language-csharp
+```csharp
 public enum LeaveType
 {
     Annual,
@@ -55,7 +55,7 @@ Lets assume that the business called and added the following requirements.
 We might change our `LeaveEntry` as follows
 
 
-```language-csharp
+```csharp
 public enum LeaveType
 {
     Annual,

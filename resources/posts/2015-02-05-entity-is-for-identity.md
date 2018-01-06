@@ -31,7 +31,7 @@ An entity is the abstraction we use to model objects with identity.
 
 First of all, we will *label* all our objects with identity as an entity using an interface.
 
-```language-csharp 
+```csharp 
 public interface IEntity
 {
     int Id { get; }
@@ -41,7 +41,7 @@ public interface IEntity
 Using it like this means that we will always use integers as identity and that we will compare entities using the Id property.
 
 We can improve our entity by allowing different types as identity. 
-```language-csharp"
+```csharp"
 public interface IEntity<out TKey>
 {
     TKey Id { get; }
@@ -49,7 +49,7 @@ public interface IEntity<out TKey>
 ```
 
 When comparing an identity that is complex, using `id == id` might not be enough. In these cases we will add a `IsSameAs` method to our interface. Using this method we can explicitly state how we want to compare identity.
-```language-csharp
+```csharp
 public interface IComplexEntity<out TKey, in TEntity>
 {
     TKey Id { get; }
@@ -61,7 +61,7 @@ public class User : IComplexEntity<int, User>
 
 We can even reuse `IEntity<TKey>` and only apply `IsSameAs` where needed.
 
-```language-csharp
+```csharp
 public interface IComparableEntity<out TKey, in TEntity> : IEntity<TKey>
 
 //We can even use System.IComparable<>

@@ -22,7 +22,7 @@ Although there are use cases for comments, I am going to tell you that comments 
 **Let's look at some truths about comments**
 
 * They can state the obvious, thus being redundant.
-<pre><code class="language-csharp">//The Persons First Name
+<pre><code class="csharp">//The Persons First Name
 public string FirstName { get; set;}</code></pre>
 
 * Having comments scattered throughout your code, explaining functionality in detail, makes it hard to read code fluently. This means that extra effort and concentration is needed to read between the comment lines. The intent does not jump out at you.
@@ -56,7 +56,7 @@ But I hear you shouting from afar: *"Pieter, not all comments can be bad"*. This
 * Comments that you write to document badly written legacy code. It is not always possible to refactor code, so in these cases help yourself and others to document things that might have bad side effects. 
 
 * Comments documenting framework limitations.
-<pre><code class="language-csharp">public FooConstructor()
+<pre><code class="csharp">public FooConstructor()
 {
 	//EntityFramework requires a default constructor
 }</code></pre>

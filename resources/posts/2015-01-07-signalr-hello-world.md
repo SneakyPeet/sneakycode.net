@@ -24,7 +24,7 @@ Grab the following library via nuget
 
 The first thing we need to do is hook-up SignalR to our app start-up. We do this by creating a file and adding the following code. When the app starts up the Configuration function will automatically get called. **Note: SneakySignal is the name of the project and has nothing to do with SignalR.* 
 
-<pre><code class="language-csharp">using Microsoft.Owin;
+<pre><code class="csharp">using Microsoft.Owin;
 using Owin;
 [assembly: OwinStartup(typeof(SneakySignal.Startup))]
 namespace SneakySignal
@@ -42,7 +42,7 @@ Next we need to add the code that will handle the communication between server a
 
 Create the MotionHub.cs class that inherits from Hub. 
 
-<pre><code class="language-csharp">using Microsoft.AspNet.SignalR;
+<pre><code class="csharp">using Microsoft.AspNet.SignalR;
 namespace SneakySignal
 {
     public class MotionHub : Hub

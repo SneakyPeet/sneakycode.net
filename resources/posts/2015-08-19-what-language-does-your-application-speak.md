@@ -12,7 +12,7 @@ The goal of these two languages is to promote maintainability and help you solve
 
 These languages should not be mixed, however they will meet at certain points in your application that you should define well. Here is a good example of such a boundary
 
-```language-csharp
+```csharp
 public class ApplyForLeaveCommandHandler : ICommandHandler<ApplyForLeave>
 {
     private readonly IRepository repo;

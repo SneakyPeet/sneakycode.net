@@ -1,6 +1,10 @@
 (ns sneakycode.views
-  (:require [hiccup.page :refer [html5]]))
+  (:require [hiccup.page :refer [html5]]
+            [clygments.core :as pygments]
+            [net.cgrand.enlive-html :as enlive]
+            [clojure.string :as string]))
 
+;;;; CONFIG
 
 (def favicons
   [[:link {:rel "apple-touch-icon" :sizes "57x57" :href "/apple-icon-57x57.png"}]
@@ -29,6 +33,40 @@
    {:aria "github" :link "https://github.com/sneakypeet" :icon "github" :away? true}
    {:aria "twitter ":link "https://twitter.com/PieterKoornhof" :icon "twitter" :away? true}])
 
+;;;; CODE
+
+(defn- extract-code
+  [highlighted]
+  (-> highlighted
+      java.io.StringReader.
+      enlive/html-resource
+      (enlive/select [:pre])
+      first
+      :content))
+
+
+(defn- highlight [node]
+  (let [code (->> node :content (apply str))
+        lang (->> node :attrs :class keyword)]
+    (try
+      (assoc node :content (-> code
+                               (pygments/highlight lang :html)
+                               extract-code))
+      (catch Exception e
+        (throw (Exception. (str "Issue With Code Highlight for language " lang) e))))))
+
+
+(defn- highlight-code-blocks [page]
+  (enlive/sniptest page
+                   [:pre :code] highlight
+                   [:pre] #(assoc-in % [:attrs :class] "syntax")))
+
+
+;;;; PAGES
+
+(defn- post-process-html [html]
+  (-> html
+      highlight-code-blocks))
 
 
 (def menu
@@ -50,6 +88,7 @@
               [:i.fa.fa-lg {:class (str "fa-" icon)}]]])))]])
 
 
+
 (defn layout-page [{:keys [title render] :as page}]
   (let [head-head [[:meta {:charset "utf-8"}]
                    [:meta {:name "viewport"
@@ -59,14 +98,16 @@
                 [:link {:rel "stylesheet" :href "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"}]]
         head (->> (concat head-head favicons styles)
                   (into [:head]))]
-    (html5
+    (->
      [:html.has-navbar-fixed-top.has-navbar-fixed-bottom
       head
       [:body
        menu
        footer
        [:div.section
-        (render page)]]])))
+        (render page)]]]
+     html5
+     post-process-html)))
 
 
 (defn post-page [{:keys [title render tags date next previous all-tags] :as post}]

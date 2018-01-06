@@ -15,7 +15,9 @@
                  [me.raynes/fs "1.4.6"]
                  [clj-http "3.7.0"]
                  [com.google.api-client/google-api-client "1.19.1"]
-                 [com.novemberain/pantomime "2.9.0"]]
+                 [com.novemberain/pantomime "2.9.0"]
+                 [clygments "1.0.0"]
+                 [enlive "1.1.6"]]
   :plugins [[lein-ring "0.10.0"]]
   :ring {:handler sneakycode.core/app
          :init sneakycode.core/app-init}

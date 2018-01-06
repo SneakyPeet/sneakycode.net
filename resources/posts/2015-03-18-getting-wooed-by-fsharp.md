@@ -10,7 +10,7 @@ So my first real surprise is how well F# lends itself to Modeling a Domain. I am
 
 Here is what it might look like in c#.
 
-```language-csharp
+```csharp
 public enum Suit
 {
     Club,
@@ -97,7 +97,7 @@ Pretty straight forward stuff. I showed this to my wife that knows nothing about
 
 Then I showed her this.
 
-```language-csharp
+```csharp
 module CardGame = 
     
     type Suit = Club | Diamond | Spade | Heart
@@ -128,7 +128,7 @@ What is not apparent from the example is that you get a lot of things for free
 * Types are immutable by default. GoGo [Value Types](http://sneakycode.net/value-objects/). Mutability can be chosen explicitly, but the immutability forces us to transform data into new data, rather than changing it. This prevents bugs and side effects.
 * Types are equatable by default. We get comparison, max, min and ordering for free. Again this is great for Value Types.
 
-```language-csharp
+```csharp
 let highcard = (Heart, Ace)
 let lowcard = (Club, Six)
 highcard < lowcard //false

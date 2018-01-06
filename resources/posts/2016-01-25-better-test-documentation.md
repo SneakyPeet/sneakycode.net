@@ -34,7 +34,7 @@ Even more functionality is exposed by opening these folders. And when finally lo
 Up to this point we have not read any code. This is much better than `ContentTests` and `ContentFactoryTests` would ever be. When reading the actual code, some attention needs to be paid to the namespace and class name to get all the info regarding the tests, but this is minor to the readability gained on a folder level.
 
 
-```language-csharp
+```csharp
 
 	namespace App.Tests.ContentCreation.WhenUpdatingContent
 	{

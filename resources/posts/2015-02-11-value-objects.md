@@ -14,7 +14,7 @@ Multiple instances of a value object with the same properties, represent the sam
 
 A simple example can be a point on an x-y axis.
 
-```language-csharp
+```csharp
 public class Point
 {
 	public Point(int x, int y){
@@ -39,7 +39,7 @@ If we need to change the state of a value object, it means that the core of what
 
 * A value object will not have methods that changes it's internal state. This is why our setters on `Point` are private.
 * If you need to do a calculation against a value and require a value of the same type back, you return a new instance. This means that the initial value will always keep its   integrity. Another example of this in .net is `DateTime`. The   `AddDays` method on DateTime returns a new DateTime instance. 
-```language-csharp
+```csharp
 public Point MoveX(int delta)
 {
     return new Point(this.X + delta, this.Y);
@@ -47,7 +47,7 @@ public Point MoveX(int delta)
 ```
 
 * When you are replacing a value object property on another object, you replace it instead of altering the existing object. 
-```language-csharp
+```csharp
 public Class Graph 
 {
 	private Point startingPoint;
@@ -75,7 +75,7 @@ Our member entity knows nothing about how data gets stored. It will only know th
 For options 1 and 2 we use a value object. Even though for option 2 we have a separate table, we still use a value object as our domain does not care about tables. The member carries the identity so the address does not have to. We can easily write a method to change the member's address.
 
 
-```language-csharp
+```csharp
 public Class Member 
 {
 	public Address Address { get; private set; }
