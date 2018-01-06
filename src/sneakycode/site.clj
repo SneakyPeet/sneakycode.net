@@ -135,7 +135,8 @@
      :posts-map (->> posts
                      (map (fn [{:keys [file-name] :as file-config}]
                             [file-name (fn [req] (-> file-config
-                                                    (assoc :all-tags tags)
+                                                    (assoc :all-tags tags
+                                                           :all-posts posts)
                                                     views/post-page))]))
                      (into {}))
      :tags-map  (->> tags
