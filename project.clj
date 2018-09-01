@@ -18,8 +18,9 @@
                  [com.novemberain/pantomime "2.9.0"]
                  [clygments "1.0.0"]
                  [enlive "1.1.6"]]
-  :plugins [[lein-ring "0.10.0"]]
+  :plugins [[lein-ring "0.12.4"]]
   :ring {:handler sneakycode.core/app
-         :init sneakycode.core/app-init}
+         :init sneakycode.core/app-init
+         :auto-refresh? true}
   :aliases {"dev" ["ring" "server-headless" "4321"]
             "deploy" ["run" "-m" "sneakycode.deploy"]})
