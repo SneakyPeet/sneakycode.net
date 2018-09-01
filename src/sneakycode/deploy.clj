@@ -8,7 +8,7 @@
             [clojure.string :as string]))
 
 
-(def export-dir "deploy")
+(def export-dir "docs")
 (def all-files #"\.[^.]+$")
 (def storage-bucket "sneakycode.net")
 
@@ -43,7 +43,7 @@
 
 (defmethod prep-name :default [p] p)
 
-(defmethod prep-name "text/html" [p]
+#_(defmethod prep-name "text/html" [p]
   (string/replace p ".html" ""))
 
 (defmethod prep-name "application/rss+xml" [p]
@@ -83,7 +83,19 @@
   (deploy-diff))
 
 
+;;;; DEPLOY LOCAL (GITHUB PAGES)
+
+(defn export-to-local []
+  (let [{:keys [added removed changed]} (export-and-diff)]
+    (doseq [f added]
+      (println (str "Added " f)))
+    (doseq [f changed]
+      (println (str "Changed " f)))
+    (doseq [f removed]
+      (println (str "Deleted " f)))))
+
+
 (defn -main [& args]
   (println "Starting Partial Deploy")
-  (deploy-diff)
+  (export-to-local)
   (println "Done"))

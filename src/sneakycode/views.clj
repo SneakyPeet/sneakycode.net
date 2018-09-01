@@ -2,7 +2,8 @@
   (:require [hiccup.page :refer [html5]]
             [clygments.core :as pygments]
             [net.cgrand.enlive-html :as enlive]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [sneakycode.config :as conf]))
 
 ;;;; CONFIG
 
@@ -89,14 +90,24 @@
 
 
 
-(defn layout-page [{:keys [title render] :as page}]
-  (let [head-head [[:meta {:charset "utf-8"}]
-                   [:meta {:name "viewport"
+(defn layout-page [{:keys [description title render meta props slug tags author] :as page}]
+  (let [head-head [[:meta {:charset "utf-8" :content "text/html"}]
+                   [:meta {:name    "viewport"
                            :content "width=device-width, initial-scale=1"}]
-                   [:title title]]
-        styles [[:link {:rel "stylesheet" :href "/style.css"}]
-                [:link {:rel "stylesheet" :href "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"}]]
-        head (->> (concat head-head favicons styles)
+                   [:link {:rel "canonnical" :href (conf/domained slug)}]
+                   [:link {:rel "alternative" :type "application/rss+xml" :title conf/title :href (conf/domained "/rss/")}]
+                   [:title title]
+                   (when description
+                     [:meta {:name "description" :content description}])
+                   [:meta {:name "author" :content (or author conf/author)}]]
+        styles    [[:link {:rel "stylesheet" :href "/style.css"}]
+                   [:link {:rel "stylesheet" :href "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"}]]
+        props     (->> (merge {"og:site_name" conf/title}
+                              props)
+                       (map (fn [[p c]] [:meta {:property p :content c}])))
+        tags      (->> tags
+                       (map (fn [t] [:meta {:property "article:tag" :content t}])))
+        head (->> (concat head-head favicons (or meta []) props tags styles)
                   (into [:head]))]
     (->
      [:html.has-navbar-fixed-top.has-navbar-fixed-bottom
@@ -110,10 +121,10 @@
      post-process-html)))
 
 
-(defn post-page [{:keys [title render tags date next previous all-tags all-posts group slug] :as post}]
-  (let [all-tags (->> all-tags
-                      (map #(hash-map (:tag %) (:posts %)))
-                      (into {}))
+(defn post-page [{:keys [title description render tags date next previous all-tags all-posts group slug] :as post}]
+  (let [all-tags    (->> all-tags
+                         (map #(hash-map (:tag %) (:posts %)))
+                         (into {}))
         group-posts (->> all-posts
                          (filter #(= group (:group %)))
                          (sort-by :date)
@@ -121,6 +132,10 @@
     (layout-page
      (assoc
       post
+      :props {"og:type"        "article"
+              "og:title"       title
+              "og:description" description
+              "og:url"         (conf/domained slug)}
       :render
       (fn [_]
         [:section

@@ -56,6 +56,7 @@
         content (format "%s\n-----\n%s" meta markdown)]
     (spit (format "./resources/posts/%s" file-name) content)))
 
+
 (defn import-ghost []
   (->> "./sneakycode.ghost.2017-09-05.json"
        load

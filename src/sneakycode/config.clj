@@ -6,3 +6,5 @@
 (def author "Pieter Koornhof")
 
 (def date-format (java.text.SimpleDateFormat. "yyyy-MM-dd"))
+
+(defn domained [slug] (str domain slug))

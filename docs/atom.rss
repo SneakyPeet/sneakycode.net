@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
+<channel>
+<atom:link href='http://sneakycode.net/' rel='self' type='application/rss+xml'/>
+<title>
+<![CDATA[SneakyCode]]>
+</title>
+<description>
+<![CDATA[Pieter Koornhof on Domain Driven Design, Clean Code and .Net]]>
+</description>
+<link>
+http://sneakycode.net/
+</link>
+<lastBuildDate>
+Sat, 01 Sep 2018 13:33:49 +0200
+</lastBuildDate>
+<ttl>
+60
+</ttl>
+<generator>
+clj-rss
+</generator>
+<item>
+<title>
+<![CDATA[Reflecting on Domain Driven Design]]>
+</title>
+<description>
+<![CDATA[<p>When I started blogging about DDD, I mentioned that my plan was to build up a <a href="https://github.com/SneakyPeet/SimpleDDD">DDD project template</a>. I wanted to do this because there are very few examples out there on how to do DDD. </p><p>Looking at that Github project you will see that almost nothing has happened since its creation. </p>
+<blockquote><p>Why?</p>
+</blockquote><p>The reason why is the same reason why there are not many DDD project examples out there. DDD is not about application structure. It is not about application services, repositories, entities and value objects. Although these are important they only exist to support the application and help keep it maintainable. You can do domain driven design without using any of these.</p><p>DDD is about <strong>Ubiquitous Language</strong>.</p><p>It's about <strong>Bounded Context</strong>.</p><p>It is having your software talk the language of your domain experts. It is collaborative modeling with the entire team.</p>
+<blockquote><p>How do you make a project template for this? </p>
+</blockquote><p>You don't.</p><p>But what about repositories and application services and all these things? Surely they are very important. Using these things does not mean you are doing DDD, even though they are described in the <a href="http://dddcommunity.org/book/evans_2003/">Domain Driven Design bible</a>. If you talk to Eric Evans today he will tell you the same. Yes I can put a bunch of these into a project template, but that is blatantly over engineering. A software product is not a bunch of layers and software concepts. It is about features that makes the users life better. These concepts exist only to support these features and should only be implemented when really required and to promote maintainability.</p>
+<blockquote><p>What does this mean? </p>
+</blockquote><p>DDD is hard. It is not something you can read in a book and then implement like a design pattern. It is something to be practiced, preferably with people that have done it before. You have to do it, you have to fight with it, you have to fail and succeed. Only then it will become part of your software engineering tool belt.</p><p>This does not mean we have to stop discussing DDD. No! It should serve as motivation for discussion. In future post I will most definitely continue tackling the practical assets of DDD and I am looking forward to having these discussions with you.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+http://sneakycode.net/reflecting-on-domain-driven-design/
+</link>
+<guid>
+http://sneakycode.net/reflecting-on-domain-driven-design/
+</guid>
+<category>
+<![CDATA[domain driven design]]>
+</category>
+<category>
+<![CDATA[ddd]]>
+</category>
+<pubDate>
+Wed, 22 Jul 2015 00:00:00 +0200
+</pubDate>
+<source>
+http://sneakycode.net/rss
+</source>
+</item>
+</channel>
+</rss>
