@@ -4,6 +4,6 @@
   [:h1.title.is-1.has-text-primary "404"]
   [:h1.title.is-1.has-text-primary {:style "margin: 15vh 0"}
    "¯\\_(ツ)_/¯"]
-  [:a.button.is-large.is-primary.is-outlined {:href "/"}
+  [:a.button.is-large.is-primary.is-outlined {:href "./"}
    [:span.icon.is-medium
     [:i.fa.fa-bath]]]]}

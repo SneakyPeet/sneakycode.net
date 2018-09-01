@@ -12,7 +12,7 @@
 http://sneakycode.net/
 </link>
 <lastBuildDate>
-Sat, 01 Sep 2018 13:48:34 +0200
+Sat, 01 Sep 2018 14:06:41 +0200
 </lastBuildDate>
 <ttl>
 60
@@ -34,10 +34,10 @@ clj-rss
 </blockquote><p>DDD is hard. It is not something you can read in a book and then implement like a design pattern. It is something to be practiced, preferably with people that have done it before. You have to do it, you have to fight with it, you have to fail and succeed. Only then it will become part of your software engineering tool belt.</p><p>This does not mean we have to stop discussing DDD. No! It should serve as motivation for discussion. In future post I will most definitely continue tackling the practical assets of DDD and I am looking forward to having these discussions with you.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
-http://sneakycode.net/reflecting-on-domain-driven-design/
+http://sneakycode.netreflecting-on-domain-driven-design/
 </link>
 <guid>
-http://sneakycode.net/reflecting-on-domain-driven-design/
+http://sneakycode.netreflecting-on-domain-driven-design/
 </guid>
 <category>
 <![CDATA[domain driven design]]>

@@ -30,5 +30,5 @@
       [:div.column
        posts
        [:div.has-text-centered
-        [:a.button.is-primary.is-outlined {:href "/all-posts"} "More Posts"]]]
+        [:a.button.is-primary.is-outlined {:href "all-posts"} "More Posts"]]]
       [:div.column.is-one-quarter]]))}

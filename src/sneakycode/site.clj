@@ -27,7 +27,7 @@
 
 
 (defn remove-file-name-date [file-name]
-  (str "/" (subs file-name 12)))
+  (subs file-name 12))
 
 (defn grab-file-name-date [file-name]
   (subs file-name 1 11))
