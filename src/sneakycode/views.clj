@@ -100,7 +100,7 @@
                    (when description
                      [:meta {:name "description" :content description}])
                    [:meta {:name "author" :content (or author conf/author)}]]
-        styles    [[:link {:rel "stylesheet" :href "/style.css"}]
+        styles    [[:link {:rel "stylesheet" :href "style.css"}]
                    [:link {:rel "stylesheet" :href "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"}]]
         props     (->> (merge {"og:site_name" conf/title}
                               props)
