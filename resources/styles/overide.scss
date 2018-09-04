@@ -1,0 +1,13 @@
+@import "variables";
+
+hr {
+  background-image: $primary-gradient;
+}
+
+.has-gradient {
+  background-image: $primary-gradient;
+}
+
+.navbar.is-dark .navbar-brand > a.navbar-item:hover, .navbar.is-dark .navbar-brand > a.navbar-item.is-active, .navbar.is-dark .navbar-brand .navbar-link:hover, .navbar.is-dark .navbar-brand .navbar-link.is-active {
+  background-color: darken($primary-dark, 5%);
+}

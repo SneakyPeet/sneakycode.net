@@ -71,13 +71,13 @@
 
 
 (def menu
-  [:nav.navbar.is-fixed-top.is-dark
+  [:nav.navbar.is-fixed-top.is-dark.has-gradient
    {:role "navigation"}
    [:div.navbar-brand
     [:a.navbar-item.has-text-weight-bold {:href "./"} "SNEAKYCODE"]]])
 
 (def footer
-  [:nav.navbar.is-fixed-bottom.is-dark
+  [:nav.navbar.is-fixed-bottom.is-dark.has-gradient
    {:role "navigation" :aria-label "main navigation"}
    [:div.navbar-brand
     (->> social
@@ -100,7 +100,6 @@
                    (when description
                      [:meta {:name "description" :content description}])
                    [:meta {:name "author" :content (or author conf/author)}]]
-        styles    [[:link {:rel "stylesheet" :href "style.css"}]
                    [:link {:rel "stylesheet" :href "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"}]]
         props     (->> (merge {"og:site_name" conf/title}
                               props)
@@ -142,7 +141,7 @@
          [:div.container
           [:div.columns.is-8.is-variable.is-desktop
            [:article.column.is-three-quarters-desktop
-            [:h1.title title]
+            [:h1.title.has-text-weight-light title]
             [:p.subtitle.is-6
              [:span.tags
               [:span.tag.is-primary date]

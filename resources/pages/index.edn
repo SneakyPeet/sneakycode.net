@@ -2,7 +2,7 @@
  :post-tile
  (fn [{:keys [title slug tags description date]}]
    [:article
-    [:p.title.is-marginless.is-4.has-text-primary
+    [:p.title.is-marginless.is-4.has-text-weight-light
      [:a {:href slug} title]]
     [:p.has-text-justified description]
     [:br]
@@ -26,9 +26,9 @@
                     (take 3)
                     (map post-tile))]
      [:div.columns
-      [:div.column.is-one-quarter]
+      [:div.column.is-one-quarter.is-hidden-touch]
       [:div.column
        posts
        [:div.has-text-centered
         [:a.button.is-primary.is-outlined {:href "all-posts"} "More Posts"]]]
-      [:div.column.is-one-quarter]]))}
+      [:div.column.is-one-quarter.is-hidden-touch]]))}
