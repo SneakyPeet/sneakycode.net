@@ -5,7 +5,8 @@
             [sneakycode.cloud-storage :as storage]
             [me.raynes.fs :as fs]
             [pantomime.mime :as mime]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [sneakycode.config :as conf]))
 
 
 (def export-dir "docs")
@@ -97,5 +98,7 @@
 
 (defn -main [& args]
   (println "Starting Partial Deploy")
+  (conf/merge-config (conf/load-config "prod.edn"))
   (export-to-local)
+  (conf/reset)
   (println "Done"))

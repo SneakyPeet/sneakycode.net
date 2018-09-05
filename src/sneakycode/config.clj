@@ -9,11 +9,13 @@
     config))
 
 
-(defn- load-config []
-  (let [dev-config (->> (io/resource "dev.edn")
-                        slurp
-                        read-string)]
-    (set-date-format dev-config)))
+(defn load-config
+  ([] (load-config "dev.edn"))
+  ([path]
+   (let [dev-config (->> (io/resource path)
+                         slurp
+                         read-string)]
+     (set-date-format dev-config))))
 
 
 (def *config (atom (load-config)))
