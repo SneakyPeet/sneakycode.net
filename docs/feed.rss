@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
 <channel>
-<atom:link href='http://sneakycode.net/' rel='self' type='application/rss+xml'/>
+<atom:link href='https://sneakypeet.github.io/sneakycode.net/' rel='self' type='application/rss+xml'/>
 <title>
 <![CDATA[SneakyCode]]>
 </title>
@@ -9,10 +9,10 @@
 <![CDATA[Pieter Koornhof on Domain Driven Design, Clean Code and .Net]]>
 </description>
 <link>
-http://sneakycode.net/
+https://sneakypeet.github.io/sneakycode.net/
 </link>
 <lastBuildDate>
-Tue, 04 Sep 2018 22:48:55 +0200
+Wed, 05 Sep 2018 20:37:55 +0200
 </lastBuildDate>
 <ttl>
 60
@@ -34,10 +34,10 @@ clj-rss
 </blockquote><p>DDD is hard. It is not something you can read in a book and then implement like a design pattern. It is something to be practiced, preferably with people that have done it before. You have to do it, you have to fight with it, you have to fail and succeed. Only then it will become part of your software engineering tool belt.</p><p>This does not mean we have to stop discussing DDD. No! It should serve as motivation for discussion. In future post I will most definitely continue tackling the practical assets of DDD and I am looking forward to having these discussions with you.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
-http://sneakycode.netreflecting-on-domain-driven-design/
+https://sneakypeet.github.io/sneakycode.net/reflecting-on-domain-driven-design/
 </link>
 <guid>
-http://sneakycode.netreflecting-on-domain-driven-design/
+https://sneakypeet.github.io/sneakycode.net/reflecting-on-domain-driven-design/
 </guid>
 <category>
 <![CDATA[domain driven design]]>
@@ -49,7 +49,7 @@ http://sneakycode.netreflecting-on-domain-driven-design/
 Wed, 22 Jul 2015 00:00:00 +0200
 </pubDate>
 <source>
-http://sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss
 </source>
 </item>
 </channel>
