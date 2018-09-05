@@ -1,16 +1,23 @@
 (ns sneakycode.config
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [clojure.java.io :as io]))
 
 
-(def initial-config
-  {:title "SneakyCode"
-   :description "Pieter Koornhof on Domain Driven Design, Clean Code and .Net"
-   :author "Pieter Koornhof"
-   :domain "http://localhost:4321/"
-   :date-format (java.text.SimpleDateFormat. "yyyy-MM-dd")})
+(defn- set-date-format [config]
+  (if (string? (:date-format config))
+    (update config :date-format #(java.text.SimpleDateFormat. %))
+    config))
 
 
-(def *config (atom initial-config))
+(defn- load-config []
+  (let [dev-config (->> (io/resource "dev.edn")
+                        slurp
+                        read-string)]
+    (set-date-format dev-config)))
+
+
+(def *config (atom (load-config)))
+
 
 (defn getv [key]
   (if-let [value (get @*config key)]
@@ -24,7 +31,13 @@
   (swap! *config assoc key value))
 
 
-(defn reset [] (reset! *config initial-config))
+(defn reset [] (reset! *config (load-config)))
+
+
+(defn merge-config [new-config]
+  (doseq [[k v] new-config]
+    (setv k v))
+  (swap! *config set-date-format))
 
 
 (defn url

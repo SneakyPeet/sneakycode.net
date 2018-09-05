@@ -1,0 +1,5 @@
+{:title "SneakyCode"
+ :description "Pieter Koornhof on Domain Driven Design, Clean Code and .Net"
+ :author "Pieter Koornhof"
+ :domain "http://localhost:4321/"
+ :date-format "yyyy-MM-dd"}
