@@ -3,7 +3,7 @@
  (fn [{:keys [title slug tags description date]}]
    [:article
     [:p.title.is-marginless.is-4.has-text-weight-light
-     [:a {:href slug} title]]
+     [:a {:href (sneakycode.config/url slug)} title]]
     [:p.has-text-justified description]
     [:br]
     [:div.level.is-mobile
@@ -13,7 +13,7 @@
      [:div.level-right
       [:div.level-item
        [:a.button.is-primary.is-small.is-outlined
-        {:href slug}
+        {:href (sneakycode.config/url slug)}
         "Read More"]]]]
     [:hr]])
 
@@ -30,5 +30,5 @@
       [:div.column
        posts
        [:div.has-text-centered
-        [:a.button.is-primary.is-outlined {:href "all-posts"} "More Posts"]]]
+        [:a.button.is-primary.is-outlined {:href (sneakycode.config/url "all-posts")} "More Posts"]]]
       [:div.column.is-one-quarter.is-hidden-touch]]))}

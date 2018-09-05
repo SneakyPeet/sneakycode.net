@@ -12,4 +12,4 @@
                    posts
                    (map
                     (fn [{:keys [title slug]}]
-                      [:li [:a {:href slug} title]])))]])))])}
+                      [:li [:a {:href (sneakycode.config/url slug)} title]])))]])))])}

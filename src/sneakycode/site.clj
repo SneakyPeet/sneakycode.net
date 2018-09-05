@@ -62,7 +62,7 @@
 (defmulti prep-file (fn [file-type [file-name file-content]] (file-content-type file-name)))
 
 (defmethod prep-file :edn [file-type [file-name file-content]]
-  (let [file-config (prep-edn file-content)]
+   (let [file-config (prep-edn file-content)]
     (merge
      file-config
      (prep-file-name file-type file-name)
@@ -158,22 +158,22 @@
                      (map
                       (fn [p]
                         (let [{:keys [render slug tags date]} p
-                              url                          (str conf/domain slug "/")]
+                              url                          (str (conf/url slug) "/")]
                           (-> p
                               (update :title cdata)
                               (assoc :description (cdata (render p))
                                      :link url
                                      :guid url
-                                     :pubDate (.parse conf/date-format date)
+                                     :pubDate (.parse (conf/getv :date-format) date)
                                      :category (map cdata tags)
-                                     :source (str conf/domain "/rss"))
+                                     :source (conf/url "/rss"))
                               (select-keys [:title :description :link :guid :category
                                             :pubDate :source]))))))
                 feed
                 (rss/channel-xml
-                 {:title         (cdata conf/title)
-                  :description   (cdata conf/description)
-                  :link          (str conf/domain "/")
+                 {:title         (cdata (conf/getv :title))
+                  :description   (cdata (conf/getv :description))
+                  :link          (conf/url)
                   :lastBuildDate (java.util.Date.)
                   :ttl           "60"}
                  items)]

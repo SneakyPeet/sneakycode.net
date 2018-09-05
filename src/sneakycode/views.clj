@@ -7,30 +7,30 @@
 
 ;;;; CONFIG
 
-(def favicons
-  [[:link {:rel "apple-touch-icon" :sizes "57x57" :href "apple-icon-57x57.png"}]
-   [:link {:rel "apple-touch-icon" :sizes "60x60" :href "apple-icon-60x60.png"}]
-   [:link {:rel "apple-touch-icon" :sizes "72x72" :href "apple-icon-72x72.png"}]
-   [:link {:rel "apple-touch-icon" :sizes "76x76" :href "apple-icon-76x76.png"}]
-   [:link {:rel "apple-touch-icon" :sizes "114x114" :href "apple-icon-114x114.png"}]
-   [:link {:rel "apple-touch-icon" :sizes "120x120" :href "apple-icon-120x120.png"}]
-   [:link {:rel "apple-touch-icon" :sizes "144x144" :href "apple-icon-144x144.png"}]
-   [:link {:rel "apple-touch-icon" :sizes "152x152" :href "apple-icon-152x152.png"}]
-   [:link {:rel "apple-touch-icon" :sizes "180x180" :href "apple-icon-180x180.png"}]
-   [:link {:rel "icon" :type "image/png" :sizes "192x192"  :href "android-icon-192x192.png"}]
-   [:link {:rel "icon" :type "image/png" :sizes "32x32" :href "favicon-32x32.png"}]
-   [:link {:rel "icon" :type "image/png" :sizes "96x96" :href "favicon-96x96.png"}]
-   [:link {:rel "icon" :type "image/png" :sizes "16x16" :href "favicon-16x16.png"}]
-   [:link {:rel "manifest" :href "manifest.json"}]
+(defn- favicons []
+  [[:link {:rel "apple-touch-icon" :sizes "57x57" :href (conf/url "/apple-icon-57x57.png")}]
+   [:link {:rel "apple-touch-icon" :sizes "60x60" :href (conf/url "/apple-icon-60x60.png")}]
+   [:link {:rel "apple-touch-icon" :sizes "72x72" :href (conf/url "/apple-icon-72x72.png")}]
+   [:link {:rel "apple-touch-icon" :sizes "76x76" :href (conf/url "/apple-icon-76x76.png")}]
+   [:link {:rel "apple-touch-icon" :sizes "114x114" :href (conf/url "/apple-icon-114x114.png")}]
+   [:link {:rel "apple-touch-icon" :sizes "120x120" :href (conf/url "/apple-icon-120x120.png")}]
+   [:link {:rel "apple-touch-icon" :sizes "144x144" :href (conf/url "/apple-icon-144x144.png")}]
+   [:link {:rel "apple-touch-icon" :sizes "152x152" :href (conf/url "/apple-icon-152x152.png")}]
+   [:link {:rel "apple-touch-icon" :sizes "180x180" :href (conf/url "/apple-icon-180x180.png")}]
+   [:link {:rel "icon" :type "image/png" :sizes "192x192" :href (conf/url "/android-icon-192x192.png")}]
+   [:link {:rel "icon" :type "image/png" :sizes "32x32" :href (conf/url "/favicon-32x32.png")}]
+   [:link {:rel "icon" :type "image/png" :sizes "96x96" :href (conf/url "/favicon-96x96.png")}]
+   [:link {:rel "icon" :type "image/png" :sizes "16x16" :href (conf/url "/favicon-16x16.png")}]
+   [:link {:rel "manifest" :href (conf/url "manifest.json")}]
    [:meta {:name "msapplication-TileColor" :content "#ffffff"}]
    [:meta {:name "msapplication-TileImage" :content "ms-icon-144x144.png"}]
    [:meta {:name "theme-color" :content "#ffffff"}]])
 
 
-(def social
-  [{:aria "home" :link "./" :icon "bath"}
-   {:aria "tags" :link "tags" :icon "tags"}
-   {:aria "rss" :link "rss" :icon "rss"}
+(defn- social []
+  [{:aria "home" :link (conf/url) :icon "bath"}
+   {:aria "tags" :link (conf/url "/tags") :icon "tags"}
+   {:aria "rss" :link (conf/url "/rss") :icon "rss"}
    {:aria "github" :link "https://github.com/sneakypeet" :icon "github" :away? true}
    {:aria "twitter ":link "https://twitter.com/PieterKoornhof" :icon "twitter" :away? true}])
 
@@ -70,17 +70,17 @@
       highlight-code-blocks))
 
 
-(def menu
+(defn- menu []
   [:nav.navbar.is-fixed-top.is-dark.has-gradient
    {:role "navigation"}
    [:div.navbar-brand
-    [:a.navbar-item.has-text-weight-bold {:href "./"} "SNEAKYCODE"]]])
+    [:a.navbar-item.has-text-weight-bold {:href (conf/url)} "SNEAKYCODE"]]])
 
-(def footer
+(defn- footer []
   [:nav.navbar.is-fixed-bottom.is-dark.has-gradient
    {:role "navigation" :aria-label "main navigation"}
    [:div.navbar-brand
-    (->> social
+    (->> (social)
          (map
           (fn [{:keys [aria link icon away?]}]
             [:a.navbar-item (merge (when away? {:target "_blank"})
@@ -94,27 +94,27 @@
   (let [head-head [[:meta {:charset "utf-8" :content "text/html"}]
                    [:meta {:name    "viewport"
                            :content "width=device-width, initial-scale=1"}]
-                   [:link {:rel "canonnical" :href (conf/domained slug)}]
-                   [:link {:rel "alternative" :type "application/rss+xml" :title conf/title :href (conf/domained "/rss/")}]
+                   [:link {:rel "canonnical" :href (conf/url slug)}]
+                   [:link {:rel "alternative" :type "application/rss+xml" :title (conf/getv :title) :href (conf/url "/rss/")}]
                    [:title title]
                    (when description
                      [:meta {:name "description" :content description}])
-                   [:meta {:name "author" :content (or author conf/author)}]]
-        styles    [[:link {:rel "stylesheet" :href "style.css"}]
+                   [:meta {:name "author" :content (or author (conf/getv :author))}]]
+        styles    [[:link {:rel "stylesheet" :href (conf/url "style.css")}]
                    [:link {:rel "stylesheet" :href "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"}]]
-        props     (->> (merge {"og:site_name" conf/title}
+        props     (->> (merge {"og:site_name" (conf/getv :title)}
                               props)
                        (map (fn [[p c]] [:meta {:property p :content c}])))
         tags      (->> tags
                        (map (fn [t] [:meta {:property "article:tag" :content t}])))
-        head (->> (concat head-head favicons (or meta []) props tags styles)
+        head (->> (concat head-head (favicons) (or meta []) props tags styles)
                   (into [:head]))]
     (->
      [:html.has-navbar-fixed-top.has-navbar-fixed-bottom
       head
       [:body
-       menu
-       footer
+       (menu)
+       (footer)
        [:div.section
         (render page)]]]
      html5
@@ -135,7 +135,7 @@
       :props {"og:type"        "article"
               "og:title"       title
               "og:description" description
-              "og:url"         (conf/domained slug)}
+              "og:url"         (conf/url slug)}
       :render
       (fn [_]
         [:section
@@ -146,7 +146,7 @@
             [:p.subtitle.is-6
              [:span.tags
               [:span.tag.is-primary date]
-              (->> tags sort (map (fn [t] [:a.tag {:href (str "tag/" t)} t])))]]
+              (->> tags sort (map (fn [t] [:a.tag {:href (conf/url (str "tag/" t))} t])))]]
             [:div.has-text-justified
              (render post)]]
            [:nav.column {:role "navigation" :aria-label "pagination"}
@@ -160,18 +160,18 @@
                     (inc i) ". "
                     (if (= (:slug p) slug)
                       [:span (:title p)]
-                      [:a.has-text-primary {:href (:slug p)} (:title p)])])
+                      [:a.has-text-primary {:href (conf/url (:slug p))} (:title p)])])
                  group-posts)]])
             [:div.notification
              [:ul.is-size-6
               (when-let [{:keys [title slug]} next]
                 [:li
                  [:strong "Older "]
-                 [:a.has-text-primary {:href slug} title]])
+                 [:a.has-text-primary {:href (conf/url slug)} title]])
               (when-let [{:keys [title slug]} previous]
                 [:li
                  [:strong "Newer  "]
-                 [:a.has-text-primary {:href slug} title]])
+                 [:a.has-text-primary {:href (conf/url slug)} title]])
               [:li
                [:strong "Related"]]
               (->> tags
@@ -187,13 +187,14 @@
                                 (map (fn [{:keys [title slug]}]
                                        [:li
                                         [:a.has-text-primary
-                                         {:href slug}
+                                         {:href (conf/url slug)}
                                          title]])))])))))]]]]]])))))
 
 
-(defn tags-page [{:keys [tag posts]}]
+(defn tags-page [{:keys [tag posts slug]}]
   (layout-page
    {:title tag
+    :slug slug
     :render
     (fn [_]
       [:section
@@ -203,7 +204,7 @@
          (->> posts
               (sort-by :date)
               reverse
-              (map (fn [{:keys[ date title slug]}]
+              (map (fn [{:keys[date title slug]}]
                      [:li
-                      [:a {:href slug}
+                      [:a {:href (conf/url slug)}
                        date " " title]])))]]])}))
