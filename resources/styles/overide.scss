@@ -14,6 +14,8 @@ hr {
   background-color: darken($primary-dark, 5%);
 }
 
+// HOMEPAGE
+
 .hero {
   background-image: $primary-gradient;
   .title, .subtitle {
@@ -29,4 +31,19 @@ hr {
   &:nth-child(4) { border-left-color: $primary-2; }
   &:nth-child(3) { border-left-color: $primary-3; }
   &:nth-child(2) { border-left-color: $primary-4; }
+}
+
+.tiled-column-container {
+  margin: $size-4 0 0 0 !important;
+  padding: 0;
+  .titled-column {
+    .titled-column-text {
+      transform: rotate(90deg);
+      color: green;
+      white-space: nowrap;
+      font-size: $size-4;
+      text-transform: uppercase;
+      color: #b3b3b361;
+    }
+  }
 }
