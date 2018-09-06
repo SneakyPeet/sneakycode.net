@@ -12,7 +12,7 @@
 https://sneakypeet.github.io/sneakycode.net/
 </link>
 <lastBuildDate>
-Wed, 05 Sep 2018 20:37:55 +0200
+Thu, 06 Sep 2018 21:07:46 +0200
 </lastBuildDate>
 <ttl>
 60
@@ -20,6 +20,84 @@ Wed, 05 Sep 2018 20:37:55 +0200
 <generator>
 clj-rss
 </generator>
+<item>
+<title>
+<![CDATA[Database Rant]]>
+</title>
+<description>
+<![CDATA[<p><strong>What is the primary purpose of the database?</strong></p><p>I won't blame you for saying data storage. In most software projects it is the place where we store our data. I will however tell you that you are wrong. </p><p><strong>Data storage is not the primary purpose of the database</strong></p><p>If you want to just store data, why add the overhead of a database? Why not just save your data directly on the file system. </p><p><code>My client wants an application! Applications generate data, therefore we must have a database! We will use SQL cause it is what we know! Now that we know how we will do it, let&#39;s ask the client what his problem is.</code></p><p>What is the real problem here? Why is blatantly choosing a relational database based on the perception that we are writing relational data wrong? It is wrong because data storage is not the problem that databases solve. Why not just store everything in a large json file?</p><p><strong>Because it is hard to query!</strong></p><p>And in that statement lies the true purpose of your database. It is not about storage. It is about data consumption. Storage is an implementation detail. Your database stores your data in a certain state, so you can query that state in a specific way. Why choose relational over document or graph over search engine? Because each one is good at a different type of query (And typically the others are not good at that type of query). Thus we should stop choosing databases because we think they fit a storage model. We should choose them based on the query problems we have. Do I need to just read blobs of data or do I have olap operations or do I want to understand how people are related to each other (or do I have all of these)?</p><p>I'll concede that databases are typically damn good at storing data, providing solutions around problems faced when dealing with large amounts of data etc. There are also valid arguments for using tools that you know and understand. But these are not reasons to blatantly choose the wrong tools. We as developers need to understand the trade-offs. Understand the complexity that we introduce when choosing a database that does not fit our query model. Sometimes it is justified and sometimes not. What is important is that we make informed decisions based on our understanding of the problems we face, utilizing the knowledge we have as software engineers. If you feel you don't have the knowledge it is time to level up (or defer those decisions to those with the knowledge). </p><p>Note: If you are at the start of an application and you are unsure what your queries are going to look like, then slap on an in memory repo, write some code and once you get a feel for what you are dealing with, swap out the in memory repo with the correct type of database. You will soon find that it takes a lot less time to add a database implementation later in the dev life cycle than it is to fight with the wrong implementation.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/database-rant/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/database-rant/
+</guid>
+<category>
+<![CDATA[clean code]]>
+</category>
+<category>
+<![CDATA[database]]>
+</category>
+<pubDate>
+Wed, 04 May 2016 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss
+</source>
+</item>
+<item>
+<title>
+<![CDATA[Database Rant]]>
+</title>
+<description>
+<![CDATA[<p><strong>What is the primary purpose of the database?</strong></p><p>I won't blame you for saying data storage. In most software projects it is the place where we store our data. I will however tell you that you are wrong. </p><p><strong>Data storage is not the primary purpose of the database</strong></p><p>If you want to just store data, why add the overhead of a database? Why not just save your data directly on the file system. </p><p><code>My client wants an application! Applications generate data, therefore we must have a database! We will use SQL cause it is what we know! Now that we know how we will do it, let&#39;s ask the client what his problem is.</code></p><p>What is the real problem here? Why is blatantly choosing a relational database based on the perception that we are writing relational data wrong? It is wrong because data storage is not the problem that databases solve. Why not just store everything in a large json file?</p><p><strong>Because it is hard to query!</strong></p><p>And in that statement lies the true purpose of your database. It is not about storage. It is about data consumption. Storage is an implementation detail. Your database stores your data in a certain state, so you can query that state in a specific way. Why choose relational over document or graph over search engine? Because each one is good at a different type of query (And typically the others are not good at that type of query). Thus we should stop choosing databases because we think they fit a storage model. We should choose them based on the query problems we have. Do I need to just read blobs of data or do I have olap operations or do I want to understand how people are related to each other (or do I have all of these)?</p><p>I'll concede that databases are typically damn good at storing data, providing solutions around problems faced when dealing with large amounts of data etc. There are also valid arguments for using tools that you know and understand. But these are not reasons to blatantly choose the wrong tools. We as developers need to understand the trade-offs. Understand the complexity that we introduce when choosing a database that does not fit our query model. Sometimes it is justified and sometimes not. What is important is that we make informed decisions based on our understanding of the problems we face, utilizing the knowledge we have as software engineers. If you feel you don't have the knowledge it is time to level up (or defer those decisions to those with the knowledge). </p><p>Note: If you are at the start of an application and you are unsure what your queries are going to look like, then slap on an in memory repo, write some code and once you get a feel for what you are dealing with, swap out the in memory repo with the correct type of database. You will soon find that it takes a lot less time to add a database implementation later in the dev life cycle than it is to fight with the wrong implementation.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/database-rant copy/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/database-rant copy/
+</guid>
+<category>
+<![CDATA[clean code]]>
+</category>
+<category>
+<![CDATA[database]]>
+</category>
+<pubDate>
+Wed, 04 May 2016 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss
+</source>
+</item>
+<item>
+<title>
+<![CDATA[Database Rant]]>
+</title>
+<description>
+<![CDATA[<p><strong>What is the primary purpose of the database?</strong></p><p>I won't blame you for saying data storage. In most software projects it is the place where we store our data. I will however tell you that you are wrong. </p><p><strong>Data storage is not the primary purpose of the database</strong></p><p>If you want to just store data, why add the overhead of a database? Why not just save your data directly on the file system. </p><p><code>My client wants an application! Applications generate data, therefore we must have a database! We will use SQL cause it is what we know! Now that we know how we will do it, let&#39;s ask the client what his problem is.</code></p><p>What is the real problem here? Why is blatantly choosing a relational database based on the perception that we are writing relational data wrong? It is wrong because data storage is not the problem that databases solve. Why not just store everything in a large json file?</p><p><strong>Because it is hard to query!</strong></p><p>And in that statement lies the true purpose of your database. It is not about storage. It is about data consumption. Storage is an implementation detail. Your database stores your data in a certain state, so you can query that state in a specific way. Why choose relational over document or graph over search engine? Because each one is good at a different type of query (And typically the others are not good at that type of query). Thus we should stop choosing databases because we think they fit a storage model. We should choose them based on the query problems we have. Do I need to just read blobs of data or do I have olap operations or do I want to understand how people are related to each other (or do I have all of these)?</p><p>I'll concede that databases are typically damn good at storing data, providing solutions around problems faced when dealing with large amounts of data etc. There are also valid arguments for using tools that you know and understand. But these are not reasons to blatantly choose the wrong tools. We as developers need to understand the trade-offs. Understand the complexity that we introduce when choosing a database that does not fit our query model. Sometimes it is justified and sometimes not. What is important is that we make informed decisions based on our understanding of the problems we face, utilizing the knowledge we have as software engineers. If you feel you don't have the knowledge it is time to level up (or defer those decisions to those with the knowledge). </p><p>Note: If you are at the start of an application and you are unsure what your queries are going to look like, then slap on an in memory repo, write some code and once you get a feel for what you are dealing with, swap out the in memory repo with the correct type of database. You will soon find that it takes a lot less time to add a database implementation later in the dev life cycle than it is to fight with the wrong implementation.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/database-rant copy 2/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/database-rant copy 2/
+</guid>
+<category>
+<![CDATA[clean code]]>
+</category>
+<category>
+<![CDATA[database]]>
+</category>
+<pubDate>
+Wed, 04 May 2016 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss
+</source>
+</item>
 <item>
 <title>
 <![CDATA[Reflecting on Domain Driven Design]]>
@@ -38,6 +116,70 @@ https://sneakypeet.github.io/sneakycode.net/reflecting-on-domain-driven-design/
 </link>
 <guid>
 https://sneakypeet.github.io/sneakycode.net/reflecting-on-domain-driven-design/
+</guid>
+<category>
+<![CDATA[domain driven design]]>
+</category>
+<category>
+<![CDATA[ddd]]>
+</category>
+<pubDate>
+Wed, 22 Jul 2015 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss
+</source>
+</item>
+<item>
+<title>
+<![CDATA[Reflecting on Domain Driven Design]]>
+</title>
+<description>
+<![CDATA[<p>When I started blogging about DDD, I mentioned that my plan was to build up a <a href="https://github.com/SneakyPeet/SimpleDDD">DDD project template</a>. I wanted to do this because there are very few examples out there on how to do DDD. </p><p>Looking at that Github project you will see that almost nothing has happened since its creation. </p>
+<blockquote><p>Why?</p>
+</blockquote><p>The reason why is the same reason why there are not many DDD project examples out there. DDD is not about application structure. It is not about application services, repositories, entities and value objects. Although these are important they only exist to support the application and help keep it maintainable. You can do domain driven design without using any of these.</p><p>DDD is about <strong>Ubiquitous Language</strong>.</p><p>It's about <strong>Bounded Context</strong>.</p><p>It is having your software talk the language of your domain experts. It is collaborative modeling with the entire team.</p>
+<blockquote><p>How do you make a project template for this? </p>
+</blockquote><p>You don't.</p><p>But what about repositories and application services and all these things? Surely they are very important. Using these things does not mean you are doing DDD, even though they are described in the <a href="http://dddcommunity.org/book/evans_2003/">Domain Driven Design bible</a>. If you talk to Eric Evans today he will tell you the same. Yes I can put a bunch of these into a project template, but that is blatantly over engineering. A software product is not a bunch of layers and software concepts. It is about features that makes the users life better. These concepts exist only to support these features and should only be implemented when really required and to promote maintainability.</p>
+<blockquote><p>What does this mean? </p>
+</blockquote><p>DDD is hard. It is not something you can read in a book and then implement like a design pattern. It is something to be practiced, preferably with people that have done it before. You have to do it, you have to fight with it, you have to fail and succeed. Only then it will become part of your software engineering tool belt.</p><p>This does not mean we have to stop discussing DDD. No! It should serve as motivation for discussion. In future post I will most definitely continue tackling the practical assets of DDD and I am looking forward to having these discussions with you.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/reflecting-on-domain-driven-design copy/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/reflecting-on-domain-driven-design copy/
+</guid>
+<category>
+<![CDATA[domain driven design]]>
+</category>
+<category>
+<![CDATA[ddd]]>
+</category>
+<pubDate>
+Wed, 22 Jul 2015 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss
+</source>
+</item>
+<item>
+<title>
+<![CDATA[Reflecting on Domain Driven Design]]>
+</title>
+<description>
+<![CDATA[<p>When I started blogging about DDD, I mentioned that my plan was to build up a <a href="https://github.com/SneakyPeet/SimpleDDD">DDD project template</a>. I wanted to do this because there are very few examples out there on how to do DDD. </p><p>Looking at that Github project you will see that almost nothing has happened since its creation. </p>
+<blockquote><p>Why?</p>
+</blockquote><p>The reason why is the same reason why there are not many DDD project examples out there. DDD is not about application structure. It is not about application services, repositories, entities and value objects. Although these are important they only exist to support the application and help keep it maintainable. You can do domain driven design without using any of these.</p><p>DDD is about <strong>Ubiquitous Language</strong>.</p><p>It's about <strong>Bounded Context</strong>.</p><p>It is having your software talk the language of your domain experts. It is collaborative modeling with the entire team.</p>
+<blockquote><p>How do you make a project template for this? </p>
+</blockquote><p>You don't.</p><p>But what about repositories and application services and all these things? Surely they are very important. Using these things does not mean you are doing DDD, even though they are described in the <a href="http://dddcommunity.org/book/evans_2003/">Domain Driven Design bible</a>. If you talk to Eric Evans today he will tell you the same. Yes I can put a bunch of these into a project template, but that is blatantly over engineering. A software product is not a bunch of layers and software concepts. It is about features that makes the users life better. These concepts exist only to support these features and should only be implemented when really required and to promote maintainability.</p>
+<blockquote><p>What does this mean? </p>
+</blockquote><p>DDD is hard. It is not something you can read in a book and then implement like a design pattern. It is something to be practiced, preferably with people that have done it before. You have to do it, you have to fight with it, you have to fail and succeed. Only then it will become part of your software engineering tool belt.</p><p>This does not mean we have to stop discussing DDD. No! It should serve as motivation for discussion. In future post I will most definitely continue tackling the practical assets of DDD and I am looking forward to having these discussions with you.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/reflecting-on-domain-driven-design copy 2/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/reflecting-on-domain-driven-design copy 2/
 </guid>
 <category>
 <![CDATA[domain driven design]]>
