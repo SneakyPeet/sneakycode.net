@@ -1,5 +1,7 @@
 @import "variables";
 
+@import "node_modules/bulma/bulma";
+
 hr {
   background-image: $primary-gradient;
 }
@@ -10,4 +12,17 @@ hr {
 
 .navbar.is-dark .navbar-brand > a.navbar-item:hover, .navbar.is-dark .navbar-brand > a.navbar-item.is-active, .navbar.is-dark .navbar-brand .navbar-link:hover, .navbar.is-dark .navbar-brand .navbar-link.is-active {
   background-color: darken($primary-dark, 5%);
+}
+
+.hero {
+  background-image: $primary-gradient;
+  .title, .subtitle {
+    color: $white-ter;
+  }
+}
+
+.post-item {
+  padding-left: $size-7;
+  margin-bottom: $size-6;
+  border-left: 4px solid #9f436c;
 }

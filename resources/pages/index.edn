@@ -1,34 +1,59 @@
 {:title "SneakyCode"
- :post-tile
- (fn [{:keys [title slug tags description date]}]
+ :no-section? true
+ :no-menu? true
+
+ :hero
+ (fn [_]
+   [:div.hero
+    [:div.hero-body
+     [:div.container
+      [:h1.title "sneakycode"]
+      [:h2.subtitle "pieter koornhof on clean-code, clojure and ddd"]]]])
+
+ :about-me
+ (fn [_]
    [:article
-    [:p.title.is-marginless.is-4.has-text-weight-light
-     [:a {:href (sneakycode.config/url slug)} title]]
-    [:p.has-text-justified description]
-    [:br]
-    [:div.level.is-mobile
-     [:div.level-left
-      [:div.level-item
-       [:span.tag date]]]
-     [:div.level-right
-      [:div.level-item
-       [:a.button.is-primary.is-small.is-outlined
-        {:href (sneakycode.config/url slug)}
-        "Read More"]]]]
-    [:hr]])
+    [:p.title.is-marginless.is-4.has-text-weight-light.has-text-centered "This is ME"]])
 
-
- :content
- (fn [{:keys [all-posts post-tile] :as conf}]
+ :recent-posts
+ (fn [{:keys [all-posts post-tile] :as page}]
    (let [posts (->> all-posts
                     (sort-by :date)
                     reverse
                     (take 3)
                     (map post-tile))]
+     [:article
+      posts
+      [:div
+       [:a.button.is-primary.is-outlined.is-small {:href (sneakycode.config/url "all-posts")} "read more"]]]))
+
+
+ :post-tile
+ (fn [{:keys [title slug date]}]
+   [:div.post-item
+    [:a.subtitle.has-text-weight-light {:href (sneakycode.config/url slug)} title]
+    [:br]
+    [:span.tag.is-small date]])
+
+
+ :my-projects
+ (fn [_]
+   [:article
+    [:h1 "Things I've Built"]])
+
+
+ :content
+ (fn [{:keys [hero about-me recent-posts my-projects] :as page}]
+   [:div
+    (hero page)
+    [:div.section
      [:div.columns
-      [:div.column.is-one-quarter.is-hidden-touch]
-      [:div.column
-       posts
-       [:div.has-text-centered
-        [:a.button.is-primary.is-outlined {:href (sneakycode.config/url "all-posts")} "More Posts"]]]
-      [:div.column.is-one-quarter.is-hidden-touch]]))}
+      [:div.column.is-one-third.is-paddingless
+       (recent-posts page)]
+      [:div.column.is-one-third
+       (about-me page)]
+      [:hr.is-mobile]
+
+      [:hr.is-mobile]
+      [:div.column.is-one-third
+       (my-projects page)]]]])}

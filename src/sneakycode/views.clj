@@ -90,7 +90,7 @@
 
 
 
-(defn layout-page [{:keys [description title render meta props slug tags author] :as page}]
+(defn layout-page [{:keys [description title render meta props slug tags author no-section? no-menu?] :as page}]
   (let [head-head [[:meta {:charset "utf-8" :content "text/html"}]
                    [:meta {:name    "viewport"
                            :content "width=device-width, initial-scale=1"}]
@@ -110,12 +110,12 @@
         head (->> (concat head-head (favicons) (or meta []) props tags styles)
                   (into [:head]))]
     (->
-     [:html.has-navbar-fixed-top.has-navbar-fixed-bottom
+     [:html.has-navbar-fixed-bottom (when-not no-menu? {:class "has-navbar-fixed-top"})
       head
       [:body
-       (menu)
+       (when-not no-menu? (menu))
        (footer)
-       [:div.section
+       [:div (when-not no-section? {:class "section"})
         (render page)]]]
      html5
      post-process-html)))
