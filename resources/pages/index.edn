@@ -20,7 +20,7 @@
    (let [posts (->> all-posts
                     (sort-by :date)
                     reverse
-                    (take 3)
+                    (take 4)
                     (map post-tile))]
      [:article
       posts
@@ -31,9 +31,10 @@
  :post-tile
  (fn [{:keys [title slug date]}]
    [:div.post-item
-    [:a.subtitle.has-text-weight-light {:href (sneakycode.config/url slug)} title]
-    [:br]
-    [:span.tag.is-small date]])
+    [:a.subtitle.has-text-weight-light {:href (sneakycode.config/url slug)}
+     [:span title]
+     [:br]
+     [:span.tag.is-small date]]])
 
 
  :my-projects

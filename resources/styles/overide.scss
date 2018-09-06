@@ -24,5 +24,9 @@ hr {
 .post-item {
   padding-left: $size-7;
   margin-bottom: $size-6;
-  border-left: 4px solid #9f436c;
+  border-left: 4px solid $primary-5;
+  &:nth-child(5) { border-left-color: $primary-1; }
+  &:nth-child(4) { border-left-color: $primary-2; }
+  &:nth-child(3) { border-left-color: $primary-3; }
+  &:nth-child(2) { border-left-color: $primary-4; }
 }

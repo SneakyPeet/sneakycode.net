@@ -13078,6 +13078,14 @@ hr {
 .post-item {
   padding-left: 0.75rem;
   margin-bottom: 1rem;
-  border-left: 4px solid #9f436c; }
+  border-left: 4px solid #455466; }
+  .post-item:nth-child(5) {
+    border-left-color: #c34d51; }
+  .post-item:nth-child(4) {
+    border-left-color: #b94257; }
+  .post-item:nth-child(3) {
+    border-left-color: #a73e5d; }
+  .post-item:nth-child(2) {
+    border-left-color: #6e507d; }
 
 /*# sourceMappingURL=style.css.map */
