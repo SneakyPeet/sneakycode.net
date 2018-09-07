@@ -3,11 +3,11 @@
  */
 @font-face {
 	font-family: 'devicons';
-	src:url('/devicons.eot?xqxft6');
-	src:url('/devicons.eot?#iefixxqxft6') format('embedded-opentype'),
-		url('/devicons.woff?xqxft6') format('woff'),
-		url('/devicons.ttf?xqxft6') format('truetype'),
-		url('/devicons.svg?xqxft6#devicons') format('svg');
+	src:url('./devicons.eot?xqxft6');
+	src:url('./devicons.eot?#iefixxqxft6') format('embedded-opentype'),
+		url('./devicons.woff?xqxft6') format('woff'),
+		url('./devicons.ttf?xqxft6') format('truetype'),
+		url('./devicons.svg?xqxft6#devicons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
