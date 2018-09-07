@@ -48,23 +48,34 @@ hr {
   }
 }
 
+.my-projects {
+  .tag {
+    background-color: $white;
+  }
+  .timeline-header i {
+    font-size: $size-2;
+  }
+  .github {
+    margin-left: $size-5;
+  }
+
+}
+
 .my-tools {
   .column {
     &:nth-child(1) { color: $primary-5; }
     &:nth-child(2) { color: $primary-5; }
-    &:nth-child(3) { color: $primary-5; }
+    &:nth-child(3) { color: $primary-4; }
     &:nth-child(4) { color: $primary-4; }
-    &:nth-child(5) { color: $primary-4; }
-    &:nth-child(6) { color: $primary-4; }
-    &:nth-child(7) { color: $primary-3; }
-    &:nth-child(8) { color: $primary-3; }
-    &:nth-child(9) { color: $primary-3; }
-    &:nth-child(10) { color: $primary-2; }
-    &:nth-child(11) { color: $primary-2; }
-    &:nth-child(12) { color: $primary-2; }
+    &:nth-child(5) { color: $primary-3; }
+    &:nth-child(6) { color: $primary-3; }
+    &:nth-child(7) { color: $primary-2; }
+    &:nth-child(8) { color: $primary-2; }
+    &:nth-child(9) { color: $primary-1; }
+    &:nth-child(10) { color: $primary-1; }
   }
   .devicons {
-    font-size: 5rem;
+    font-size: 8rem;
 
   }
 }

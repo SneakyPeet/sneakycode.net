@@ -42,9 +42,40 @@
 
  :my-projects
  (fn [_]
-   [:article
-    [:p.title.is-marginless.is-4.has-text-weight-light "Projects"]
-    [:div {:style "height: 100px"}]])
+   (let [projects
+         [{:n "simply.co.za" :l "https://simply.co.za"
+           :d "My day job" :t ["clojure_alt" "nodejs_small" "react" "google-cloud-platform"]}
+          {:n "bucks" :l "https://sneakypeet.github.io/bucks/" :g "https://github.com/sneakypeet/bucks"
+           :d "An app that tells me about my financial well being"
+           :t ["clojure_alt" "react" "css3"]}
+          {:n "moola-bank" :l "http://www.moola-bank.me/"
+           :d "a budgeting app for toddlers"
+           :t ["clojure_alt" "react" "css3"]}
+          {:n "sneakycode.net" :l "https://sneakycode.net/"
+           :d "this website"
+           :t ["clojure_alt" "css3"]}]]
+     (->> projects
+          (map
+           (fn [{:keys [n l d t g]}]
+             [
+              [:div.timeline-item.is-primary
+               [:div.timeline-marker.is-primary.is-icon
+                (if g [:i.fa.fa-github] [:i.fa.fa-link])]
+               [:div.timeline-content
+                [:p.heading.is-size-6
+                 [:a {:href l} n] "   "
+                 (when g
+                   [:a.github {:href g} [:i.fa.fa-github]])]
+
+
+                [:p
+                 (map (fn [i] [:span {:class (str "devicons devicons-" i)}] ) t)]
+                [:p.is-size-7 d]]]]))
+          (reduce into)
+          (into [:div.timeline.my-projects
+                 [:header.timeline-header
+                  [:span.tag.is-medium.is-rounded
+                   [:i.fa.fa-git-square]]]]))))
 
 
  :my-tools
@@ -53,17 +84,14 @@
                 ["nodejs_small" "Node"]
                 ["google-cloud-platform" "Google Cloud Platform"]
                 ["react" "React"]
-                ["sass" "Sass"]
-                ["github_badge" "Github"]
-                ["terminal" "Spacemacs"]
-                ["git" "Git"]
-                ["apple" "Macbook Pro"]]]
+                ["code" "Spacemacs"]
+                ["git" "Git"]]]
      (into
       [:div.columns.is-multiline.is-mobile.my-tools]
       (->> icons
            (map
             (fn [[i t]]
-              [:div.column.is-one-third.has-text-centered.tooltip.is-tooltip-primary
+              [:div.column.is-half.has-text-centered.tooltip.is-tooltip-primary
                {:data-tooltip t}
                [:span {:class (str "devicons devicons-" i)}]]))))))
 
