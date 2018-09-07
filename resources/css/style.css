@@ -14848,7 +14848,9 @@ hr {
 .my-projects .tag {
   background-color: white; }
 .my-projects .timeline-header i {
-  font-size: 2.5rem; }
+  font-size: 2rem; }
+.my-projects .timeline-item {
+  padding-bottom: 0; }
 .my-projects .github {
   margin-left: 1.25rem; }
 

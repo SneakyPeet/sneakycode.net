@@ -44,15 +44,16 @@
  (fn [_]
    (let [projects
          [{:n "simply.co.za" :l "https://simply.co.za"
-           :d "My day job" :t ["clojure_alt" "nodejs_small" "react" "google-cloud-platform"]}
+           :d "My day job, where we try and improve the financial futures of millions"
+           :t ["clojure_alt" "nodejs_small" "react" "google-cloud-platform"]}
           {:n "bucks" :l "https://sneakypeet.github.io/bucks/" :g "https://github.com/sneakypeet/bucks"
-           :d "An app that tells me about my financial well being"
+           :d "An app that tells me about my financial well being. You feed it a csv file and it draws pretty grahps and numbers"
            :t ["clojure_alt" "react" "css3"]}
           {:n "moola-bank" :l "http://www.moola-bank.me/"
-           :d "a budgeting app for toddlers"
+           :d "A budgeting app for young kids. Teach them financial literacy while they are still tiny."
            :t ["clojure_alt" "react" "css3"]}
-          {:n "sneakycode.net" :l "https://sneakycode.net/"
-           :d "this website"
+          {:n "sneakycode.net" :l "https://sneakycode.net/" :g "https://github.com/sneakypeet/sneakycode.net"
+           :d "This website, statically generated using clojure, stasis and bulma/sass."
            :t ["clojure_alt" "css3"]}]]
      (->> projects
           (map
@@ -63,9 +64,9 @@
                 (if g [:i.fa.fa-github] [:i.fa.fa-link])]
                [:div.timeline-content
                 [:p.heading.is-size-6
-                 [:a {:href l} n] "   "
+                 [:a {:href l :target "_blank"} n]
                  (when g
-                   [:a.github {:href g} [:i.fa.fa-github]])]
+                   [:a.github {:href g :target "_blank"} [:i.fa.fa-github]])]
 
 
                 [:p
@@ -74,7 +75,7 @@
           (reduce into)
           (into [:div.timeline.my-projects
                  [:header.timeline-header
-                  [:span.tag.is-medium.is-rounded
+                  [:span.tag.is-rounded
                    [:i.fa.fa-git-square]]]]))))
 
 

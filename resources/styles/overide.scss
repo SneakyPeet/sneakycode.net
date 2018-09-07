@@ -53,12 +53,15 @@ hr {
     background-color: $white;
   }
   .timeline-header i {
-    font-size: $size-2;
+    font-size: $size-3;
+  }
+  .timeline-item {
+    padding-bottom: 0;
+
   }
   .github {
     margin-left: $size-5;
   }
-
 }
 
 .my-tools {
