@@ -49,9 +49,23 @@
 
  :my-tools
  (fn [_]
-   [:article
-    [:p.title.is-marginless.is-4.has-text-weight-light "My Tools"]
-    [:div {:style "height: 100px"}]])
+   (let [icons [["clojure_alt" "Clojure"]
+                ["nodejs_small" "Node"]
+                ["google-cloud-platform" "Google Cloud Platform"]
+                ["react" "React"]
+                ["sass" "Sass"]
+                ["github_badge" "Github"]
+                ["terminal" "Spacemacs"]
+                ["git" "Git"]
+                ["apple" "Macbook Pro"]]]
+     (into
+      [:div.columns.is-multiline.is-mobile.my-tools]
+      (->> icons
+           (map
+            (fn [[i t]]
+              [:div.column.is-one-third.has-text-centered.tooltip.is-tooltip-primary
+               {:data-tooltip t}
+               [:span {:class (str "devicons devicons-" i)}]]))))))
 
 
  :about-me
