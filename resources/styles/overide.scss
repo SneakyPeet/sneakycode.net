@@ -43,7 +43,25 @@ hr {
       white-space: nowrap;
       font-size: $size-4;
       text-transform: uppercase;
-      color: #b3b3b361;
+      color: $grey-lighter;
+    }
+  }
+}
+
+.profile-photo {
+  img {
+    opacity: 0.5;
+    border-radius: 5px;
+  }
+  ul {
+    position: absolute;
+    right: $size-7;
+    top: $size-7;
+    color: $white-ter;
+    font-size: $size-4;
+    li {
+      text-transform: lowercase;
+      text-align: right;
     }
   }
 }

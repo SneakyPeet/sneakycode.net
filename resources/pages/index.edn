@@ -56,9 +56,22 @@
 
  :about-me
  (fn [_]
-   [:article
-    [:p.title.is-marginless.is-4.has-text-weight-light "About Me"]
-    [:div {:style "height: 100px"}]])
+   (let [info ["Tech Lead at Simply.co.za"
+               "Software Engineer"
+               "Clojure Fanboy"
+               "Father of 4"
+               "Husband"
+               "Coder"
+               "Man"]]
+     [:article
+      [:div.card-image
+       [:figure.image.is-2by3.profile-photo
+        [:img.profile-photo {:alt "Me" :src (sneakycode.config/url "/profile-min.png")}]
+        (into [:ul]
+              (->> info
+                   (sort-by count)
+                   reverse
+                   (map #(vec [:li %]))))]]]))
 
 
  :content
@@ -74,5 +87,5 @@
       [:div.column.is-one-fourth.is-paddingless
        (titled-column "tools" (my-tools page))]
       [:div.column.is-one-fourth.is-paddingless
-       (titled-column "about me" (about-me page))]
+       (titled-column "me" (about-me page))]
       ]]])}

@@ -13097,6 +13097,19 @@ hr {
     white-space: nowrap;
     font-size: 1.5rem;
     text-transform: uppercase;
-    color: #b3b3b361; }
+    color: #dbdbdb; }
+
+.profile-photo img {
+  opacity: 0.5;
+  border-radius: 5px; }
+.profile-photo ul {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  color: whitesmoke;
+  font-size: 1.5rem; }
+  .profile-photo ul li {
+    text-transform: lowercase;
+    text-align: right; }
 
 /*# sourceMappingURL=style.css.map */
