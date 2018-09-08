@@ -54,10 +54,10 @@
            :t ["clojure_alt" "react" "css3"]}
           {:n "moola-bank" :l "http://www.moola-bank.me/"
            :d "A budgeting app for young kids. Teach them financial literacy while they are still tiny."
-           :t ["clojure_alt" "react" "css3"]}
+           :t ["clojure_alt" "react" "sass"]}
           {:n "sneakycode.net" :l "https://sneakycode.net/" :g "https://github.com/sneakypeet/sneakycode.net"
            :d "This website, statically generated using clojure, stasis and bulma/sass."
-           :t ["clojure_alt" "css3"]}]]
+           :t ["clojure_alt" "sass"]}]]
      (->> projects
           (map
            (fn [{:keys [n l d t g]}]
