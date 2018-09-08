@@ -75,7 +75,7 @@
   [:nav.navbar.is-fixed-top.is-dark.has-gradient
    {:role "navigation"}
    [:div.navbar-brand
-    [:a.navbar-item.has-text-weight-bold {:href (conf/url)} "SNEAKYCODE"]]])
+    [:a.navbar-item.has-text-weight-bold {:href (conf/url)} "sneakycode"]]])
 
 (defn- footer []
   [:nav.navbar.is-fixed-bottom.is-dark.has-gradient
