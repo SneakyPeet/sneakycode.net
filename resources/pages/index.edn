@@ -12,10 +12,13 @@
 
 
  :titled-column
- (fn [title content]
-   [:div.columns.is-mobile.is-gapless.tiled-column-container
-    [:div.column.is-1.titled-column [:div.titled-column-text.has-text-weight-light title]]
-    [:div.column content]])
+ (fn [title content & classes]
+   [:div.column.is-half-tablet.is-half-desktop.is-one-quarter-widescreen.is-paddingless
+    {:class
+     (clojure.string/join " " classes)}
+    [:div.columns.is-mobile.is-gapless.tiled-column-container
+     [:div.column.is-1.titled-column [:div.titled-column-text.has-text-weight-light title]]
+     [:div.column content]]])
 
 
  :post-tile
@@ -92,7 +95,7 @@
       (->> icons
            (map
             (fn [[i t]]
-              [:div.column.is-half.has-text-centered.tooltip.is-tooltip-primary
+              [:div.column.is-one-third.has-text-centered.tooltip.is-tooltip-primary
                {:data-tooltip t}
                [:span {:class (str "devicons devicons-" i)}]]))))))
 
@@ -122,13 +125,10 @@
    [:div
     (hero page)
     [:div.section
-     [:div.columns
-      [:div.column.is-one-fourth.is-paddingless
-       (titled-column "recent posts" (recent-posts page))]
-      [:div.column.is-one-fourth.is-paddingless
-       (titled-column "projects" (my-projects page))]
-      [:div.column.is-one-fourth.is-paddingless
-       (titled-column "tools" (my-tools page))]
-      [:div.column.is-one-fourth.is-paddingless
-       (titled-column "me" (about-me page))]
+     [:div.columns.is-multiline
+      (titled-column "recent posts" (recent-posts page))
+      (titled-column "projects" (my-projects page) "column-hidden-tab-to-desk")
+      (titled-column "tools" (my-tools page))
+      (titled-column "projects" (my-projects page) "column-visible-tab-to-desk")
+      (titled-column "me" (about-me page))
       ]]])}
