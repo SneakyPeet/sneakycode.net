@@ -139,57 +139,56 @@
               "og:url"         (conf/url slug)}
       :render
       (fn [_]
-        [:section
-         [:div.container
-          [:div.columns.is-8.is-variable.is-desktop
-           [:article.column.is-three-quarters-desktop
-            [:h1.title.has-text-weight-light title]
-            [:p.subtitle.is-6
-             [:span.tags
-              [:span.tag.is-primary date]
-              (->> tags sort (map (fn [t] [:a.tag {:href (conf/url (str "tag/" t))} t])))]]
-            [:div.has-text-justified
-             (render post)]]
-           [:nav.column {:role "navigation" :aria-label "pagination"}
-            (when (and group (> (count group-posts) 1))
-              [:div.notification
-               [:ul.is-size-6
-                [:li "More from " [:strong group]]
-                (map-indexed
-                 (fn [i p]
-                   [:li
-                    (inc i) ". "
-                    (if (= (:slug p) slug)
-                      [:span (:title p)]
-                      [:a.has-text-primary {:href (conf/url (:slug p))} (:title p)])])
-                 group-posts)]])
-            [:div.notification
-             [:ul.is-size-6
-              (when-let [{:keys [title slug]} next]
-                [:li
-                 [:strong "Older "]
-                 [:a.has-text-primary {:href (conf/url slug)} title]])
-              (when-let [{:keys [title slug]} previous]
-                [:li
-                 [:strong "Newer  "]
-                 [:a.has-text-primary {:href (conf/url slug)} title]])
-              [:li
-               [:strong "Related"]]
-              (->> tags
-                   (map
-                    (fn [tag]
-                      (let [tag-posts (->> (get all-tags tag)
-                                           (remove #(= title (:title %))))]
-                        (if (empty? tag-posts)
-                          [:ul]
-                          [:ul
-                           [:li [:strong tag]]
-                           (->> tag-posts
-                                (map (fn [{:keys [title slug]}]
-                                       [:li
-                                        [:a.has-text-primary
-                                         {:href (conf/url slug)}
-                                         title]])))])))))]]]]]])))))
+        [:div.container
+         [:div.columns.is-8.is-variable.is-desktop
+          [:article.column.is-three-quarters-desktop
+           [:h1.title.has-text-weight-light title]
+           [:p.subtitle.is-6
+            [:span.tags
+             [:span.tag.is-primary date]
+             (->> tags sort (map (fn [t] [:a.tag {:href (conf/url (str "tag/" t))} t])))]]
+           [:div.has-text-justified
+            (render post)]]
+          [:nav.column {:role "navigation" :aria-label "pagination"}
+           (when (and group (> (count group-posts) 1))
+             [:div.notification
+              [:ul.is-size-6
+               [:li "More from " [:strong group]]
+               (map-indexed
+                (fn [i p]
+                  [:li
+                   (inc i) ". "
+                   (if (= (:slug p) slug)
+                     [:span (:title p)]
+                     [:a.has-text-primary {:href (conf/url (:slug p))} (:title p)])])
+                group-posts)]])
+           [:div.notification
+            [:ul.is-size-6
+             (when-let [{:keys [title slug]} next]
+               [:li
+                [:strong "Older "]
+                [:a.has-text-primary {:href (conf/url slug)} title]])
+             (when-let [{:keys [title slug]} previous]
+               [:li
+                [:strong "Newer  "]
+                [:a.has-text-primary {:href (conf/url slug)} title]])
+             [:li
+              [:strong "Related"]]
+             (->> tags
+                  (map
+                   (fn [tag]
+                     (let [tag-posts (->> (get all-tags tag)
+                                          (remove #(= title (:title %))))]
+                       (if (empty? tag-posts)
+                         [:ul]
+                         [:ul
+                          [:li [:strong tag]]
+                          (->> tag-posts
+                               (map (fn [{:keys [title slug]}]
+                                      [:li
+                                       [:a.has-text-primary
+                                        {:href (conf/url slug)}
+                                        title]])))])))))]]]]])))))
 
 
 (defn tags-page [{:keys [tag posts slug]}]
@@ -198,14 +197,25 @@
     :slug slug
     :render
     (fn [_]
-      [:section
-       [:div.container
-        [:h1.title.is-capitalized tag]
-        [:ul
-         (->> posts
-              (sort-by :date)
-              reverse
-              (map (fn [{:keys[date title slug]}]
-                     [:li
-                      [:a {:href (conf/url slug)}
-                       date " " title]])))]]])}))
+      (let [posts
+            (->> posts
+                 (sort-by :date)
+                 reverse
+                 (map (fn [{:keys[date title slug]}]
+                        (->>
+                         posts
+                         (map
+                          (fn [{:keys [title slug]}]
+                            [:div.timeline-item
+                             [:div.timeline-marker.is-icon
+                              [:i.fa.fa-link]]
+                             [:div.timeline-content
+                              [:a {:href (sneakycode.config/url slug)} date " " title]]])))
+                        ))
+                 (reduce into)
+                 (into [:div.timeline
+                        [:header.timeline-header
+                         [:span.tag.is-primary tag]]]))]
+        [:div.container.all-posts
+         (conj posts [:header.timeline-header
+                      [:span.tag.is-primary "end"]])]))}))
