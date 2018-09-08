@@ -29,6 +29,7 @@
 
 (defn- social []
   [{:aria "home" :link (conf/url) :icon "bath"}
+   {:aria "history" :link (conf/url "/all-posts") :icon "history"}
    {:aria "tags" :link (conf/url "/tags") :icon "tags"}
    {:aria "rss" :link (conf/url "/rss") :icon "rss"}
    {:aria "github" :link "https://github.com/sneakypeet" :icon "github" :away? true}

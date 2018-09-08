@@ -21335,4 +21335,7 @@ label.panel-block {
     text-transform: lowercase;
     text-align: right; }
 
+.all-posts .timeline .timeline-item {
+  padding-bottom: 0.5em; }
+
 /*# sourceMappingURL=style.css.map */
