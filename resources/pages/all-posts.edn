@@ -3,7 +3,6 @@
  :content
  (fn [{:keys [all-posts]}]
    (let [posts
-
           (->> all-posts
                (map #(update % :date (fn [date] (subs date 0 7))))
                (group-by :date)

@@ -1,15 +1,28 @@
 {:title "Tags"
  :content
  (fn [{:keys [all-tags]}]
-   [:div.container
-    (->> all-tags
-         (sort-by :tag)
-         (map (fn [{:keys [tag posts]}]
-                [:div
-                 [:ul
-                  [:li [:strong.is-capitalized tag]]
-                  (->>
-                   posts
-                   (map
-                    (fn [{:keys [title slug]}]
-                      [:li [:a {:href (sneakycode.config/url slug)} title]])))]])))])}
+   (let [tags
+         (->> all-tags
+              (sort-by :tag)
+              (map (fn [{:keys [tag posts]}]
+                     (->
+                      (into
+                       [[:div.timeline-header
+                         [:a.tag.is-primary
+                          {:href (sneakycode.config/url (str "tag/" tag))}
+                          tag]]]
+                       (->>
+                        posts
+                        (map
+                         (fn [{:keys [title slug]}]
+                           [:div.timeline-item
+                            [:div.timeline-marker.is-icon
+                             [:i.fa.fa-link]]
+                            [:div.timeline-content
+                             [:a {:href (sneakycode.config/url slug)} title]]]))))
+                      (conj [:div.timeline-item]))))
+              (reduce into)
+              (into [:div.timeline.is-centered]))]
+     [:div.container.all-posts
+      (conj tags [:header.timeline-header
+                  [:span.tag.is-primary "end"]])]))}
