@@ -23,6 +23,6 @@
                       (conj [:div.timeline-item]))))
               (reduce into)
               (into [:div.timeline.is-centered]))]
-     [:div.container.all-posts
+     [:div.container.short-timeline
       (conj tags [:header.timeline-header
                   [:span.tag.is-primary "end"]])]))}

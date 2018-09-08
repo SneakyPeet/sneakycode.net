@@ -162,33 +162,50 @@
                      [:span (:title p)]
                      [:a.has-text-primary {:href (conf/url (:slug p))} (:title p)])])
                 group-posts)]])
-           [:div.notification
-            [:ul.is-size-6
-             (when-let [{:keys [title slug]} next]
-               [:li
-                [:strong "Older "]
-                [:a.has-text-primary {:href (conf/url slug)} title]])
-             (when-let [{:keys [title slug]} previous]
-               [:li
-                [:strong "Newer  "]
-                [:a.has-text-primary {:href (conf/url slug)} title]])
-             [:li
-              [:strong "Related"]]
-             (->> tags
-                  (map
-                   (fn [tag]
-                     (let [tag-posts (->> (get all-tags tag)
-                                          (remove #(= title (:title %))))]
-                       (if (empty? tag-posts)
-                         [:ul]
-                         [:ul
-                          [:li [:strong tag]]
-                          (->> tag-posts
-                               (map (fn [{:keys [title slug]}]
-                                      [:li
-                                       [:a.has-text-primary
-                                        {:href (conf/url slug)}
-                                        title]])))])))))]]]]])))))
+           [:div.short-timeline
+            (let [related
+                  (into
+                   [:div.timeline.is-rtl
+                    (when next
+                      [:div.timeline-header
+                       [:a.tag.is-primary {:href (conf/url (:slug next))} "Older"]])
+                    (when next
+                      [:div.timeline-item
+                       [:div.timeline-marker]
+                       [:div.timeline-content
+                        [:a.header {:href (conf/url (:slug next))} (:title next)]]])
+                    (when previous
+                      [:div.timeline-header
+                       [:a.tag.is-primary {:href (conf/url (:slug previous))} "Newer"]])
+                    (when previous
+                      [:div.timeline-item
+                       [:div.timeline-marker]
+                       [:div.timeline-content
+                        [:a.header {:href (conf/url (:slug previous))} (:title previous)]]])]
+                   (->> tags
+                        (map
+                         (fn [tag]
+                           (let [tag-posts (->> (get all-tags tag)
+                                                (remove #(= title (:title %))))]
+                             (when-not (empty? tag-posts)
+                               (->> tag-posts
+                                    (map (fn [{:keys [title slug]}]
+                                           [[:div.timeline-item
+                                             [:div.timeline-marker]
+                                             [:div.timeline-content
+                                              [:a.header
+                                               {:href (conf/url slug)}
+                                               title]]]]))
+                                    (reduce into)
+                                    (into [[:div.timeline-header
+                                            [:a.tag.is-primary {:href (conf/url (str "tag/" tag))} tag]]]))))))
+                        (keep identity)
+                        (#(when-not (empty? %)
+                            (reduce into %))))
+                   )]
+              (conj related [:div.timeline-header
+                             [:span.tag.is-primary "end"]]))
+            ]]]])))))
 
 
 (defn tags-page [{:keys [tag posts slug]}]
@@ -216,6 +233,6 @@
                  (into [:div.timeline
                         [:header.timeline-header
                          [:span.tag.is-primary tag]]]))]
-        [:div.container.all-posts
+        [:div.container.short-timeline
          (conj posts [:header.timeline-header
                       [:span.tag.is-primary "end"]])]))}))

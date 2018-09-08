@@ -26,6 +26,6 @@
                (reduce into)
                (into [:div.timeline])
                )]
-     [:div.container.all-posts
+     [:div.container.short-timeline
       (conj posts [:header.timeline-header
                    [:span.tag.is-primary "end"]])]))}

@@ -14816,6 +14816,9 @@ hr {
 .navbar.is-dark .navbar-brand > a.navbar-item:hover, .navbar.is-dark .navbar-brand > a.navbar-item.is-active, .navbar.is-dark .navbar-brand .navbar-link:hover, .navbar.is-dark .navbar-brand .navbar-link.is-active {
   background-color: #3b4757; }
 
+.short-timeline .timeline .timeline-item {
+  padding-bottom: 0.5em; }
+
 /*! bulma.io v0.6.2 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {
@@ -21335,7 +21338,7 @@ label.panel-block {
     text-transform: lowercase;
     text-align: right; }
 
-.all-posts .timeline .timeline-item {
+.short-timeline .timeline .timeline-item {
   padding-bottom: 0.5em; }
 
 /*# sourceMappingURL=style.css.map */

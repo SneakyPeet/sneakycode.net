@@ -14,3 +14,10 @@ hr {
   background-color: darken($primary-dark, 5%);
 }
 
+.short-timeline {
+  .timeline {
+    .timeline-item {
+      padding-bottom: 0.5em;
+    }
+  }
+}
