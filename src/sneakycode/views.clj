@@ -149,7 +149,7 @@
              (->> tags sort (map (fn [t] [:a.tag {:href (conf/url (str "tag/" t))} t])))]]
            [:div.has-text-justified
             (render post)]]
-          [:nav.column {:role "navigation" :aria-label "pagination"}
+          [:div.column {:role "navigation" :aria-label "pagination"}
            (when (and group (> (count group-posts) 1))
              [:div.notification
               [:ul.is-size-6

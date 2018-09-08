@@ -14816,8 +14816,10 @@ hr {
 .navbar.is-dark .navbar-brand > a.navbar-item:hover, .navbar.is-dark .navbar-brand > a.navbar-item.is-active, .navbar.is-dark .navbar-brand .navbar-link:hover, .navbar.is-dark .navbar-brand .navbar-link.is-active {
   background-color: #3b4757; }
 
-.short-timeline .timeline .timeline-item {
-  padding-bottom: 0.5em; }
+.short-timeline {
+  padding-bottom: 4em; }
+  .short-timeline .timeline .timeline-item {
+    padding-bottom: 0.5em; }
 
 /*! bulma.io v0.6.2 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
