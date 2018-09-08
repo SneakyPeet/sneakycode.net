@@ -122,7 +122,7 @@
 
  :content
  (fn [{:keys [hero about-me recent-posts my-projects my-tools titled-column] :as page}]
-   [:div
+   [:div.index
     (hero page)
     [:div.section
      [:div.columns.is-multiline
