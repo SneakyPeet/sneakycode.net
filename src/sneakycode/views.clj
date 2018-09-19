@@ -129,7 +129,8 @@
         group-posts (->> all-posts
                          (filter #(= group (:group %)))
                          (sort-by :date)
-                         reverse)]
+                         reverse)
+        has-group? (and group (> (count group-posts) 1))]
     (layout-page
      (assoc
       post
@@ -143,32 +144,32 @@
          [:div.columns.is-8.is-variable.is-desktop
           [:article.column.is-three-quarters-desktop
            [:h1.title.has-text-weight-light title]
-           [:p.subtitle.is-6
+           [:p.subtitle.is-6.post-tags
             [:span.tags
-             [:span.tag.is-primary date]
+             [:span.tag.is-primary.tag-lite date]
              (->> tags sort (map (fn [t] [:a.tag {:href (conf/url (str "tag/" t))} t])))]]
-           [:div.has-text-justified
+           [:div.has-text-justified.content
             (render post)]]
           [:div.column {:role "navigation" :aria-label "pagination"}
-           (when (and group (> (count group-posts) 1))
-             [:div.notification
-              [:ul.is-size-6
-               [:li "More from " [:strong group]]
-               (map-indexed
-                (fn [i p]
-                  [:li
-                   (inc i) ". "
-                   (if (= (:slug p) slug)
-                     [:span (:title p)]
-                     [:a.has-text-primary {:href (conf/url (:slug p))} (:title p)])])
-                group-posts)]])
            [:div.short-timeline
-            (let [related
+            (let [group-series
+                  (when has-group?
+                    (->> group-posts
+                         (map (fn [{:keys [title slug]}]
+                                [[:div.timeline-item
+                                  [:div.timeline-marker]
+                                  [:div.timeline-content
+                                   [:a.header
+                                    {:href (conf/url slug)}
+                                    title]]]]))
+                         (reduce into)
+                         (into [[:div.timeline-header
+                                 [:span.tag.is-primary.tag-lite "Series"]]])))
+                  related
                   (into
-                   [:div.timeline.is-rtl
-                    (when next
+                   [(when next
                       [:div.timeline-header
-                       [:a.tag.is-primary {:href (conf/url (:slug next))} "Older"]])
+                       [:a.tag.is-primary.tag-lite {:href (conf/url (:slug next))} "Older"]])
                     (when next
                       [:div.timeline-item
                        [:div.timeline-marker]
@@ -176,7 +177,7 @@
                         [:a.header {:href (conf/url (:slug next))} (:title next)]]])
                     (when previous
                       [:div.timeline-header
-                       [:a.tag.is-primary {:href (conf/url (:slug previous))} "Newer"]])
+                       [:a.tag.is-primary.tag-lite {:href (conf/url (:slug previous))} "Newer"]])
                     (when previous
                       [:div.timeline-item
                        [:div.timeline-marker]
@@ -198,13 +199,16 @@
                                                title]]]]))
                                     (reduce into)
                                     (into [[:div.timeline-header
-                                            [:a.tag.is-primary {:href (conf/url (str "tag/" tag))} tag]]]))))))
+                                            [:a.tag.is-primary.tag-lite {:href (conf/url (str "tag/" tag))} tag]]]))))))
                         (keep identity)
                         (#(when-not (empty? %)
                             (reduce into %))))
-                   )]
-              (conj related [:div.timeline-header
-                             [:span.tag.is-primary "end"]]))
+                   )
+                  all-related (concat group-series related)
+                  timeline (into [:div.timeline.is-rtl] all-related)]
+              (when-not (empty? all-related)
+                (conj timeline [:div.timeline-header
+                                [:span.tag.is-primary.tag-lite "end"]])))
             ]]]])))))
 
 
@@ -235,4 +239,4 @@
                          [:span.tag.is-primary tag]]]))]
         [:div.container.short-timeline
          (conj posts [:header.timeline-header
-                      [:span.tag.is-primary "end"]])]))}))
+                      [:span.tag.is-primary.tag-lite "end"]])]))}))

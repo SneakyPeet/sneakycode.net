@@ -25,4 +25,4 @@
               (into [:div.timeline.is-centered]))]
      [:div.container.short-timeline
       (conj tags [:header.timeline-header
-                  [:span.tag.is-primary "end"]])]))}
+                  [:span.tag.is-primary.tag-lite "end"]])]))}

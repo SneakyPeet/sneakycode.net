@@ -14821,6 +14821,15 @@ hr {
   .short-timeline .timeline .timeline-item {
     padding-bottom: 0.5em; }
 
+.post-tags {
+  padding-top: 5px !important; }
+
+.tag:not(body).tag-lite.is-primary {
+  background-color: #90a0b4; }
+
+.content {
+  padding-bottom: 3rem; }
+
 /*! bulma.io v0.6.2 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {

@@ -28,4 +28,4 @@
                )]
      [:div.container.short-timeline
       (conj posts [:header.timeline-header
-                   [:span.tag.is-primary "end"]])]))}
+                   [:span.tag.is-primary.tag-lite "end"]])]))}

@@ -22,3 +22,18 @@ hr {
     }
   }
 }
+
+.post-tags {
+  padding-top: 5px !important;
+}
+
+.tag:not(body).tag-lite {
+  &.is-primary {
+    background-color: lighten($primary, 30%);
+  }
+}
+
+
+.content {
+  padding-bottom: $size-1;
+}
