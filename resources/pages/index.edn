@@ -108,13 +108,10 @@
 
  :about-me
  (fn [_]
-   (let [info ["Tech Lead at Simply.co.za"
-               "Software Engineer"
+   (let [info ["Software Engineer"
                "Clojure Fanboy"
                "Father of 4"
-               "Husband"
-               "Coder"
-               "Man"]]
+               "African"]]
      [:article
       [:div.card-image
        [:figure.image.is-2by3.profile-photo
