@@ -49,11 +49,17 @@
          [{:n "simply.co.za" :l "https://simply.co.za"
            :d "My day job, where we try and improve the financial futures of millions"
            :t ["clojure_alt" "nodejs_small" "react" "google-cloud-platform"]}
+          {:n "Gitlab TV" :l "https://sneakypeet.github.io/gitlab-tv/" :g "https://github.com/SneakyPeet/gitlab-tv"
+           :d "A TV for watching gitlab ci pipelines"
+           :t ["clojure_alt"]}
+          {:n "P5 CLJS Starter" :l "https://github.com/SneakyPeet/p5js-cljs-starter"
+           :d "A Figwheel project template for building P5.js drawings using clojurescript"
+           :t ["clojure_alt"]}
           {:n "bucks" :l "https://sneakypeet.github.io/bucks/" :g "https://github.com/sneakypeet/bucks"
-           :d "An app that tells me about my financial well being. You feed it a csv file and it draws pretty grahps and numbers"
+           :d "An app that tells me about my financial well being"
            :t ["clojure_alt" "react" "css3"]}
           {:n "moola-bank" :l "http://www.moola-bank.me/"
-           :d "A budgeting app for young kids. Teach them financial literacy while they are still tiny."
+           :d "A budgeting app for young kids."
            :t ["clojure_alt" "react" "sass"]}
           {:n "sneakycode.net" :l "https://sneakycode.net/" :g "https://github.com/sneakypeet/sneakycode.net"
            :d "This website, statically generated using clojure, stasis and bulma/sass."
