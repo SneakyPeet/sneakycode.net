@@ -36,4 +36,8 @@ hr {
 
 .content {
   padding-bottom: $size-1;
+  pre {
+    background-color: #f0f3f3; //#151718;
+    border-radius: 5px;
+  }
 }
