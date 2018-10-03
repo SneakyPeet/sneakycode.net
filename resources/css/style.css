@@ -1652,9 +1652,9 @@ a.box:active {
   font-size: 1em;
   margin-bottom: 1em; }
 .content blockquote {
-  background-color: whitesmoke;
-  border-left: 5px solid #dbdbdb;
-  padding: 1.25em 1.5em; }
+  background-color: none;
+  border-left: 3px solid #b94257;
+  padding: 0 1em; }
 .content ol {
   list-style: decimal outside;
   margin-left: 2em;
@@ -9971,9 +9971,9 @@ a.box:active {
   font-size: 1em;
   margin-bottom: 1em; }
 .content blockquote {
-  background-color: whitesmoke;
-  border-left: 5px solid #dbdbdb;
-  padding: 1.25em 1.5em; }
+  background-color: none;
+  border-left: 3px solid #b94257;
+  padding: 0 1em; }
 .content ol {
   list-style: decimal outside;
   margin-left: 2em;
@@ -14773,6 +14773,10 @@ hr {
   .content pre {
     background-color: #f0f3f3;
     border-radius: 5px; }
+  .content p a {
+    color: #23d160; }
+    .content p a:hover {
+      color: #ff3860; }
 
 /*! bulma.io v0.6.2 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
@@ -16426,9 +16430,9 @@ a.box:active {
   font-size: 1em;
   margin-bottom: 1em; }
 .content blockquote {
-  background-color: whitesmoke;
-  border-left: 5px solid #dbdbdb;
-  padding: 1.25em 1.5em; }
+  background-color: none;
+  border-left: 3px solid #b94257;
+  padding: 0 1em; }
 .content ol {
   list-style: decimal outside;
   margin-left: 2em;

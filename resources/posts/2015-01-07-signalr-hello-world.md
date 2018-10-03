@@ -22,7 +22,7 @@ Grab the following library via nuget
 
 **On The Server**
 
-The first thing we need to do is hook-up SignalR to our app start-up. We do this by creating a file and adding the following code. When the app starts up the Configuration function will automatically get called. **Note: SneakySignal is the name of the project and has nothing to do with SignalR.* 
+The first thing we need to do is hook-up SignalR to our app start-up. We do this by creating a file and adding the following code. When the app starts up the Configuration function will automatically get called. **Note: SneakySignal is the name of the project and has nothing to do with SignalR.*
 
 <pre><code class="csharp">using Microsoft.Owin;
 using Owin;
@@ -38,9 +38,9 @@ namespace SneakySignal
     }
 }</code></pre>
 
-Next we need to add the code that will handle the communication between server and client. For now all you need to know is that SignalR uses the concept of hubs. You can read more about it [here](http://www.asp.net/signalr/overview/guide-to-the-api). 
+Next we need to add the code that will handle the communication between server and client. For now all you need to know is that SignalR uses the concept of hubs. You can read more about it [here](http://www.asp.net/signalr/overview/guide-to-the-api).
 
-Create the MotionHub.cs class that inherits from Hub. 
+Create the MotionHub.cs class that inherits from Hub.
 
 <pre><code class="csharp">using Microsoft.AspNet.SignalR;
 namespace SneakySignal
@@ -52,7 +52,7 @@ namespace SneakySignal
         {
             return Context.ConnectionId;
         }
-		
+
         //Called by the phone
         //Tells the desktop that the phone wants to connect
         public void ClientConnected(string connectionId)
@@ -60,14 +60,14 @@ namespace SneakySignal
             var clientId = Context.ConnectionId;
             Clients.Client(connectionId).clientConnected(clientId);
         }
-        
+
         //Called by the desktop
         //Tells the phone that it is connected and can start sending data
         public void StartExecution(string connectionId)
         {
             Clients.Client(connectionId).startExecution();
         }
-        
+
         //Called by the phone
         //Tells the desktop that the orientation has changed
         public void OrientationChanged(string connectionId, OrientationData orientationData)
@@ -75,7 +75,7 @@ namespace SneakySignal
             Clients.Client(connectionId).orientationChanged(orientationData);
         }
     }
-  
+
     public class OrientationData
 	{
     	public decimal Alpha { get; set; }
@@ -88,7 +88,7 @@ As you can see we only have to write the business logic specific to our app as S
 
 Last but not least add the following lines in your `_layout.cshtml` file.
 
-<pre><code class="language-bash">/Scripts/jquery.signalR-2.1.2.min.js
+<pre><code class="bash">/Scripts/jquery.signalR-2.1.2.min.js
 /signalr/js</code></pre>
 
 `/signalr/js` is a convention used by SignalR. On build our MobileHub will generate some javascript that will be found on this route.
@@ -96,45 +96,46 @@ Last but not least add the following lines in your `_layout.cshtml` file.
 Now for the client side implementations.
 
 **Desktop Client**
-<pre><code class="language-javascript">var hub = $.connection.motionHub;
-//register mobile and tell it to start executing
-hub.client.ClientConnected = function (clientId) {
-	hub.server.startExecution(clientConnectionId);
-};
-//update orientation
-hub.client.orientationChanged = function (orientation) {
-        
-};
-
-//connect to server
-$.connection.hub.start().done(function () {
-	hub.server.getConnectionId().done(function (desktopConnectionId) {
-		//show QR code with url containing desktop connection id
+<pre>
+  <code class="js">var hub = $.connection.motionHub;</code>
+  <code class="js">// register mobile and tell it to start executing</code>
+  <code class="js">hub.client.ClientConnected = function (clientId) {
+    hub.server.startExecution(clientConnectionId);
+  };</code>
+  <code class="js">// update orientation</code>
+  <code class="js">hub.client.orientationChanged = function (orientation) {};</code>
+  <code class="js">// connect to server</code>
+  <code class="js">$.connection.hub.start().done(function () {
+	hub.server.getConnectionId().done(
+    function (desktopConnectionId) {
+		/* show QR code with url containing desktop connection id */
 	});
-})</code></pre>
+  })</code>
+</pre>
 
-The first thing you will see is that we get our specific hub from `$.connection.motionHub`. We then subscribe to the clientConnected and orientationChanged methods that we specified in our `MotionHub.cs` file. 
+The first thing you will see is that we get our specific hub from `$.connection.motionHub`. We then subscribe to the clientConnected and orientationChanged methods that we specified in our `MotionHub.cs` file.
 
 The last thing is to connect to the server using $`.connection.hub.start()`. When we are connected to the server we ask it to provide us with our connection id.
 
 **Mobile Client**
-<pre><code class="language-javascript">var hub = $.connection.motionHub;
-
-hub.client.StartExecution = function () {
+<pre>
+<code class="js">var hub = $.connection.motionHub;</code>
+<code class="js">hub.client.StartExecution = function () {
   window.addEventListener("deviceorientation", function(orientation){
   	  hub.server.orientationChanged(desktopConnectionId, orientation);
   });
-};
-//connect to server
-$.connection.hub.start().done(function () {
+};</code>
+<code class="js">// connect to server</code>
+<code class="js">$.connection.hub.start().done(function () {
 	hub.server.clientConnected(desktopConnectionId).done();
-});</code></pre>
+});</code>
+</pre>
 
 The javascript on the mobile side is very similar. First we subscribe to `startExecution`. In this method we add an event listener that listens for the `deviceorientation` event. On an event we call `orientationChanged` on the server with the new orientation.
 
 All that is left is to connect to the server and tell the relevant desktop that we want to connect to it.
 
-**note. I left out a lot of logic like event throttling etc. to keep it concise.*
+**note:** I left out a lot of logic like event throttling etc. to keep it concise.*
 
 To summarize what is actually happening have a look at the image below.
 

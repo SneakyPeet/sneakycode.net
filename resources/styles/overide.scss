@@ -40,4 +40,12 @@ hr {
     background-color: #f0f3f3; //#151718;
     border-radius: 5px;
   }
+  p {
+    a {
+      color: $green;
+      &:hover {
+        color: $red;
+      }
+    }
+  }
 }

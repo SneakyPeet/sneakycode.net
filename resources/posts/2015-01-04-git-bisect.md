@@ -15,7 +15,7 @@ $ git bisect bad</code></pre>
 This tells git to start the bisect process and that the commit you are on is a bad one. Next we need to tell git what the good commit was.
 
 <pre><code class="bash">$ git bisect good v1.0</code></pre>
-    
+
 Git will then automatically checkout a commit somewhere in the middle and give you the amount of revisions to test after the current one. You can then just test the feature. Let’s pretend the feature is still broken. You tell git that this commit is bad.
 
 <pre><code class="bash">$ git bisect bad</code></pre>
@@ -25,7 +25,7 @@ Git now checks out a commit between this bad boy and v1.0. We pretend the new co
 <pre><code class="bash">$ git bisect good</code></pre>
 
 And so on and so forth. Git will continue the process until there is only the bad commit left. At this point git will provide you with a message like
-    
+
 <pre><code class="bash">40173afa01f57833efec7bcaab82b83b184cd5c8 is the first bad commit
 commit 40173afa01f57833efec7bcaab82b83b184cd5c8
 Author: Jane Doe <jane@somewhere.co.za>
@@ -39,10 +39,10 @@ To finish the process and return to where you started just run
 
 Important. It makes a lot of sense to do smaller commits more frequently. It is a lot easier to find a breaking change in 2 or 3 files than it is in a 100. Make branches commit often.
 
----
-
 More info on git bisect [here](http://git-scm.com/docs/git-bisect)
+
 ___
+
 *This post was first published on [blog.entelect.co.za](http://blog.entelect.co.za/home)*
 
 <a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a>
