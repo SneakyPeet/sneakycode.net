@@ -1652,9 +1652,9 @@ a.box:active {
   font-size: 1em;
   margin-bottom: 1em; }
 .content blockquote {
-  background-color: whitesmoke;
-  border-left: 5px solid #dbdbdb;
-  padding: 1.25em 1.5em; }
+  background-color: none;
+  border-left: 3px solid #b94257;
+  padding: 0 1em; }
 .content ol {
   list-style: decimal outside;
   margin-left: 2em;
@@ -7582,141 +7582,79 @@ label.panel-block {
         text-align: right; }
 
 .syntax {
-  background: #f0f3f3; }
+  background: #eee8d5;
+  color: #586e75; }
   .syntax .hll {
     background-color: #ffffcc; }
   .syntax .c {
-    color: #0099FF;
+    color: #93a1a1;
     font-style: italic; }
-  .syntax .err {
-    color: #AA0000;
-    background-color: #FFAAAA; }
+  .syntax .g {
+    color: #d33682; }
   .syntax .k {
-    color: #006699;
-    font-weight: bold; }
-  .syntax .o {
-    color: #555555; }
-  .syntax .ch, .syntax .cm {
-    color: #0099FF;
+    color: #859900; }
+  .syntax .l {
+    color: #2aa198; }
+  .syntax .n {
+    color: #268bd2; }
+  .syntax .ch, .syntax .cm, .syntax .cp, .syntax .cpf, .syntax .c1, .syntax .cs {
+    color: #93a1a1;
     font-style: italic; }
-  .syntax .cp {
-    color: #009999; }
-  .syntax .cpf, .syntax .c1 {
-    color: #0099FF;
-    font-style: italic; }
-  .syntax .cs {
-    color: #0099FF;
-    font-weight: bold;
-    font-style: italic; }
-  .syntax .gd {
-    background-color: #FFCCCC;
-    border: 1px solid #CC0000; }
-  .syntax .ge {
-    font-style: italic; }
-  .syntax .gr {
-    color: #FF0000; }
-  .syntax .gh {
-    color: #003300;
+  .syntax .gd, .syntax .ge, .syntax .gr, .syntax .gh, .syntax .gi, .syntax .go, .syntax .gp, .syntax .gs, .syntax .gu, .syntax .gt {
+    color: #d33682; }
+  .syntax .kc {
+    color: #859900;
     font-weight: bold; }
-  .syntax .gi {
-    background-color: #CCFFCC;
-    border: 1px solid #00CC00; }
-  .syntax .go {
-    color: #AAAAAA; }
-  .syntax .gp {
-    color: #000099;
+  .syntax .kd {
+    color: #859900; }
+  .syntax .kn {
+    color: #dc322f;
     font-weight: bold; }
-  .syntax .gs {
-    font-weight: bold; }
-  .syntax .gu {
-    color: #003300;
-    font-weight: bold; }
-  .syntax .gt {
-    color: #99CC66; }
-  .syntax .kc, .syntax .kd, .syntax .kn {
-    color: #006699;
-    font-weight: bold; }
-  .syntax .kp {
-    color: #006699; }
-  .syntax .kr {
-    color: #006699;
-    font-weight: bold; }
+  .syntax .kp, .syntax .kr {
+    color: #859900; }
   .syntax .kt {
-    color: #007788;
+    color: #859900;
     font-weight: bold; }
+  .syntax .ld {
+    color: #2aa198; }
   .syntax .m {
-    color: #FF6600; }
+    color: #2aa198;
+    font-weight: bold; }
   .syntax .s {
-    color: #CC3300; }
+    color: #2aa198; }
   .syntax .na {
-    color: #330099; }
-  .syntax .nb {
-    color: #336666; }
-  .syntax .nc {
-    color: #00AA88;
-    font-weight: bold; }
-  .syntax .no {
-    color: #336600; }
-  .syntax .nd {
-    color: #9999FF; }
-  .syntax .ni {
-    color: #999999;
-    font-weight: bold; }
-  .syntax .ne {
-    color: #CC0000;
-    font-weight: bold; }
-  .syntax .nf {
-    color: #CC00FF; }
-  .syntax .nl {
-    color: #9999FF; }
-  .syntax .nn {
-    color: #00CCFF;
-    font-weight: bold; }
+    color: #268bd2; }
+  .syntax .nb, .syntax .nc {
+    color: #cb4b16; }
+  .syntax .no, .syntax .nd, .syntax .ni, .syntax .ne, .syntax .nf, .syntax .nl, .syntax .nn, .syntax .nx, .syntax .py {
+    color: #268bd2; }
   .syntax .nt {
-    color: #330099;
+    color: #268bd2;
     font-weight: bold; }
   .syntax .nv {
-    color: #003333; }
+    color: #268bd2; }
   .syntax .ow {
-    color: #000000;
-    font-weight: bold; }
+    color: #859900; }
   .syntax .w {
-    color: #bbbbbb; }
+    color: #586e75; }
   .syntax .mb, .syntax .mf, .syntax .mh, .syntax .mi, .syntax .mo {
-    color: #FF6600; }
-  .syntax .sb, .syntax .sc {
-    color: #CC3300; }
-  .syntax .sd {
-    color: #CC3300;
-    font-style: italic; }
-  .syntax .s2 {
-    color: #CC3300; }
-  .syntax .se {
-    color: #CC3300;
+    color: #2aa198;
     font-weight: bold; }
-  .syntax .sh {
-    color: #CC3300; }
-  .syntax .si {
-    color: #AA0000; }
-  .syntax .sx {
-    color: #CC3300; }
-  .syntax .sr {
-    color: #33AAAA; }
-  .syntax .s1 {
-    color: #CC3300; }
-  .syntax .ss {
-    color: #FFCC33; }
+  .syntax .sb, .syntax .sc, .syntax .sd, .syntax .s2, .syntax .se, .syntax .sh, .syntax .si, .syntax .sx, .syntax .sr, .syntax .s1, .syntax .ss {
+    color: #2aa198; }
   .syntax .bp {
-    color: #336666; }
+    color: #cb4b16; }
   .syntax .vc, .syntax .vg, .syntax .vi {
-    color: #003333; }
+    color: #268bd2; }
   .syntax .il {
-    color: #FF6600; }
+    color: #2aa198;
+    font-weight: bold; }
 
 /* Comment */
-/* Error */
+/* Generic */
 /* Keyword */
-/* Operator */
+/* Literal */
+/* Name */
 /* Comment.Hashbang */
 /* Comment.Multiline */
 /* Comment.Preproc */
@@ -7739,6 +7677,7 @@ label.panel-block {
 /* Keyword.Pseudo */
 /* Keyword.Reserved */
 /* Keyword.Type */
+/* Literal.Date */
 /* Literal.Number */
 /* Literal.String */
 /* Name.Attribute */
@@ -7751,6 +7690,8 @@ label.panel-block {
 /* Name.Function */
 /* Name.Label */
 /* Name.Namespace */
+/* Name.Other */
+/* Name.Property */
 /* Name.Tag */
 /* Name.Variable */
 /* Operator.Word */
@@ -10030,9 +9971,9 @@ a.box:active {
   font-size: 1em;
   margin-bottom: 1em; }
 .content blockquote {
-  background-color: whitesmoke;
-  border-left: 5px solid #dbdbdb;
-  padding: 1.25em 1.5em; }
+  background-color: none;
+  border-left: 3px solid #b94257;
+  padding: 0 1em; }
 .content ol {
   list-style: decimal outside;
   margin-left: 2em;
@@ -14821,6 +14762,22 @@ hr {
   .short-timeline .timeline .timeline-item {
     padding-bottom: 0.5em; }
 
+.post-tags {
+  padding-top: 5px !important; }
+
+.tag:not(body).tag-lite.is-primary {
+  background-color: #90a0b4; }
+
+.content {
+  padding-bottom: 3rem; }
+  .content pre {
+    background-color: #f0f3f3;
+    border-radius: 5px; }
+  .content p a {
+    color: #23d160; }
+    .content p a:hover {
+      color: #ff3860; }
+
 /*! bulma.io v0.6.2 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {
@@ -16473,9 +16430,9 @@ a.box:active {
   font-size: 1em;
   margin-bottom: 1em; }
 .content blockquote {
-  background-color: whitesmoke;
-  border-left: 5px solid #dbdbdb;
-  padding: 1.25em 1.5em; }
+  background-color: none;
+  border-left: 3px solid #b94257;
+  padding: 0 1em; }
 .content ol {
   list-style: decimal outside;
   margin-left: 2em;

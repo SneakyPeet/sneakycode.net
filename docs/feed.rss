@@ -12,7 +12,7 @@
 https://sneakypeet.github.io/sneakycode.net/
 </link>
 <lastBuildDate>
-Sat, 08 Sep 2018 22:18:15 +0200
+Wed, 03 Oct 2018 20:37:06 +0200
 </lastBuildDate>
 <ttl>
 60
@@ -25,7 +25,9 @@ clj-rss
 <![CDATA[Database Rant]]>
 </title>
 <description>
-<![CDATA[<p><strong>What is the primary purpose of the database?</strong></p><p>I won't blame you for saying data storage. In most software projects it is the place where we store our data. I will however tell you that you are wrong. </p><p><strong>Data storage is not the primary purpose of the database</strong></p><p>If you want to just store data, why add the overhead of a database? Why not just save your data directly on the file system. </p><p><code>My client wants an application! Applications generate data, therefore we must have a database! We will use SQL cause it is what we know! Now that we know how we will do it, let&#39;s ask the client what his problem is.</code></p><p>What is the real problem here? Why is blatantly choosing a relational database based on the perception that we are writing relational data wrong? It is wrong because data storage is not the problem that databases solve. Why not just store everything in a large json file?</p><p><strong>Because it is hard to query!</strong></p><p>And in that statement lies the true purpose of your database. It is not about storage. It is about data consumption. Storage is an implementation detail. Your database stores your data in a certain state, so you can query that state in a specific way. Why choose relational over document or graph over search engine? Because each one is good at a different type of query (And typically the others are not good at that type of query). Thus we should stop choosing databases because we think they fit a storage model. We should choose them based on the query problems we have. Do I need to just read blobs of data or do I have olap operations or do I want to understand how people are related to each other (or do I have all of these)?</p><p>I'll concede that databases are typically damn good at storing data, providing solutions around problems faced when dealing with large amounts of data etc. There are also valid arguments for using tools that you know and understand. But these are not reasons to blatantly choose the wrong tools. We as developers need to understand the trade-offs. Understand the complexity that we introduce when choosing a database that does not fit our query model. Sometimes it is justified and sometimes not. What is important is that we make informed decisions based on our understanding of the problems we face, utilizing the knowledge we have as software engineers. If you feel you don't have the knowledge it is time to level up (or defer those decisions to those with the knowledge). </p><p>Note: If you are at the start of an application and you are unsure what your queries are going to look like, then slap on an in memory repo, write some code and once you get a feel for what you are dealing with, swap out the in memory repo with the correct type of database. You will soon find that it takes a lot less time to add a database implementation later in the dev life cycle than it is to fight with the wrong implementation.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+<![CDATA[<p><strong>What is the primary purpose of the database?</strong></p><p>I won't blame you for saying data storage. In most software projects it is the place where we store our data. I will however tell you that you are wrong.</p><p><strong>Data storage is not the primary purpose of the database</strong></p><p>If you want to just store data, why add the overhead of a database? Why not just save your data directly on the file system.</p>
+<blockquote><p><em>My client wants an application! Applications generate data, therefore we must have a database! We will use SQL cause it is what we know! Now that we know how we will do it, let's ask the client what his problem is.</em></p>
+</blockquote><p>What is the real problem here? Why is blatantly choosing a relational database based on the perception that we are writing relational data wrong? It is wrong because data storage is not the problem that databases solve. Why not just store everything in a large json file?</p><p><strong>Because it is hard to query!</strong></p><p>And in that statement lies the true purpose of your database. It is not about storage. It is about data consumption. Storage is an implementation detail. Your database stores your data in a certain state, so you can query that state in a specific way. Why choose relational over document or graph over search engine? Because each one is good at a different type of query (And typically the others are not good at that type of query). Thus we should stop choosing databases because we think they fit a storage model. We should choose them based on the query problems we have. Do I need to just read blobs of data or do I have olap operations or do I want to understand how people are related to each other (or do I have all of these)?</p><p>I'll concede that databases are typically damn good at storing data, providing solutions around problems faced when dealing with large amounts of data etc. There are also valid arguments for using tools that you know and understand. But these are not reasons to blatantly choose the wrong tools. We as developers need to understand the trade-offs. Understand the complexity that we introduce when choosing a database that does not fit our query model. Sometimes it is justified and sometimes not. What is important is that we make informed decisions based on our understanding of the problems we face, utilizing the knowledge we have as software engineers. If you feel you don't have the knowledge it is time to level up (or defer those decisions to those with the knowledge).</p><p>Note: If you are at the start of an application and you are unsure what your queries are going to look like, then slap on an in memory repo, write some code and once you get a feel for what you are dealing with, swap out the in memory repo with the correct type of database. You will soon find that it takes a lot less time to add a database implementation later in the dev life cycle than it is to fight with the wrong implementation.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
 https://sneakypeet.github.io/sneakycode.net/database-rant/
@@ -43,7 +45,7 @@ https://sneakypeet.github.io/sneakycode.net/database-rant/
 Wed, 04 May 2016 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -74,7 +76,7 @@ https://sneakypeet.github.io/sneakycode.net/event-sourcing-and-battling-accident
 Thu, 21 Apr 2016 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -82,71 +84,71 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <![CDATA[Delayed Dependency Resolution the Right Way]]>
 </title>
 <description>
-<![CDATA[<p>I have been playing around with CQRS/Event Sourcing and using lightweight, immutable command messages to trigger actions in my application. The great thing about this is that you can specify a single point of entry into your application by using a very simple interface. </p>
+<![CDATA[<p>I have been playing around with CQRS/Event Sourcing and using lightweight, immutable command messages to trigger actions in my application. The great thing about this is that you can specify a single point of entry into your application by using a very simple interface.</p>
 <pre><code class="csharp">public interface IApplication
 {
     void Execute&lt;T&gt;(T command) where T : ICommand;
 }
 </code></pre><p>This means that every time you want to expose a new actionable feature, you just provide the client with a simple command object.</p>
-<pre><code class="csharp"><br/>	// this is F#
-	type HireEmployee = {
-	    EmployeeId: Guid;
-	    Name: String;
-	    HireDate: DateTime;
-	} with interface ICommand
+<pre><code class="fsharp">// this is F#
+type HireEmployee = {
+  EmployeeId: Guid;
+  Name: String;
+  HireDate: DateTime;
+} with interface ICommand
 
 </code></pre><p>(By the way I like implementing my command and event messages in f# because f# has structural equality and immutability by default which means I do not have to write constructor boilerplate and override equality methods.)</p><p>No more creating a bunch of Application Interfaces that your client needs to consume. You just add the appropriate command handler implementation inside of your application.</p>
-<pre><code class="csharp"><br/>	public class HireEmployeeHandler : ICommandHandler&lt;HireEmployee&gt;
-	{
-		public void Handle(HireEmployee command) {...}
-	}
-</code></pre><p><strong>There is however a tiny issue with IoC container wireup</strong>. Typically we are used to calling resolve on our container once at the entry point of our system. Our container will then inject all our dependencies and bob's your uncle! However can you spot the problem with our above example? By the time we need to figure out what CommandHandler to use, we have already resolved our dependencies. This means that we need to explicitly resolve the dependencies for our CommandHandler again. </p><p>Simple you say! I'll just pass my container into the code that resolves my command handler.</p>
-<pre><code class="csharp"><br/>	class CommandDispatcher : ICommandDispatcher
+<pre><code class="csharp">public class HireEmployeeHandler : ICommandHandler&lt;HireEmployee&gt;
+{
+    public void Handle(HireEmployee command) {...}
+}
+</code></pre><p><strong>There is however a tiny issue with IoC container wireup</strong>. Typically we are used to calling resolve on our container once at the entry point of our system. Our container will then inject all our dependencies and bob's your uncle! However can you spot the problem with our above example? By the time we need to figure out what CommandHandler to use, we have already resolved our dependencies. This means that we need to explicitly resolve the dependencies for our CommandHandler again.</p><p>Simple you say! I'll just pass my container into the code that resolves my command handler.</p>
+<pre><code class="csharp">class CommandDispatcher : ICommandDispatcher
+{
+    private readonly IContainer container;
+
+    public CommandDispatcher(IContainer container)
     {
-        private readonly IContainer container;
-
-        public CommandDispatcher(IContainer container)
-        {
-            this.container = container;
-        }
-
-        public void Send&lt;T&gt;(T command) where T : ICommand
-        {
-            var handler = this.container.Resolve&lt;T&gt;();
-            handler.Handle(command);
-        }
+        this.container = container;
     }
+
+    public void Send&lt;T&gt;(T command) where T : ICommand
+    {
+        var handler = this.container.Resolve&lt;T&gt;();
+        handler.Handle(command);
+    }
+}
 
 </code></pre><p><strong>DO NOT DO THIS!</strong></p><p>The clean code god's will smite you for introducing the concept of a container into your domain and doing service location. Your IoC container should sit on the outermost layer of your application and assist you in building up complex dependencies. Other than container wire up you should only be calling <code>container.Resolve()</code> in once place. If your application is small you can ask yourself <em>"do I even need an IoC container?"</em>. Remember that not having an IoC container does not mean that you are not doing Dependency Injection. Because your IoC does magic to make your life easy, it does not mean you should abuse it by building up huge dependency trees that go 10 levels deep and injecting to many dependencies.</p><p><code>#rant</code> Let's get back to solving the problem. A better solution would be to do something like this.</p>
-<pre><code class="csharp"><br/>	class CommandDispatcher : ICommandDispatcher
+<pre><code class="csharp">class CommandDispatcher : ICommandDispatcher
+{
+    private readonly ICommandHandlerFactory factory;
+
+    public CommandDispatcher(ICommandHandlerFactory factory)
     {
-        private readonly ICommandHandlerFactory factory;
-
-        public CommandDispatcher(ICommandHandlerFactory factory)
-        {
-            this.factory = factory;
-        }
-
-        public void Send&lt;T&gt;(T command) where T : ICommand
-        {
-            var handler = this.factory.Create(command);
-            handler.Handle(command);
-            this.factory.Destroy(handler); //you have to explicitly manage the life cycle of your handler
-        }
+        this.factory = factory;
     }
 
-	public interface ICommandHandlerFactory
+    public void Send&lt;T&gt;(T command) where T : ICommand
     {
-        ICommandHandler&lt;T&gt; Create&lt;T&gt;(T command) where T : ICommand;
-        void Destroy(object handler);
+        var handler = this.factory.Create(command);
+        handler.Handle(command);
+        this.factory.Destroy(handler); //you have to explicitly manage the life cycle of your handler
     }
+}
+
+public interface ICommandHandlerFactory
+{
+    ICommandHandler&lt;T&gt; Create&lt;T&gt;(T command) where T : ICommand;
+    void Destroy(object handler);
+}
 </code></pre><p>How is this different? First of all you are expressing your needs without polluting your domain. If you ever decide to chuck out your IoC container for a different one, your domain would be unaffected. You would not have to change a single line of code in your domain. The only thing that you would have to do is as part of your container wireup you would need to actually implement <code>ICommandHandlerFactory</code>. Because you are doing DI, the implementation does not have to sit inside your domain, but can live outside of it alongside your container.</p><p>If you are using <a href="https://github.com/castleproject/Windsor">Castle Windsor</a> you are in luck. They provide a <a href="https://github.com/castleproject/Windsor/blob/master/docs/typed-factory-facility.md">Typed Factory Facility</a> which means you do not even have to implement <code>ICommandHandlerFactory</code>! You just need initialize the factory in you container wireup and bob is your uncle again!</p>
-<pre><code class="csharp"><br/>	container.AddFacility&lt;TypedFactoryFacility&gt;();
+<pre><code class="csharp">container.AddFacility&lt;TypedFactoryFacility&gt;();
 
-    container.Register(
-    	Component.For&lt;ICommandHandlerFactory&gt;()
-        	.AsFactory()
-    );
+container.Register(
+    Component.For&lt;ICommandHandlerFactory&gt;()
+             .AsFactory()
+);
 
 </code></pre><p><strong>Nifty!</strong> Remember kids, Inject Responsibly!</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
@@ -172,7 +174,7 @@ https://sneakypeet.github.io/sneakycode.net/delayed-dependency-resolving-the-rig
 Tue, 01 Mar 2016 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -184,30 +186,30 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <ul>
   <li>A class, testing many different (and separate) things regarding <code>Users</code>.</li>
   <li>Long tests names all starting with <code>Given_Something_Then</code>.</li>
-</ul><p>I am going to make a statement: <strong><em>Well written tests serves as documentation</em></strong>.</p><p>Duplication and not adhering to the Single Responsibility Principle, makes our tests hard to read, hard to maintain and we have to dig around in the code to figure out what is actually going on.</p><p>How can we make this better? By being specific! We can use namespaces/folders to extract duplication and serve as an overview of functionality. By following the Single Responsibility Principle we can advance our initial understanding by having well named files that point to single area's of functionality.</p><p>Let's look at an example.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1453703517/3_omiqib.png" alt="Content Tests""/></p><p>Right of the bat we can see that we are dealing with content and more specifically content creation and publishing.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1453703518/4_tpx6fa.png" alt="Content Tests Folders""/></p><p>Even more functionality is exposed by opening these folders. And when finally looking at the actual test classes, a very good overview what our code should actually be doing is gained. </p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1453703518/5_aqy0rw.png" alt="Content Tests Folders""/></p><p>Up to this point we have not read any code. This is much better than <code>ContentTests</code> and <code>ContentFactoryTests</code> would ever be. When reading the actual code, some attention needs to be paid to the namespace and class name to get all the info regarding the tests, but this is minor to the readability gained on a folder level.</p>
-<pre><code class="csharp"><br/>	namespace App.Tests.ContentCreation.WhenUpdatingContent
-	{
-	    [TestFixture]
-	    public class ThrowExceptionIf
-	    {
-	
-	        [Test]
-	        [ExpectedException(typeof(LogicException))]
-	        public void BrowsableIdentifierNotSet()
-	        {
-	            
-	        }
-	
-	        [Test]
-	        [ExpectedException(typeof(LogicException))]
-	        public void BrowsableDisplayNameNotSet()
-	        {
-	            
-	        }
-	    }
-	}
+</ul><p>I am going to make a statement: <strong><em>Well written tests serves as documentation</em></strong>.</p><p>Duplication and not adhering to the Single Responsibility Principle, makes our tests hard to read, hard to maintain and we have to dig around in the code to figure out what is actually going on.</p><p>How can we make this better? By being specific! We can use namespaces/folders to extract duplication and serve as an overview of functionality. By following the Single Responsibility Principle we can advance our initial understanding by having well named files that point to single area's of functionality.</p><p>Let's look at an example.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1453703517/3_omiqib.png" alt="Content Tests""/></p><p>Right of the bat we can see that we are dealing with content and more specifically content creation and publishing.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1453703518/4_tpx6fa.png" alt="Content Tests Folders""/></p><p>Even more functionality is exposed by opening these folders. And when finally looking at the actual test classes, a very good overview what our code should actually be doing is gained.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1453703518/5_aqy0rw.png" alt="Content Tests Folders""/></p><p>Up to this point we have not read any code. This is much better than <code>ContentTests</code> and <code>ContentFactoryTests</code> would ever be. When reading the actual code, some attention needs to be paid to the namespace and class name to get all the info regarding the tests, but this is minor to the readability gained on a folder level.</p>
+<pre><code class="csharp">namespace App.Tests.ContentCreation.WhenUpdatingContent
+{
+  [TestFixture]
+  public class ThrowExceptionIf
+  {
 
-</code></pre><p>Personally I think this is great, but I would love to hear your comments, suggestions and improvements! </p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+    [Test]
+    [ExpectedException(typeof(LogicException))]
+    public void BrowsableIdentifierNotSet()
+    {
+
+    }
+
+    [Test]
+    [ExpectedException(typeof(LogicException))]
+    public void BrowsableDisplayNameNotSet()
+    {
+
+    }
+  }
+}
+
+</code></pre><p>Personally I think this is great, but I would love to hear your comments, suggestions and improvements!</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
 https://sneakypeet.github.io/sneakycode.net/better-test-documentation/
@@ -222,7 +224,7 @@ https://sneakypeet.github.io/sneakycode.net/better-test-documentation/
 Mon, 25 Jan 2016 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -248,7 +250,7 @@ https://sneakypeet.github.io/sneakycode.net/my-first-pluralsight-course-went-liv
 Wed, 16 Sep 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -296,7 +298,7 @@ https://sneakypeet.github.io/sneakycode.net/what-language-does-your-application-
 Wed, 19 Aug 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -304,12 +306,12 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <![CDATA[Reflecting on Domain Driven Design]]>
 </title>
 <description>
-<![CDATA[<p>When I started blogging about DDD, I mentioned that my plan was to build up a <a href="https://github.com/SneakyPeet/SimpleDDD">DDD project template</a>. I wanted to do this because there are very few examples out there on how to do DDD. </p><p>Looking at that Github project you will see that almost nothing has happened since its creation. </p>
-<blockquote><p>Why?</p>
+<![CDATA[<p>When I started blogging about DDD, I mentioned that my plan was to build up a <a href="https://github.com/SneakyPeet/SimpleDDD">DDD project template</a>. I wanted to do this because there are very few examples out there on how to do DDD.</p><p>Looking at that Github project you will see that almost nothing has happened since its creation.</p>
+<blockquote><p><strong>Why?</strong></p>
 </blockquote><p>The reason why is the same reason why there are not many DDD project examples out there. DDD is not about application structure. It is not about application services, repositories, entities and value objects. Although these are important they only exist to support the application and help keep it maintainable. You can do domain driven design without using any of these.</p><p>DDD is about <strong>Ubiquitous Language</strong>.</p><p>It's about <strong>Bounded Context</strong>.</p><p>It is having your software talk the language of your domain experts. It is collaborative modeling with the entire team.</p>
-<blockquote><p>How do you make a project template for this? </p>
+<blockquote><p><strong>How do you make a project template for this?</strong></p>
 </blockquote><p>You don't.</p><p>But what about repositories and application services and all these things? Surely they are very important. Using these things does not mean you are doing DDD, even though they are described in the <a href="http://dddcommunity.org/book/evans_2003/">Domain Driven Design bible</a>. If you talk to Eric Evans today he will tell you the same. Yes I can put a bunch of these into a project template, but that is blatantly over engineering. A software product is not a bunch of layers and software concepts. It is about features that makes the users life better. These concepts exist only to support these features and should only be implemented when really required and to promote maintainability.</p>
-<blockquote><p>What does this mean? </p>
+<blockquote><p><strong>What does this mean?</strong></p>
 </blockquote><p>DDD is hard. It is not something you can read in a book and then implement like a design pattern. It is something to be practiced, preferably with people that have done it before. You have to do it, you have to fight with it, you have to fail and succeed. Only then it will become part of your software engineering tool belt.</p><p>This does not mean we have to stop discussing DDD. No! It should serve as motivation for discussion. In future post I will most definitely continue tackling the practical assets of DDD and I am looking forward to having these discussions with you.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
@@ -328,7 +330,7 @@ https://sneakypeet.github.io/sneakycode.net/reflecting-on-domain-driven-design/
 Wed, 22 Jul 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -357,7 +359,7 @@ https://sneakypeet.github.io/sneakycode.net/some-updates-yeah/
 Wed, 08 Jul 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -385,7 +387,7 @@ https://sneakypeet.github.io/sneakycode.net/how-changing-my-commit-messages-made
 Tue, 05 May 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -393,11 +395,13 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <![CDATA[Anemia induced memory loss]]>
 </title>
 <description>
-<![CDATA[<p>I have been reading <a href="https://vaughnvernon.co/?page_id=168">Implementing Domain Driven Design</a> by Vaughn Vernon. In it he mentions the concept of Anemia induced memory loss. Say what? Basically an anemic domain is a domain that lacks information about itself. All of its information lives in other places(like services). For you to learn about the domain, you have to know where to go look. This usually also requires some context about the decisions that the developer that wrote that piece of functionality made. As time goes by, this context gets lost, meaning all those details you had to know is either hard to find or completely lost. There is no one place to find the context thus you have to look everywhere. This is what anemia induced memory loss means.</p><p>DDD combats this by focusing on a rich domain. A domain that knows everything about itself. The domain no longer asks the questions, it provides the answers. If you need to know something about something, you go to that something and find it out. To achieve this however, is not an easy skill to learn. We need to learn to model a domain that makes sense to both developers and domain experts. Ubiquitous language and aggregates are the key. However it takes time and practice and guidance to really become a modeling master. </p><p>Luckily we have a new initiative at our company called <a href="http://www.entelect.co.za/">Entelect</a> Dojo, and my buddy <a href="https://twitter.com/eldevilliers">Eugene</a> and myself gave a talk on domain driven design and how to start thinking "rich domain". We had a nice comparison of a domain implemented using <a href="http://martinfowler.com/eaaCatalog/transactionScript.html">transaction script</a>(aka anemic domain) and a rich domain model. The Anemia induced memory loss is blatantly obvious so I thought I would run through the two examples. This will also give you a sense of how to start thinking rich domain.</p><p>___</p><h3>First we need some requirements.</h3>
+<![CDATA[<p>I have been reading <a href="https://vaughnvernon.co/?page_id=168">Implementing Domain Driven Design</a> by Vaughn Vernon. In it he mentions the concept of Anemia induced memory loss. Say what? Basically an anemic domain is a domain that lacks information about itself. All of its information lives in other places(like services). For you to learn about the domain, you have to know where to go look. This usually also requires some context about the decisions that the developer that wrote that piece of functionality made. As time goes by, this context gets lost, meaning all those details you had to know is either hard to find or completely lost. There is no one place to find the context thus you have to look everywhere. This is what anemia induced memory loss means.</p><p>DDD combats this by focusing on a rich domain. A domain that knows everything about itself. The domain no longer asks the questions, it provides the answers. If you need to know something about something, you go to that something and find it out. To achieve this however, is not an easy skill to learn. We need to learn to model a domain that makes sense to both developers and domain experts. Ubiquitous language and aggregates are the key. However it takes time and practice and guidance to really become a modeling master.</p><p>Luckily we have a new initiative at our company called <a href="http://www.entelect.co.za/">Entelect</a> Dojo, and my buddy <a href="https://twitter.com/eldevilliers">Eugene</a> and myself gave a talk on domain driven design and how to start thinking "rich domain". We had a nice comparison of a domain implemented using <a href="http://martinfowler.com/eaaCatalog/transactionScript.html">transaction script</a>(aka anemic domain) and a rich domain model. The Anemia induced memory loss is blatantly obvious so I thought I would run through the two examples. This will also give you a sense of how to start thinking rich domain.</p>
+<hr/><h3>First we need some requirements.</h3>
 <ul>
   <li>Employees can capture Annual and Study leave.</li>
   <li>There are various rules around capturing leave.</li>
-</ul><p>___</p><h3>Anemic Domain</h3><p>Typically we will have a <code>LeaveEntry</code> poco that we use everywhere. We might also have a <code>LeaveService</code> that is responsible for control flow (mapping, validation, persistence) and business rules.</p>
+</ul>
+<hr/><h3>Anemic Domain</h3><p>Typically we will have a <code>LeaveEntry</code> poco that we use everywhere. We might also have a <code>LeaveService</code> that is responsible for control flow (mapping, validation, persistence) and business rules.</p>
 <pre><code class="csharp">public enum LeaveType
 {
     Annual,
@@ -459,10 +463,11 @@ public class LeaveEntry
 
     public Employee CurrentApprover { get; set; }
 
-	public byte[] Document { get; set; } //Change
+    public byte[] Document { get; set; } // Change
 }
 
-</code></pre><p>Can you spot the Anemia induced memory loss? Let's say a new team member joins and the first thing he sees is the <code>LeaveEntry</code> class. What is he going to think? All leave entries requires a document? He will be wrong ofcourse, but there is nothing here that points at that rule. If he does not know about the rule, he will not know to go and look for it elsewhere. This is the trap that an anemic domain sets.</p><p>___ In a rich domain we would stick with the <code>LeaveEntry</code> as our aggregateroot. But we would move all the business rules out of our <code>LeaveService</code> into our <code>LeaveEntry</code>. We would then also decide to either make <code>LeaveEntry</code> a base class and have our <code>LeaveTypes</code> inherit from it, or compose our <code>LeaveEntry</code> with a <code>LeaveType</code> (you do this typically if the type can change). Our document will only live on our <code>SickLeaveType</code> and we will also find the validation on that type. Thus the rules and intent around sick leave is clear and complete and in one place.</p><p>Please jump over to <a href="https://github.com/entelect/Dojo_DomainDrivenDesign">github</a> and have a look at this example with more rules and coded examples for both anemic and rich domain. Note that how any change in the rich domain models, have no impact on control flow. This is great because it means we can only write tests for our new classes. Also note how easy it is to test our rules without having to mock anything. This is the beauty of a rich domain.</p><p>You might notice that the Rich Domain is a bit more complex and not really less code. Modeling and modeling well is hard. But the reward can be massive.</p><p>That said there is nothing wrong with transaction script and it has its place, just like there are problems to which DDD is not the right solution. But if you tend to have more than a few rules, DDD starts to shine.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</code></pre><p>Can you spot the Anemia induced memory loss? Let's say a new team member joins and the first thing he sees is the <code>LeaveEntry</code> class. What is he going to think? All leave entries requires a document? He will be wrong ofcourse, but there is nothing here that points at that rule. If he does not know about the rule, he will not know to go and look for it elsewhere. This is the trap that an anemic domain sets.</p>
+<hr/><p>In a rich domain we would stick with the <code>LeaveEntry</code> as our aggregateroot. But we would move all the business rules out of our <code>LeaveService</code> into our <code>LeaveEntry</code>. We would then also decide to either make <code>LeaveEntry</code> a base class and have our <code>LeaveTypes</code> inherit from it, or compose our <code>LeaveEntry</code> with a <code>LeaveType</code> (you do this typically if the type can change). Our document will only live on our <code>SickLeaveType</code> and we will also find the validation on that type. Thus the rules and intent around sick leave is clear and complete and in one place.</p><p>Please jump over to <a href="https://github.com/entelect/Dojo_DomainDrivenDesign">github</a> and have a look at this example with more rules and coded examples for both anemic and rich domain. Note that how any change in the rich domain models, have no impact on control flow. This is great because it means we can only write tests for our new classes. Also note how easy it is to test our rules without having to mock anything. This is the beauty of a rich domain.</p><p>You might notice that the Rich Domain is a bit more complex and not really less code. Modeling and modeling well is hard. But the reward can be massive.</p><p>That said there is nothing wrong with transaction script and it has its place, just like there are problems to which DDD is not the right solution. But if you tend to have more than a few rules, DDD starts to shine.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
 https://sneakypeet.github.io/sneakycode.net/anemia-induced-memory-loss/
@@ -489,7 +494,7 @@ https://sneakypeet.github.io/sneakycode.net/anemia-induced-memory-loss/
 Thu, 16 Apr 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -498,11 +503,11 @@ https://sneakypeet.github.io/sneakycode.net/rss
 </title>
 <description>
 <![CDATA[<p>In a previous post I gave an overview of <a href="http://sneakycode.net/modeling-with-aggregates/">aggregates</a>. In that post I said that aggregates are self-contained units that we work with to avoid messing up our code. Aggregates help us build a rich domain. This is a domain that knows about itself. When you want to know something, you ask the domain. When you want something done, you ask the domain. For the domain to be able to answer your questions and perform your tasks, it needs all the information. To do this we construct our aggregates with all the data that they need. Ideally we would like our control flow to look something like this:</p>
-<pre><code class="csharp"><br/>apiLayer.DoSomeWork()
+<pre><code class="csharp">apiLayer.DoSomeWork()
 {
-	domain = dataLayer.getData()
-	domain.doTheWork()
-	dataLayer.saveData()
+  domain = dataLayer.getData()
+  domain.doTheWork()
+  dataLayer.saveData()
 }
 </code></pre><p>To achieve this we need to limit our trips to the persistence layer. This means we load all the data that we need upfront, and then construct our aggregate. To take it one step further we can ask our persistence layer to provide us with our constructed aggregate. This is where dependence on the domain become apparent. For the persistence layer to provide us with a domain object, it needs to know about the domain. When thinking about layered architecture we are used to the persistence layer being at the center of the onion. But moving the domain into the center means that we can model our domain without ever caring about persistence. This reduces dependencies in the domain considerably, meaning that our domain is void of program flow clutter, clearly defined and very testable. The problem we need to solve becomes the focus of our application.</p><p>Domain Driven Design typically uses the repository pattern. Our repositories are responsible to abstract the persistence details away from our domain. All that the domain will know is that it can get data in the form of aggregates and persist data in the form of aggregates. To do this we do two things</p>
 <ul>
@@ -532,7 +537,7 @@ https://sneakypeet.github.io/sneakycode.net/aggregates-and-persistence/
 Wed, 01 Apr 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -623,8 +628,8 @@ public class Game
     public List&lt;Player&gt; Players { get; private set; }
 }
 </code></pre><p>Pretty straight forward stuff. I showed this to my wife that knows nothing about code and she had no idea what was going on.</p><p>Then I showed her this.</p>
-<pre><code class="csharp">module CardGame = 
-    
+<pre><code class="csharp">module CardGame =
+
     type Suit = Club | Diamond | Spade | Heart
 
     type Rank = Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King | Ace
@@ -640,9 +645,9 @@ public class Game
     type Game = {Deck:Deck; Players: Player list}
 
     type Deal = Deck -&gt; (Deck*Card)
-    
+
     type PickupCard = (Hand*Card) -&gt; Hand
-</code></pre><p>The above is not pseudo code. It valid f# that compiles. First note the total number of lines. 80 vs 19 like what! I showed this to my wife and even though I still had to explain some of it, she got the gist just by looking at it. This means that a domain expert should fairly easily be able to confirm a domain model correctness, without understanding f#. </p><p>I know there is no behavior in the above example, but the conciseness and lack of clutter really got my attention. When the f# guys where talking about writing less code, they where not kidding. </p><p>What is not apparent from the example is that you get a lot of things for free</p>
+</code></pre><p>The above is not pseudo code. It valid f# that compiles. First note the total number of lines. 80 vs 19 like what! I showed this to my wife and even though I still had to explain some of it, she got the gist just by looking at it. This means that a domain expert should fairly easily be able to confirm a domain model correctness, without understanding f#.</p><p>I know there is no behavior in the above example, but the conciseness and lack of clutter really got my attention. When the f# guys where talking about writing less code, they where not kidding.</p><p>What is not apparent from the example is that you get a lot of things for free</p>
 <ul>
   <li>Types are immutable by default. GoGo <a href="http://sneakycode.net/value-objects/">Value Types</a>. Mutability can be chosen explicitly, but the immutability forces us to transform data into new data, rather than changing it. This prevents bugs and side effects.</li>
   <li>Types are equatable by default. We get comparison, max, min and ordering for free. Again this is great for Value Types.</li>
@@ -657,11 +662,12 @@ lowcard = randomcard //true
   <li>Null reference exceptions are excluded from the above code as non of these types can be null. If you need nullable functionality, you add it explicitly.</li>
   <li>New primitive types are basically free. We can easily make a string type that has to be less than 40 characters and then use that where we have a less than 40 characters business rule. Although this is possible in c#, it is a lot more code and hassle and we end up not doing it.</li>
   <li>Less code means less bugs.</li>
-</ul><p>I am going to stop here before I re-write <a href="https://twitter.com/ScottWlaschin">Scott's</a> website. I have not even began to scratch the surface, but if what I have uncovered so far is an indication of what is to come, I am definitely going to become an F# developer. </p><p>I also found a <a href="http://deliberate-software.com/pattern-matching-case-study/">Case Study for Type-safe Domain Modeling in F#</a> on reddit.</p><p>and this <a href="http://simontylercousins.net/does-the-language-you-use-make-a-difference-revisited/">Does the Language You Use Make a Difference (revisited)?</a></p><p>If you want to find out more have a look at the <a href="http://fsharpforfunandprofit.com/why-use-fsharp/">Why use F#</a> series.</p><p>___ <strong>Update</strong></p><p>To give some credit back to c# I did the following</p>
+</ul><p>I am going to stop here before I re-write <a href="https://twitter.com/ScottWlaschin">Scott's</a> website. I have not even began to scratch the surface, but if what I have uncovered so far is an indication of what is to come, I am definitely going to become an F# developer.</p><p>I also found a <a href="http://deliberate-software.com/pattern-matching-case-study/">Case Study for Type-safe Domain Modeling in F#</a> on reddit.</p><p>and this <a href="http://simontylercousins.net/does-the-language-you-use-make-a-difference-revisited/">Does the Language You Use Make a Difference (revisited)?</a></p><p>If you want to find out more have a look at the <a href="http://fsharpforfunandprofit.com/why-use-fsharp/">Why use F#</a> series.</p>
+<hr/><p><strong>Update</strong></p><p>To give some credit back to c# I did the following</p>
 <ul>
   <li>Put all the enums on one line, even though this is not convention</li>
   <li>Auto initialized the lists (available in C# 6)</li>
-</ul><p>This brought the line count for c# down to 55 vs 19 for f#. I then figured you can write everything on one line and that a word/character count might be a better metric. C# had 160 words and 1063 characters. F# 82 Words and 457 Characters. There is still a significant difference. </p><p>I also feel the need to say that I still love c# and I think it is a great language. This post was less about c# being long winded and more about f# being really compact.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</ul><p>This brought the line count for c# down to 55 vs 19 for f#. I then figured you can write everything on one line and that a word/character count might be a better metric. C# had 160 words and 1063 characters. F# 82 Words and 457 Characters. There is still a significant difference.</p><p>I also feel the need to say that I still love c# and I think it is a great language. This post was less about c# being long winded and more about f# being really compact.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
 https://sneakypeet.github.io/sneakycode.net/getting-wooed-by-fsharp/
@@ -682,7 +688,7 @@ https://sneakypeet.github.io/sneakycode.net/getting-wooed-by-fsharp/
 Wed, 18 Mar 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -726,7 +732,76 @@ https://sneakypeet.github.io/sneakycode.net/modeling-with-aggregates/
 Thu, 12 Mar 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
+</source>
+</item>
+<item>
+<title>
+<![CDATA[Job Tracking using Quartz for .net]]>
+</title>
+<description>
+<![CDATA[<p>A project that I recently worked on has a worker role that runs about 40 jobs. With some of these jobs running for hours it became imperative that we knew when these jobs were running, if they were currently running, how long they were running, if they were overlapping with other dependent jobs etc.</p><p>Below I will show you how to easily setup Job Tracking using <a href="http://www.quartz-scheduler.net/">quartz-scheduler</a> for .net.</p><p><strong>Listeners</strong></p><p>Quartz.net provides us with the concept of Listeners. Listeners are objects that you create to perform actions based on events occurring within the scheduler. Quartz provides the following three listener interfaces:</p>
+<ul>
+  <li>ITriggerListener</li>
+  <li>IJobListener</li>
+  <li>ISchedulerListener</li>
+</ul><p>Each of these provides you with methods that get called on various events. More info on these can be found <a href="http://www.quartz-scheduler.net/documentation/quartz-2.x/tutorial/trigger-and-job-listeners.html">here</a> and <a href="http://www.quartz-scheduler.net/documentation/quartz-2.x/tutorial/scheduler-listeners.html">here</a>.</p><p><strong>Setup</strong></p><p>First you need to create the implementation of whatever listener you want.</p>
+<pre><code class="csharp">public class MyJobListener : IJobListener</code></pre><p>Then you need to register the listener with your scheduler.</p>
+<pre><code class="csharp">var scheduler = SchedulerFactory.GetScheduler();
+scheduler.ListenerManager.AddJobListener(myInstanceOfJobListener);
+scheduler.ListenerManager.AddSchedulerListener(myInstanceOfScheduleListener);</code></pre><p>All that is left is to implement the methods for the events you want to hook into. You can register multiple listeners of the same type.</p><p><strong>Implementation</strong></p><p>For my solution I hooked into the following methods On IScheduleListener:</p>
+<pre><code class="csharp">public void JobScheduled(ITrigger trigger)
+{
+    var name = trigger.JobKey.Name;
+    DateTime? nextStartDate = null;
+    if (trigger.GetNextFireTimeUtc().HasValue)
+    {
+        nextStartDate = trigger.GetNextFireTimeUtc().Value.DateTime;
+    }
+    //Do something with the information
+}</code></pre><p>This method gets called each time a job is scheduled. I use this so keep track of all the jobs that are scheduled and can easily extract which jobs have never ran. If you need to you can also extract the trigger type. You can then use the trigger type to form some kind of calendar view of when jobs will run.</p><p>On IJobListener:</p>
+<pre><code class="csharp">public void JobToBeExecuted(IJobExecutionContext context)
+{
+    var name = context.JobDetail.JobType.Name;
+    DateTime startTime = context.FireTimeUtc.HasValue ? context.FireTimeUtc.Value.DateTime : DateTime.UtcNow;
+    //do something with info
+}
+
+public void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException)
+{
+    var name = context.JobDetail.JobType.Name;
+    var runtime = context.JobRunTime;
+    if(jobException != null)
+    {
+        //do something with error info
+    }
+
+    DateTime? nextRunDate = null;
+    if(context.NextFireTimeUtc.HasValue)
+    {
+        nextRunDate = context.NextFireTimeUtc.Value.DateTime;
+    }
+    //do something with info
+}</code></pre><p>It is apparent that these methods get called just before a job executes and just after it finished. JobWasExecuted will get called even if there was an exception and quartz is nice enough to provide you with the exception object.</p><p>As mentioned we use the data gathered to make sure our worker role is in good health. There are various other methods on these interfaces so have a look at the linked documentation.</p>
+<hr/><p><em>This post was first published on <a href="http://blog.entelect.co.za/home">blog.entelect.co.za</a></em></p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/quartz-job-tracking/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/quartz-job-tracking/
+</guid>
+<category>
+<![CDATA[csharp]]>
+</category>
+<category>
+<![CDATA[quartz]]>
+</category>
+<pubDate>
+Wed, 04 Mar 2015 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -734,12 +809,14 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <![CDATA[Getting Started With Chat Ops]]>
 </title>
 <description>
-<![CDATA[<p>I recently gave a talk about ChatOps at <a href="http://entelect.co.za">Entelect's Dev Day</a>. The talk went really well and after some discussion with attendees I thought it might be useful to write a post about how to get started with chat ops.</p><p>___ <strong>So What is ChatOps?</strong></p><p>To understand ChatOps we first need to talk about DevOps. DevOps is about knocking down barriers between developers and operations and in doing so reducing orginizational friction. Source control, continuous integration and automated deploy all form part of DevOps. DevOps helps us go fast while still going clean. At the heart of DevOps is CAMS. To move fast and maintain stability, it is important to have a <strong>culture</strong> of <strong>automation</strong>, <strong>measurement</strong> and <strong>sharing</strong>. ChatOps is an extension of DevOps and enhances it with and extreme focus on CAMS. </p><p><strong>What are the Benefits?</strong></p><p>ChatOps moves all your everyday tasks into one place, where everyone can see it. Your tools become part of your conversation. This provides you with a history of events. No longer do you have to ask questions like "Is the build green" or "are you finished deploying". Just have a look in your chat room.</p><p>It creates a passive learning environment for new team members. They see how everything is done just by participating in the chat. It is like pair programming but for DevOps. You teach them by just doing your daily tasks.</p><p>It hides your ugly. No longer do you have to manage access to all the tools that you use. You don't have to remember urls and passwords. You provide a single access point for everyone, inside your chat room.</p><p>It improves remoting. You can easily manage tasks using the chat app on your phone, from anywhere. Want to check site load on your commute? Now you can easily do that and other tasks from your chat room.</p><p>Lastly it improves speed and repeatability. When you automate tasks and provide simple access to all your tasks in one place, speed increases and human error likelihood decreases.</p><p><strong>How do I get started with ChatOps?</strong></p><p>Well, first of all you will need a chat solution that provides <strong>inline imaging</strong> and <strong>has an API</strong>. There are many good ones out there, but a good start might be <a href="http://hipchat.com">Hipchat</a> or <a href="https://slack.com/">Slack</a>. </p><p>Next, get yourself a chat robot. This robot is your chat room butler. You ask him to do various things to make your life fun and easy. There are a few bots out there, written in various languages, the most used being <a href="https://hubot.github.com/">Hubot</a>, <a href="https://www.lita.io/">Lita</a> and <a href="http://errbot.net/">Err</a>.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1424792361/hubot2_spk5mw.jpg" alt="hubot""/></p><p>The next, <strong>most important</strong> step, is to start building a <strong>culture</strong> of chat ops in your team. Regardless of how amazing you make your automation tools, if the culture is non-existent, you are wasting your time. Here is how you start building that culture:</p>
+<![CDATA[<p>I recently gave a talk about ChatOps at <a href="http://entelect.co.za">Entelect's Dev Day</a>. The talk went really well and after some discussion with attendees I thought it might be useful to write a post about how to get started with chat ops.</p>
+<hr/><p><strong>So What is ChatOps?</strong></p><p>To understand ChatOps we first need to talk about DevOps. DevOps is about knocking down barriers between developers and operations and in doing so reducing orginizational friction. Source control, continuous integration and automated deploy all form part of DevOps. DevOps helps us go fast while still going clean. At the heart of DevOps is CAMS. To move fast and maintain stability, it is important to have a <strong>culture</strong> of <strong>automation</strong>, <strong>measurement</strong> and <strong>sharing</strong>. ChatOps is an extension of DevOps and enhances it with and extreme focus on CAMS.</p><p><strong>What are the Benefits?</strong></p><p>ChatOps moves all your everyday tasks into one place, where everyone can see it. Your tools become part of your conversation. This provides you with a history of events. No longer do you have to ask questions like "Is the build green" or "are you finished deploying". Just have a look in your chat room.</p><p>It creates a passive learning environment for new team members. They see how everything is done just by participating in the chat. It is like pair programming but for DevOps. You teach them by just doing your daily tasks.</p><p>It hides your ugly. No longer do you have to manage access to all the tools that you use. You don't have to remember urls and passwords. You provide a single access point for everyone, inside your chat room.</p><p>It improves remoting. You can easily manage tasks using the chat app on your phone, from anywhere. Want to check site load on your commute? Now you can easily do that and other tasks from your chat room.</p><p>Lastly it improves speed and repeatability. When you automate tasks and provide simple access to all your tasks in one place, speed increases and human error likelihood decreases.</p><p><strong>How do I get started with ChatOps?</strong></p><p>Well, first of all you will need a chat solution that provides <strong>inline imaging</strong> and <strong>has an API</strong>. There are many good ones out there, but a good start might be <a href="http://hipchat.com">Hipchat</a> or <a href="https://slack.com/">Slack</a>.</p><p>Next, get yourself a chat robot. This robot is your chat room butler. You ask him to do various things to make your life fun and easy. There are a few bots out there, written in various languages, the most used being <a href="https://hubot.github.com/">Hubot</a>, <a href="https://www.lita.io/">Lita</a> and <a href="http://errbot.net/">Err</a>.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1424792361/hubot2_spk5mw.jpg" alt="hubot""/></p><p>The next, <strong>most important</strong> step, is to start building a <strong>culture</strong> of chat ops in your team. Regardless of how amazing you make your automation tools, if the culture is non-existent, you are wasting your time. Here is how you start building that culture:</p>
 <ul>
   <li>Create a chat room for your team/project. Start moving communication into this chat room and away from email. Make sure everyone on your team is online when they are at work and if they are remote, teach them to announce when they come and go. If your team is remote you can start moving daily standup into chat as well.</li>
   <li>Next start using your chat robot to add some fun in your chat room. Give it the ability to fetch random images or videos for you. Have it make memes and answer eight ball questions. There are many fun scripts out there to help you get started with The Fun.</li>
   <li>Create fun chat room based games for your team and play them on a regular basis. On our team we have crap song Friday, where everyone needs to paste a video of a song that is just bad. We also play WTF roulette where everyone ask Hubot to get a WTF image until we get something really bad and then we quickly hide it with a <a href="https://www.npmjs.com/package/hubot-pugme">pug bomb</a>.</li>
-</ul><p>Ok I can hear you saying that this just generates a lot of noise. And you are right, your team can run the risk of losing valid information due to noise generated, but again this comes down to team culture. Make simple rules about "noise". We easily solved this by having one general chat room and separate chatrooms for specific projects. In the general chat anything goes and you move important content to relevant chat rooms. Also do not be afraid of change. If something just does not work, chuck it and try something else. Each person and team is unique, so figure out what works for you.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1424792359/Capsdfdsfdsfture_s7w2br.png" alt="Aliens Guy ChatOps""/> The next step is to start making it <strong>informative</strong>. Start posting notifications into the room using the chat app's api, web hooks and tools like IFTTT and Zapier. Did a CI build fail? Post that into the chat. Did someone push to master? Post that into the chat. Has a ticket been created on the backlog? Did someone mention your product on twitter? Was there an application exception? Post it to your chat room. Whenever you find yourself having to go check if an event occured, move that into your chat room.</p><p>Lastly make it <strong>productive</strong>. Identify simple tasks that you can automate. Get your chat robot to start and stop CI builds, create trello tickets and draw yourself a graph of the server load over the last 24 hours. Start using the Api's of the tools that you rely on. Once you have automated these simple tasks, go on and start automating the difficult ones. Have your chat bot do a production deploy or setup everything that you need when a new employee joins your team.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1424792383/build_ov1kau.png" alt="Hubot build team city build""/></p><p>___ ChatOps has the potential to provide a ton of value. Better communication, engaged team members, more speed, reliability and overall fun. However do not expect buy-in from everyone from the get go. The success of your ChatOps endeavour hinges on the culture that you create. Spend your time here. It took my team about a year to build culture and we are only now starting to make it the chatroom productive. Realise the potential of Api's. Anything that exposes an api can potentially be used by your chat robot. Anything with a web hook can push info to you. I will dare say that anything will become possible.</p><p>Good luck and happy chats.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</ul><p>Ok I can hear you saying that this just generates a lot of noise. And you are right, your team can run the risk of losing valid information due to noise generated, but again this comes down to team culture. Make simple rules about "noise". We easily solved this by having one general chat room and separate chatrooms for specific projects. In the general chat anything goes and you move important content to relevant chat rooms. Also do not be afraid of change. If something just does not work, chuck it and try something else. Each person and team is unique, so figure out what works for you.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1424792359/Capsdfdsfdsfture_s7w2br.png" alt="Aliens Guy ChatOps""/> The next step is to start making it <strong>informative</strong>. Start posting notifications into the room using the chat app's api, web hooks and tools like IFTTT and Zapier. Did a CI build fail? Post that into the chat. Did someone push to master? Post that into the chat. Has a ticket been created on the backlog? Did someone mention your product on twitter? Was there an application exception? Post it to your chat room. Whenever you find yourself having to go check if an event occured, move that into your chat room.</p><p>Lastly make it <strong>productive</strong>. Identify simple tasks that you can automate. Get your chat robot to start and stop CI builds, create trello tickets and draw yourself a graph of the server load over the last 24 hours. Start using the Api's of the tools that you rely on. Once you have automated these simple tasks, go on and start automating the difficult ones. Have your chat bot do a production deploy or setup everything that you need when a new employee joins your team.</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1424792383/build_ov1kau.png" alt="Hubot build team city build""/></p>
+<hr/><p>ChatOps has the potential to provide a ton of value. Better communication, engaged team members, more speed, reliability and overall fun. However do not expect buy-in from everyone from the get go. The success of your ChatOps endeavour hinges on the culture that you create. Spend your time here. It took my team about a year to build culture and we are only now starting to make it the chatroom productive. Realise the potential of Api's. Anything that exposes an api can potentially be used by your chat robot. Anything with a web hook can push info to you. I will dare say that anything will become possible.</p><p>Good luck and happy chats.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
 https://sneakypeet.github.io/sneakycode.net/getting-started-with-chat-ops/
@@ -760,7 +837,7 @@ https://sneakypeet.github.io/sneakycode.net/getting-started-with-chat-ops/
 Tue, 24 Feb 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -768,15 +845,15 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <![CDATA[Make Those Value Objects Work For You]]>
 </title>
 <description>
-<![CDATA[<p>We can have value objects be more than just information carriers. We can have them do some work for us.</p><p><strong>A Scenario</strong></p><p>Given a contract and some time sheet data for an employee we need to calculate invoice lines for billing a client. </p><p>We can use an object called an InvoiceLineCalculator to calculate the resulting invoice lines. Even though an object like this feels different from the <a href="http://sneakycode.net/value-objects/">ValueObjects we talked about previously</a>, I am going to argue that it can in fact be a ValueObject if we follow these rules:</p>
+<![CDATA[<p>We can have value objects be more than just information carriers. We can have them do some work for us.</p><p><strong>A Scenario</strong></p><p>Given a contract and some time sheet data for an employee we need to calculate invoice lines for billing a client.</p><p>We can use an object called an InvoiceLineCalculator to calculate the resulting invoice lines. Even though an object like this feels different from the <a href="http://sneakycode.net/value-objects/">ValueObjects we talked about previously</a>, I am going to argue that it can in fact be a ValueObject if we follow these rules:</p>
 <ul>
   <li>It can be identified by the value of its outputs</li>
   <li>It is immutable</li>
-</ul><p>The calculated invoice lines should always be the same given the same calculator input data, thus satisfying the first rule. </p><p>We satisfy immutability by enforcing two things: </p>
+</ul><p>The calculated invoice lines should always be the same given the same calculator input data, thus satisfying the first rule.</p><p>We satisfy immutability by enforcing two things:</p>
 <ul>
   <li>After calculation we should not be able to change the output values of the calculator. We achieve this by using private setters and concepts like IReadonlyList<T>.</li>
   <li>We should also not keep references to input data. Even though we might pass complex objects to the calculator via its constructor, we should not keep references to these objects. Firstly we might not want to keep these objects around as long as our calculator. Secondly if we keep references around we run the risk of depending on these references in our output, thus if another object changes values on our reference object, it might cause changes to our ValueObject output, breaking immutability.</li>
-</ul><p><strong>But can't we just use a Domain Service?</strong></p><p>Short answer, yes! Long answer, it depends. For the simple example above it might make sense to just have a domain service with a calculate method that returns the invoice lines. But let's say there are multiple contract types, each with its own invoicing rules. Furthermore we might expect to be provided with other data regarding the calculation. This would mean our service has to know the calculations for all the different contract types. The service will soon become cluttered with details of each calculation. </p><p>Below is an example of an InvoiceLineCalculator as a ValueObject.</p>
+</ul><p><strong>But can't we just use a Domain Service?</strong></p><p>Short answer, yes! Long answer, it depends. For the simple example above it might make sense to just have a domain service with a calculate method that returns the invoice lines. But let's say there are multiple contract types, each with its own invoicing rules. Furthermore we might expect to be provided with other data regarding the calculation. This would mean our service has to know the calculations for all the different contract types. The service will soon become cluttered with details of each calculation.</p><p>Below is an example of an InvoiceLineCalculator as a ValueObject.</p>
 <pre><code class="csharp">public class WeeklyRetainerLineCalculator : IInvoiceLineCalculator
 {
     public bool ShouldInvoice { get; private set; }
@@ -807,7 +884,7 @@ https://sneakypeet.github.io/sneakycode.net/make-those-value-objects-work-for-yo
 <![CDATA[ddd]]>
 </category>
 <category>
-<![CDATA[calue objects]]>
+<![CDATA[value objects]]>
 </category>
 <category>
 <![CDATA[immutability]]>
@@ -816,7 +893,7 @@ https://sneakypeet.github.io/sneakycode.net/make-those-value-objects-work-for-yo
 Wed, 18 Feb 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -824,7 +901,7 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <![CDATA[Value Objects]]>
 </title>
 <description>
-<![CDATA[<p>Continuing on the domain object theme from <a href="http://sneakycode.net/entity-is-for-identity/">my previous post</a>, we will be discussing Value Objects.</p><p>To recap, Domain Entities want to persist their value over time and can be uniquely identified by a single identification property.</p><p>Next we will discuss Value Objects. </p><p>So what is it?</p><p><strong>A Value Object is uniquely identified by the values of its properties.</strong> </p><p>Multiple instances of a value object with the same properties, represent the same object in a particular context.</p><p>A simple example can be a point on an x-y axis.</p>
+<![CDATA[<p>Continuing on the domain object theme from <a href="http://sneakycode.net/entity-is-for-identity/">my previous post</a>, we will be discussing Value Objects.</p><p>To recap, Domain Entities want to persist their value over time and can be uniquely identified by a single identification property.</p><p>Next we will discuss Value Objects.</p><p>So what is it?</p><p><strong>A Value Object is uniquely identified by the values of its properties.</strong></p><p>Multiple instances of a value object with the same properties, represent the same object in a particular context.</p><p>A simple example can be a point on an x-y axis.</p>
 <pre><code class="csharp">public class Point
 {
 	public Point(int x, int y){
@@ -840,29 +917,31 @@ var b = new Point(2,5);
 </code></pre><p>It is clear that <code>point a</code> and <code>point b</code> in our example are the same point because <code>a.X == b.X</code> and <code>a.Y == b.Y</code>. They represent the exact same value on our graph.</p><p>Thus identify our object by its value.</p><p><strong>Value objects are immutable.</strong></p><p>If we need to change the state of a value object, it means that the core of what the value object represents gets changed. This leaves us with the following guidelines.</p>
 <ul>
   <li>A value object will not have methods that changes it's internal state. This is why our setters on <code>Point</code> are private.</li>
-  <li>If you need to do a calculation against a value and require a value of the same type back, you return a new instance. This means that the initial value will always keep its integrity. Another example of this in .net is <code>DateTime</code>. The <code>AddDays</code> method on DateTime returns a new DateTime instance. <code>csharp
-public Point MoveX(int delta)
+  <li>If you need to do a calculation against a value and require a value of the same type back, you return a new instance. This means that the initial value will always keep its integrity. Another example of this in .net is <code>DateTime</code>. The <code>AddDays</code> method on DateTime returns a new DateTime instance.</li>
+</ul>
+<pre><code class="csharp">public Point MoveX(int delta)
 {
-return new Point(this.X + delta, this.Y);
+    return new Point(this.X + delta, this.Y);
 }
-</code></li>
-  <li><p>When you are replacing a value object property on another object, you replace it instead of altering the existing object. <code>csharp
-public Class Graph 
+</code></pre>
+<ul>
+  <li>When you are replacing a value object property on another object, you replace it instead of altering the existing object.</li>
+</ul>
+<pre><code class="csharp">public Class Graph
 {
-private Point startingPoint;
-public void SetStartingPoint(Point startingPoint)
-{
-	this.startingPoint = startingPoint;
+	private Point startingPoint;
+	public void SetStartingPoint(Point startingPoint)
+	{
+		this.startingPoint = startingPoint;
+	}
 }
-}
-</code></p></li>
-</ul><p><strong>A Real World Example</strong></p><p>Now that we have the basics down, lets look at a more realistic real world example. Suppose we have a <code>Member</code> entity with an <code>Address</code> property (with <code>Address</code> being a value object).</p><p>The biggest difference between our <code>Point</code> and <code>Address</code> examples are that we would want to store our address for retrieval later. If you read my previous post you are probably wondering if <code>Address</code> should not instead be an Entity. That depends 100% on your domain.</p><p>Lets assume we are storing our Member data in a SQL database, in the member table. We might store our address in one of the following ways.</p>
+</code></pre><p><strong>A Real World Example</strong></p><p>Now that we have the basics down, lets look at a more realistic real world example. Suppose we have a <code>Member</code> entity with an <code>Address</code> property (with <code>Address</code> being a value object).</p><p>The biggest difference between our <code>Point</code> and <code>Address</code> examples are that we would want to store our address for retrieval later. If you read my previous post you are probably wondering if <code>Address</code> should not instead be an Entity. That depends 100% on your domain.</p><p>Lets assume we are storing our Member data in a SQL database, in the member table. We might store our address in one of the following ways.</p>
 <ol>
   <li>Directly in the member table with a column for each property.</li>
   <li>In a separate address table as a one to one mapping. Thus each member still has one address.</li>
   <li>In a separate address table as a one to many mapping, assuming that the member can have more than one address.</li>
 </ol><p>Our member entity knows nothing about how data gets stored. It will only know that it either has one or many addresses to keep track of.</p><p>For options 1 and 2 we use a value object. Even though for option 2 we have a separate table, we still use a value object as our domain does not care about tables. The member carries the identity so the address does not have to. We can easily write a method to change the member's address.</p>
-<pre><code class="csharp">public Class Member 
+<pre><code class="csharp">public Class Member
 {
 	public Address Address { get; private set; }
 	public void ChangeAddress(Address address)
@@ -875,7 +954,8 @@ public void SetStartingPoint(Point startingPoint)
   <li>Inherit from <code>IValueObject</code>. Even though I just said that this makes no sense, it does make sense. We are calling our object what it is.</li>
   <li>You can write a comment. This serves the same function as <code>IValueObject</code>, although if you are writing the comment you might as well just add the inheritance.</li>
   <li>You can leave your object as is, and have the user of the object infer that it is a value object by noting it's immutability and usage.</li>
-</ul><p>What you choose should be determined by the experience of your team.</p><p>___ We are by no means done with value objects and in my next post I will be talking about more complex value objects.</p><p>Please post suggestions and critique in the comments. Discussion is how we solve problems well. Till next time.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</ul><p>What you choose should be determined by the experience of your team.</p>
+<hr/><p>We are by no means done with value objects and in my next post I will be talking about more complex value objects.</p><p>Please post suggestions and critique in the comments. Discussion is how we solve problems well. Till next time.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
 https://sneakypeet.github.io/sneakycode.net/value-objects/
@@ -899,7 +979,7 @@ https://sneakypeet.github.io/sneakycode.net/value-objects/
 Wed, 11 Feb 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -907,24 +987,25 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <![CDATA[Code Comments are Lies]]>
 </title>
 <description>
-<![CDATA[<p><strong>Update</strong></p><p>This post generated some interesting comments on the <a href="http://www.codeproject.com/script/Articles/ArticleVersion.aspx?waid=158130&aid=872073">code project site</a>. Here are some things to note before you continue.</p>
+<![CDATA[<h3>Post Update</h3><p>This post generated some interesting comments on the <a href="http://www.codeproject.com/script/Articles/ArticleVersion.aspx?waid=158130&aid=872073">code project site</a>. Here are some things to note before you continue.</p>
 <ul>
   <li>This post is aimed at higher level languages like C# and Java. Please comment your FORTRAN etc.</li>
   <li>The best code that you can write is code that is maintainable as this is the true cost of software. If this requires you to add a comment please do that. I also do that.</li>
   <li>A comment as an excuse for writing bad code, is unacceptable.</li>
-</ul><p>Please read the comments on code project. There are some valuable usecases there. ___ I'm going to make a bold statement. </p>
+</ul><p>Please read the comments on code project. There are some valuable usecases there.</p>
+<hr/><p><strong>I'm going to make a bold statement.</strong></p>
 <blockquote><p>YOUR COMMENTS ARE BAD AND YOU SHOULD FEEL BAD</p>
 </blockquote>
 <div style="text-align: center;"><img src="http://res.cloudinary.com/dltpyggxx/image/upload/c_scale,w_172/v1422551564/BadAss_t0fi7y.png" alt="We got a Bad Ass here" style="max-width: 200px; margin-bottom:1em"/></div><p><em>"Oh no he didn't"</em>. <em>"My comments are informative and well written."</em> <em>"How else would people understand this awesome piece of efficient code?"</em></p><p>Although there are use cases for comments, I am going to tell you that comments are like little poops that you leave all over your code for you fellow devs to step in.</p><p><strong>Let's look at some truths about comments</strong></p>
 <ul>
-  <li><p>They can state the obvious, thus being redundant. <pre><code class="csharp">//The Persons First Name public string FirstName { get; set;}</code></pre></p></li>
+  <li><p>They can state the obvious, thus being redundant. <pre> <code class="csharp">// The Persons First Name</code> <code class="csharp">public string FirstName { get; set;}</code> </pre></p></li>
   <li><p>Having comments scattered throughout your code, explaining functionality in detail, makes it hard to read code fluently. This means that extra effort and concentration is needed to read between the comment lines. The intent does not jump out at you.</p></li>
 </ul>
 <blockquote><p><strong>Comments Become Lies</strong></p>
 </blockquote>
 <ul>
   <li><p>Comments rarely get updated when the code changes. This means that overtime the functionality documented by the comments, drifts away from what is actually happening. This causes confusion and again makes the comments worthless.</p></li>
-  <li><p>ToDo Comments. They usually don't get done. </p></li>
+  <li><p>ToDo Comments. They usually don't get done.</p></li>
   <li><p>Comments get copied with code, and as the code changes again the comments don't. First of all you should think twice when you need to copy code, and if you have a great reason you have to make real sure to update (or even just remove) the comments made.</p></li>
   <li><p>Finally, like Uncle Bob says in his book <a href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Clean Code</a>, if you need to write a comment you have failed to express the intent of the code. You want your code to read well, to be self-documenting so that you do not need to document it.</p></li>
 </ul><p>I have written all these types of comments.</p>
@@ -954,7 +1035,7 @@ https://sneakypeet.github.io/sneakycode.net/code-comments-are-lies/
 Mon, 02 Feb 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -962,7 +1043,8 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <![CDATA[Domain Driven Design App Structure part 2]]>
 </title>
 <description>
-<![CDATA[<p>In my <a href="http://sneakycode.net/domain-driven-design-app-structure/">previous post</a>, I gave an overview of what an implementation of a Domain Driven Design Application might look like.</p><p>I will be running a C# project in parallel with my Practical Domain Driven Design Articles. The plan is to eventually provide a full project template that can be used either as a DDD reference project or as a starting point for a new application. You can find the <strong>SimpleDDD</strong> project on <a href="https://github.com/SneakyPeet/SimpleDDD/blob/master/README.md">GitHub</a>. ___ <strong>Kicking off SimpleDDD</strong></p><p>If you have not read my <strong><a href="http://sneakycode.net/domain-driven-design-app-structure/">previous post</a></strong> go do that first as this will give you some context.</p><p>Opening the project you will find an application folder with 4 projects inside. I have named these projects a bit different than in my previous post. Exact names for these layers are not important, they should just be named clearly.</p><p><strong>SimpleDDD.Domain</strong></p>
+<![CDATA[<p>In my <a href="http://sneakycode.net/domain-driven-design-app-structure/">previous post</a>, I gave an overview of what an implementation of a Domain Driven Design Application might look like.</p><p>I will be running a C# project in parallel with my Practical Domain Driven Design Articles. The plan is to eventually provide a full project template that can be used either as a DDD reference project or as a starting point for a new application. You can find the <strong>SimpleDDD</strong> project on <a href="https://github.com/SneakyPeet/SimpleDDD/blob/master/README.md">GitHub</a>.</p>
+<hr/><p><strong>Kicking off SimpleDDD</strong></p><p>If you have not read my <strong><a href="http://sneakycode.net/domain-driven-design-app-structure/">previous post</a></strong> go do that first as this will give you some context.</p><p>Opening the project you will find an application folder with 4 projects inside. I have named these projects a bit different than in my previous post. Exact names for these layers are not important, they should just be named clearly.</p><p><strong>SimpleDDD.Domain</strong></p>
 <ul>
   <li>This is our Domain/Model layer</li>
   <li>It can also be called Core if you like</li>
@@ -1006,7 +1088,7 @@ https://sneakypeet.github.io/sneakycode.net/domain-driven-design-app-structure-p
 Tue, 27 Jan 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -1014,14 +1096,15 @@ https://sneakypeet.github.io/sneakycode.net/rss
 <![CDATA[Domain Driven Design App Structure]]>
 </title>
 <description>
-<![CDATA[<p>At the center of our DDD universe lies the <strong>Domain</strong>. It is the beating heart of our application. The life of our application flows out of the domain like blood through the body. <strong>DRAMA!</strong> What I am trying to get at is that the domain is really important. I mean it is right there in the name: <em>Domain</em> Driven Design. It is the place where we model our real life problem. We share this domain with the experts in the field. We use the same concepts and language that they use and we continuously engage with these experts so our model can evolve and grow as our project grows. </p><p><strong>Important things to remember about the Domain</strong> </p>
+<![CDATA[<p>At the center of our DDD universe lies the <strong>Domain</strong>. It is the beating heart of our application. The life of our application flows out of the domain like blood through the body. <strong>DRAMA!</strong> What I am trying to get at is that the domain is really important. I mean it is right there in the name: <em>Domain</em> Driven Design. It is the place where we model our real life problem. We share this domain with the experts in the field. We use the same concepts and language that they use and we continuously engage with these experts so our model can evolve and grow as our project grows.</p><p><strong>Important things to remember about the Domain</strong></p>
 <ul>
   <li>The Domain knows only about itself. It does not depend on the other parts of the application. It is the center of the metaphorical onion.</li>
   <li>It is where our rules live.</li>
   <li>We are not afraid to refactor the domain model, and change it to fit the real life domain more closely.</li>
   <li>The domain provides interfaces to define persistence and integration, but it does not implement these interfaces. It knows <strong>nothing</strong> about how it is persisted, displayed or who uses it.</li>
   <li>Test coverage for the domain should be very high if not 100%. It lends itself well to TDD and because of its isolation, change is easy.</li>
-</ul><p>But the domain does not stand alone. </p><p><strong>Persistence</strong></p><p>Oh look, a database! As stated previously the domain will provide the persistence interface, but the persistence layer will be responsible for the implementation. The domain does not care if its data is stored in MySQL, MongoDB, Text Files or just sent into the ether. The repository pattern lends itself well to DDD and to change how we persist should theoretically be as easy as replacing a DLL. Not so trivial in practice though, but we will get to that.</p><p><strong>Integration</strong></p><p>This is where the application talks to the outside world. We call web services and send emails from the integration layer.</p><p><strong>Application</strong></p><p>The application layer is like a giant blanket covering the domain, persistence and integration layers. It is where our use cases live. It orchestrates the interactions between persistence, integration, users and the domain. Anyone who wants to use the application will do so through the application layer. They will know nothing about the domain, persistence or integration. How does this look in the real world? Say I have an MVC Web App. Our Application will take the role of the Model. </p><p>To visualise what I am trying to say I made a little gif (or <em>jif</em> for the hipsters)</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1422105983/output_FuKgD4_es43ww.gif" alt="Overview of a Domain Driven Design Application""/></p><p>So there you have it. My work here is done... </p><p>No no no not really! We still need to talk about how to practically do all of the above. But for now I am tired of typing :) See you soon!</p><p>___ Part two of this post can be found <a href="http://sneakycode.net/domain-driven-design-app-structure-part-2/">here</a>.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</ul><p>But the domain does not stand alone.</p><p><strong>Persistence</strong></p><p>Oh look, a database! As stated previously the domain will provide the persistence interface, but the persistence layer will be responsible for the implementation. The domain does not care if its data is stored in MySQL, MongoDB, Text Files or just sent into the ether. The repository pattern lends itself well to DDD and to change how we persist should theoretically be as easy as replacing a DLL. Not so trivial in practice though, but we will get to that.</p><p><strong>Integration</strong></p><p>This is where the application talks to the outside world. We call web services and send emails from the integration layer.</p><p><strong>Application</strong></p><p>The application layer is like a giant blanket covering the domain, persistence and integration layers. It is where our use cases live. It orchestrates the interactions between persistence, integration, users and the domain. Anyone who wants to use the application will do so through the application layer. They will know nothing about the domain, persistence or integration. How does this look in the real world? Say I have an MVC Web App. Our Application will take the role of the Model.</p><p>To visualise what I am trying to say I made a little gif (or <em>jif</em> for the hipsters)</p><p><img src="http://res.cloudinary.com/dltpyggxx/image/upload/v1422105983/output_FuKgD4_es43ww.gif" alt="Overview of a Domain Driven Design Application""/></p><p>So there you have it. My work here is done...</p><p>No no no not really! We still need to talk about how to practically do all of the above. But for now I am tired of typing :) See you soon!</p>
+<hr/><p>Part two of this post can be found <a href="http://sneakycode.net/domain-driven-design-app-structure-part-2/">here</a>.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
 </description>
 <link>
 https://sneakypeet.github.io/sneakycode.net/domain-driven-design-app-structure/
@@ -1042,7 +1125,7 @@ https://sneakypeet.github.io/sneakycode.net/domain-driven-design-app-structure/
 Sat, 24 Jan 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -1062,7 +1145,7 @@ https://sneakypeet.github.io/sneakycode.net/go-for-launch/
 Fri, 23 Jan 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -1096,7 +1179,214 @@ https://sneakypeet.github.io/sneakycode.net/intro-to-practical-domain-driven-des
 Mon, 19 Jan 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
+</source>
+</item>
+<item>
+<title>
+<![CDATA[SignalR Hello World (That is not a chat app)]]>
+</title>
+<description>
+<![CDATA[<p>I have been wanting to try out SignalR for a while now and finally came up with an idea that is simple enough to start with (that is not a chat application).</p><p>I am not going to go into the details of how SignalR works, just show you the code to get started. If you have never heard about SignalR, read the first two paragraphs <a href="http://signalr.net/">here</a>.</p><p>Our app will do the following</p>
+<ul>
+  <li>The User navigates to a page on their desktop. We will display a QR code on the page</li>
+  <li>The User will scan the QR code with their smart phone and get redirected to a page on their mobile browser</li>
+  <li>The User will then see live orientation data of their phone on their desktop</li>
+</ul><p>To keep the post short I am only going to show you the code relevant to SignalR. You can checkout the <a href="http://sneakysignal.azurewebsites.net/">demo</a> and the <a href="https://github.com/SneakyPeet/SneakySignal">source code</a> for the full details.</p><p><strong>Let's Get Started</strong></p><p>Open up Visual Studio and create a new <em>ASP.NET MVC 5</em> application.</p><p>Grab the following library via nuget</p>
+<ul>
+  <li>Microsoft ASP.NET Web SignalR</li>
+</ul><p><strong>On The Server</strong></p><p>The first thing we need to do is hook-up SignalR to our app start-up. We do this by creating a file and adding the following code. When the app starts up the Configuration function will automatically get called. **Note: SneakySignal is the name of the project and has nothing to do with SignalR.*</p>
+<pre><code class="csharp">using Microsoft.Owin;
+using Owin;
+[assembly: OwinStartup(typeof(SneakySignal.Startup))]
+namespace SneakySignal
+{
+    public class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            app.MapSignalR();
+        }
+    }
+}</code></pre><p>Next we need to add the code that will handle the communication between server and client. For now all you need to know is that SignalR uses the concept of hubs. You can read more about it <a href="http://www.asp.net/signalr/overview/guide-to-the-api">here</a>.</p><p>Create the MotionHub.cs class that inherits from Hub.</p>
+<pre><code class="csharp">using Microsoft.AspNet.SignalR;
+namespace SneakySignal
+{
+    public class MotionHub : Hub
+    {
+        //Desktop and phone uses this to get their connection id
+        public string GetConnectionId()
+        {
+            return Context.ConnectionId;
+        }
+
+        //Called by the phone
+        //Tells the desktop that the phone wants to connect
+        public void ClientConnected(string connectionId)
+        {
+            var clientId = Context.ConnectionId;
+            Clients.Client(connectionId).clientConnected(clientId);
+        }
+
+        //Called by the desktop
+        //Tells the phone that it is connected and can start sending data
+        public void StartExecution(string connectionId)
+        {
+            Clients.Client(connectionId).startExecution();
+        }
+
+        //Called by the phone
+        //Tells the desktop that the orientation has changed
+        public void OrientationChanged(string connectionId, OrientationData orientationData)
+        {
+            Clients.Client(connectionId).orientationChanged(orientationData);
+        }
+    }
+
+    public class OrientationData
+	{
+    	public decimal Alpha { get; set; }
+    	public decimal Beta { get; set; }
+    	public decimal Gamma { get; set; }
+	}
+}</code></pre><p>As you can see we only have to write the business logic specific to our app as SignalR handles all the connection management.</p><p>Last but not least add the following lines in your <code>_layout.cshtml</code> file.</p>
+<pre><code class="bash">/Scripts/jquery.signalR-2.1.2.min.js
+/signalr/js</code></pre><p><code>/signalr/js</code> is a convention used by SignalR. On build our MobileHub will generate some javascript that will be found on this route.</p><p>Now for the client side implementations.</p><p><strong>Desktop Client</strong> <pre>  <code class="js">var hub = $.connection.motionHub;</code>  <code class="js">// register mobile and tell it to start executing</code>  <code class="js">hub.client.ClientConnected = function (clientId) {  hub.server.startExecution(clientConnectionId);  };</code>  <code class="js">// update orientation</code>  <code class="js">hub.client.orientationChanged = function (orientation) {};</code>  <code class="js">// connect to server</code>  <code class="js">$.connection.hub.start().done(function () {  hub.server.getConnectionId().done(  function (desktopConnectionId) {  /* show QR code with url containing desktop connection id */  });  })</code> </pre></p><p>The first thing you will see is that we get our specific hub from <code>$.connection.motionHub</code>. We then subscribe to the clientConnected and orientationChanged methods that we specified in our <code>MotionHub.cs</code> file.</p><p>The last thing is to connect to the server using $<code>.connection.hub.start()</code>. When we are connected to the server we ask it to provide us with our connection id.</p><p><strong>Mobile Client</strong> <pre> <code class="js">var hub = $.connection.motionHub;</code> <code class="js">hub.client.StartExecution = function () {  window.addEventListener("deviceorientation", function(orientation){  hub.server.orientationChanged(desktopConnectionId, orientation);  }); };</code> <code class="js">// connect to server</code> <code class="js">$.connection.hub.start().done(function () {  hub.server.clientConnected(desktopConnectionId).done(); });</code> </pre></p><p>The javascript on the mobile side is very similar. First we subscribe to <code>startExecution</code>. In this method we add an event listener that listens for the <code>deviceorientation</code> event. On an event we call <code>orientationChanged</code> on the server with the new orientation.</p><p>All that is left is to connect to the server and tell the relevant desktop that we want to connect to it.</p><p><strong>note:</strong> I left out a lot of logic like event throttling etc. to keep it concise.*</p><p>To summarize what is actually happening have a look at the image below.</p><p><img src="https://farm8.staticflickr.com/7545/16034625040_89802f3c7c_o.png" alt="SignalR hello world program flow""/></p><p><strong>And thats it</strong></p><p>I was impressed by how simple it is to get something awesome done so easily. Obviously there is a lot more to SignalR and what you can do with it, but for a hello world this really turned out great. Jump over to the <a href="http://sneakysignal.azurewebsites.net/">demo</a> and have a look. ___ <em>This post was first published on <a href="http://blog.entelect.co.za/home">blog.entelect.co.za</a></em></p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/signalr-hello-world/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/signalr-hello-world/
+</guid>
+<category>
+<![CDATA[csharp]]>
+</category>
+<category>
+<![CDATA[signalR]]>
+</category>
+<category>
+<![CDATA[javascript]]>
+</category>
+<category>
+<![CDATA[js]]>
+</category>
+<category>
+<![CDATA[asp.net]]>
+</category>
+<pubDate>
+Wed, 07 Jan 2015 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss.rss
+</source>
+</item>
+<item>
+<title>
+<![CDATA[Git Good]]>
+</title>
+<description>
+<![CDATA[<p>Git has clearly won the source control wars. Its lightweight branching and easy merging make for a frictionless experience. But there are things that you as developer can do with git and with your code to make it even better.</p><p><strong>Small Files</strong></p><p>Having files and functions that contain as few lines of code as possible is more a Clean Code principle than a <em>Be Good At Source Control</em> principle, however it effects your source control directly. The Single Responsibility Principle will help you enforce just that. But how can this possibly effect source control?</p>
+<ul>
+  <li>Small Files. It's easier to solve a merge conflict in a small file than in a 800 line monster.</li>
+  <li>Small Functions. If you have smaller functions, the chances of having conflicts lessen and if you have conflicts the intent of the code should be clear and you will be able to easily solve the conflict.</li>
+  <li>One Thing. If your classes does one thing and one thing only and only that one thing, you will find that you don't often have many hands in that code at the same time.</li>
+</ul><p><strong>Small Frequent Well Named Commits</strong></p><p>Commit small units of functionality and name these commits well. This will help you easily see what changes you made when you worked on a specific piece of code. This will also help you find bugs that where introduced in a series of commits. You won't find yourself in the situation where you need to revert a bunch of code, and in the process lose code that you have already completed.</p><p>If you find that a piece of code that you are working on is just to big too fit into a small commit, or you are not comfortable with a small commit, then make a branch.</p><p><strong>Make Branches</strong></p><p>Not making branches is a taboo that should die away with the likes of sourcesafe and svn. In git branching is easy and cheap and local. You are encouraged to make many branches for the following reasons</p>
+<ul>
+  <li>You don't dirty your working code with un-tested code.</li>
+  <li>Have something you want to try? Make a branch. If it does not work just delete it and forget about it without any impact to existing code.</li>
+  <li>Working on a big feature and suddenly have to change an unrelated thing? Both of those had to be their own branches so you could handle them separately.</li>
+</ul><p><strong>Squash Commits</strong></p><p>Sometimes I make a branch to try something new or to update libraries or something. These branches usually contain many breaking commits that I do not want to litter the history with. I deal with this problem using the <code>--squash</code> command when merging my branch.</p>
+<pre><code class="bash">git merge someBranch --squash</code></pre><p>This will merge the branch but not commit the changes. I then commit the changes with a commit message of choice and delete the branch. Thus the changes appears in my history as a single change. I know this might seem in conflict with Small Frequent Well Named Commits, but there are cases where this is fine (like adding a bunch of new code that is separated from existing code).</p><p>There will always be some cases where the above "rules" are not applicable or not possible to enforce, but I find that they are a good guideline for myself.</p><p>Please feel free to add to the list in the comments</p>
+<hr/><p><em>This post was first published on <a href="http://blog.entelect.co.za/home">blog.entelect.co.za</a></em></p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/git-good/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/git-good/
+</guid>
+<category>
+<![CDATA[git]]>
+</category>
+<category>
+<![CDATA[source control]]>
+</category>
+<category>
+<![CDATA[clean code]]>
+</category>
+<pubDate>
+Wed, 07 Jan 2015 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss.rss
+</source>
+</item>
+<item>
+<title>
+<![CDATA[Git Goodies That You Might Not Know About: git bisect]]>
+</title>
+<description>
+<![CDATA[<p>I recently found myself with an obscure bug that was introduced into the codebase somewhere in the last 50 commits. To make matters worse the bug was not apparent and was not easily seen when looking at the code. All I knew was when last that feature worked. I ended going through each commit until I found the breaking commit. If only I knew about git bisect.</p><p>Git bisect is a debugging tool built into git. It helps you perform a binary search through your commit history for a broken commit. It is great because it does all the heavy lifting for you as you only need to tell it if a commit is good or bad. Git will then select a commit in between the current commit and either the good/bad commit and check that out for you. You then test that commit and repeat the process until git finds you the bad commit.</p><p>Example time. Let’s say you know your feature worked in v1.0, but now it is broken.</p><p>To the command line! <pre><code class="bash">$ git bisect start $ git bisect bad</code></pre></p><p>This tells git to start the bisect process and that the commit you are on is a bad one. Next we need to tell git what the good commit was.</p>
+<pre><code class="bash">$ git bisect good v1.0</code></pre><p>Git will then automatically checkout a commit somewhere in the middle and give you the amount of revisions to test after the current one. You can then just test the feature. Let’s pretend the feature is still broken. You tell git that this commit is bad.</p>
+<pre><code class="bash">$ git bisect bad</code></pre><p>Git now checks out a commit between this bad boy and v1.0. We pretend the new commit is good so we run</p>
+<pre><code class="bash">$ git bisect good</code></pre><p>And so on and so forth. Git will continue the process until there is only the bad commit left. At this point git will provide you with a message like</p>
+<pre><code class="bash">40173afa01f57833efec7bcaab82b83b184cd5c8 is the first bad commit
+commit 40173afa01f57833efec7bcaab82b83b184cd5c8
+Author: Jane Doe <jane@somewhere.co.za>
+Date:   Tue Sep 9 17:22:31 2014 +0200</code></pre><p>You can now just check the changes and start giving fines and blames to the culprit.</p><p>To finish the process and return to where you started just run</p>
+<pre><code class="bash">$ git bisect reset</code></pre><p>Important. It makes a lot of sense to do smaller commits more frequently. It is a lot easier to find a breaking change in 2 or 3 files than it is in a 100. Make branches commit often.</p><p>More info on git bisect <a href="http://git-scm.com/docs/git-bisect">here</a></p>
+<hr/><p><em>This post was first published on <a href="http://blog.entelect.co.za/home">blog.entelect.co.za</a></em></p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/git-bisect/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/git-bisect/
+</guid>
+<category>
+<![CDATA[git]]>
+</category>
+<category>
+<![CDATA[source control]]>
+</category>
+<pubDate>
+Sun, 04 Jan 2015 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss.rss
+</source>
+</item>
+<item>
+<title>
+<![CDATA[Git Goodies That You Might Not Know About: git stash]]>
+</title>
+<description>
+<![CDATA[<p>We sometimes find ourselves with code that does not belong in a commit. This might be because we are on a wrong branch, just trying new things or need to quickly do something else and are not prepared to commit the code yet. Bottom line is we sit with code that we want to persist somehow but that we do not want in our source control history. Enter git stash.</p><p>Git stash will save your local modifications away and revert your working directory to match the HEAD commit. You can then at a later stage re-apply these modifications wherever you want.</p><p>To stash your changes you first need to add them so git can track them and then you simply run git stash to stash them. <pre><code class="bash">$ git add $ git stash</code></pre></p><p>Your changes have now been pigeon holed and the branch reverted.</p><p>There are two ways to re-apply your stashed code.</p>
+<pre><code class="bash">$ git stash pop</code></pre><p>Pop treats all your stashed changes as a first-in last-out queue. Thus running the pop command will apply your last stash and remove it from your stashed items.</p>
+<pre><code class="bash">$ git stash apply {stash-id}</code></pre><p>Apply will apply a specific stash without removing it from your stash list.</p><p>You can view all stashed items using</p>
+<pre><code class="bash">$ git stash list</code></pre><p>You can remove all stashed items or a specific stash using clear and drop respectively.</p>
+<pre><code class="bash">$ git stash clear
+$ git stash drop {stash-id}</code></pre><p>Simple, effective and awesome. GIT ALL THE THINGS.</p><p>Read more here</p><p>Also see <a href="/git-bisect/">git bisect</a></p>
+<hr/><p><em>This post was first published on <a href="http://blog.entelect.co.za/home">blog.entelect.co.za</a></em></p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p>]]>
+</description>
+<link>
+https://sneakypeet.github.io/sneakycode.net/git-stash/
+</link>
+<guid>
+https://sneakypeet.github.io/sneakycode.net/git-stash/
+</guid>
+<category>
+<![CDATA[git]]>
+</category>
+<category>
+<![CDATA[source control]]>
+</category>
+<pubDate>
+Sun, 04 Jan 2015 00:00:00 +0200
+</pubDate>
+<source>
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 <item>
@@ -1137,7 +1427,7 @@ https://sneakypeet.github.io/sneakycode.net/2015/
 Sun, 04 Jan 2015 00:00:00 +0200
 </pubDate>
 <source>
-https://sneakypeet.github.io/sneakycode.net/rss
+https://sneakypeet.github.io/sneakycode.net/rss.rss
 </source>
 </item>
 </channel>
