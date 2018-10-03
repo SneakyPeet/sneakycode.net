@@ -223,17 +223,13 @@
                  (sort-by :date)
                  reverse
                  (map (fn [{:keys[date title slug]}]
-                        (->>
-                         posts
-                         (map
-                          (fn [{:keys [title slug]}]
-                            [:div.timeline-item
-                             [:div.timeline-marker.is-icon
-                              [:i.fa.fa-link]]
-                             [:div.timeline-content
-                              [:a {:href (sneakycode.config/url slug)} date " " title]]])))
+                        [:div.timeline-item
+                         [:div.timeline-marker.is-icon
+                          [:i.fa.fa-link]]
+                         [:div.timeline-content
+                          [:a {:href (sneakycode.config/url slug)} date " " title]]]
+
                         ))
-                 (reduce into)
                  (into [:div.timeline
                         [:header.timeline-header
                          [:span.tag.is-primary tag]]]))]
