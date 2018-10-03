@@ -31,7 +31,7 @@
   [{:aria "home" :link (conf/url) :icon "bath"}
    {:aria "history" :link (conf/url "/all-posts") :icon "history"}
    {:aria "tags" :link (conf/url "/tags") :icon "tags"}
-   {:aria "rss" :link (conf/url "/rss") :icon "rss"}
+   {:aria "rss" :link (conf/url "/rss.rss") :icon "rss"}
    {:aria "github" :link "https://github.com/sneakypeet" :icon "github" :away? true}
    {:aria "twitter ":link "https://twitter.com/PieterKoornhof" :icon "twitter" :away? true}])
 

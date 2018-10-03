@@ -168,7 +168,7 @@
                                      :guid url
                                      :pubDate (.parse (conf/getv :date-format) date)
                                      :category (map cdata tags)
-                                     :source (conf/url "/rss"))
+                                     :source (conf/url "/rss.rss"))
                               (select-keys [:title :description :link :guid :category
                                             :pubDate :source]))))))
                 feed
