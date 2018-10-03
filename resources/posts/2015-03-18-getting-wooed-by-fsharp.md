@@ -98,8 +98,8 @@ Pretty straight forward stuff. I showed this to my wife that knows nothing about
 Then I showed her this.
 
 ```csharp
-module CardGame = 
-    
+module CardGame =
+
     type Suit = Club | Diamond | Spade | Heart
 
     type Rank = Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King | Ace
@@ -115,13 +115,13 @@ module CardGame =
     type Game = {Deck:Deck; Players: Player list}
 
     type Deal = Deck -> (Deck*Card)
-    
+
     type PickupCard = (Hand*Card) -> Hand
 ```
 
-The above is not pseudo code. It valid f# that compiles. First note the total number of lines. 80 vs 19 like what! I showed this to my wife and even though I still had to explain some of it, she got the gist just by looking at it. This means that a domain expert should fairly easily be able to confirm a domain model correctness, without understanding f#. 
+The above is not pseudo code. It valid f# that compiles. First note the total number of lines. 80 vs 19 like what! I showed this to my wife and even though I still had to explain some of it, she got the gist just by looking at it. This means that a domain expert should fairly easily be able to confirm a domain model correctness, without understanding f#.
 
-I know there is no behavior in the above example, but the conciseness and lack of clutter really got my attention. When the f# guys where talking about writing less code, they where not kidding. 
+I know there is no behavior in the above example, but the conciseness and lack of clutter really got my attention. When the f# guys where talking about writing less code, they where not kidding.
 
 What is not apparent from the example is that you get a lot of things for free
 
@@ -140,7 +140,7 @@ lowcard = randomcard //true
 * New primitive types are basically free. We can easily make a string type that has to be less than 40 characters and then use that where we have a less than 40 characters business rule. Although this is possible in c#, it is a lot more code and hassle and we end up not doing it.
 * Less code means less bugs.
 
-I am going to stop here before I re-write [Scott's](https://twitter.com/ScottWlaschin) website. I have not even began to scratch the surface, but if what I have uncovered so far is an indication of what is to come, I am definitely going to become an F# developer. 
+I am going to stop here before I re-write [Scott's](https://twitter.com/ScottWlaschin) website. I have not even began to scratch the surface, but if what I have uncovered so far is an indication of what is to come, I am definitely going to become an F# developer.
 
 I also found a [Case Study for Type-safe Domain Modeling in F#](http://deliberate-software.com/pattern-matching-case-study/) on reddit.
 
@@ -149,6 +149,7 @@ and this [Does the Language You Use Make a Difference (revisited)?](http://simon
 If you want to find out more have a look at the [Why use F#](http://fsharpforfunandprofit.com/why-use-fsharp/) series.
 
 ___
+
 **Update**
 
 To give some credit back to c# I did the following
@@ -156,7 +157,7 @@ To give some credit back to c# I did the following
 * Put all the enums on one line, even though this is not convention
 * Auto initialized the lists (available in C# 6)
 
-This brought the line count for c# down to 55 vs 19 for f#. I then figured you can write everything on one line and that a word/character count might be a better metric. C# had 160 words and 1063 characters. F# 82 Words and 457 Characters. There is still a significant difference. 
+This brought the line count for c# down to 55 vs 19 for f#. I then figured you can write everything on one line and that a word/character count might be a better metric. C# had 160 words and 1063 characters. F# 82 Words and 457 Characters. There is still a significant difference.
 
 I also feel the need to say that I still love c# and I think it is a great language. This post was less about c# being long winded and more about f# being really compact.
 

@@ -3,7 +3,9 @@
 In my [previous post](http://sneakycode.net/domain-driven-design-app-structure/), I gave an overview of what an implementation of a Domain Driven Design Application might look like.
 
 I will be running a C# project in parallel with my Practical Domain Driven Design Articles. The plan is to eventually provide a full project template that can be used either as a DDD reference project or as a starting point for a new application. You can find the **SimpleDDD** project on [GitHub](https://github.com/SneakyPeet/SimpleDDD/blob/master/README.md).
+
 ___
+
 **Kicking off SimpleDDD**
 
 If you have not read my **[previous post](http://sneakycode.net/domain-driven-design-app-structure/)** go do that first as this will give you some context.

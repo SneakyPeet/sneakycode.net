@@ -1,7 +1,7 @@
 {:tags ("clean code" "dependency injection" "ioc" "castle windsor"), :title "Delayed Dependency Resolution the Right Way",
  :description "I have been playing around with CQRS/Event Sourcing and using lightweight, immutable command messages to trigger actions in my application. The great thing about this is that you can specify a single point of entry into your application by using a very simple interface."}
 -----
-I have been playing around with CQRS/Event Sourcing and using lightweight, immutable command messages to trigger actions in my application. The great thing about this is that you can specify a single point of entry into your application by using a very simple interface. 
+I have been playing around with CQRS/Event Sourcing and using lightweight, immutable command messages to trigger actions in my application. The great thing about this is that you can specify a single point of entry into your application by using a very simple interface.
 
 ```csharp
 public interface IApplication
@@ -11,14 +11,13 @@ public interface IApplication
 ```
 This means that every time you want to expose a new actionable feature, you just provide the client with a simple command object.
 
-```csharp
-
-	// this is F#
-	type HireEmployee = {
-	    EmployeeId: Guid;
-	    Name: String;
-	    HireDate: DateTime;
-	} with interface ICommand
+```fsharp
+// this is F#
+type HireEmployee = {
+  EmployeeId: Guid;
+  Name: String;
+  HireDate: DateTime;
+} with interface ICommand
 
 ```
 (By the way I like implementing my command and event messages in f# because f# has structural equality and immutability by default which means I do not have to write constructor boilerplate and override equality methods.)
@@ -26,34 +25,32 @@ This means that every time you want to expose a new actionable feature, you just
 No more creating a bunch of Application Interfaces that your client needs to consume. You just add the appropriate command handler implementation inside of your application.
 
 ```csharp
-
-	public class HireEmployeeHandler : ICommandHandler<HireEmployee>
-	{
-		public void Handle(HireEmployee command) {...}
-	}
+public class HireEmployeeHandler : ICommandHandler<HireEmployee>
+{
+    public void Handle(HireEmployee command) {...}
+}
 ```
 
-**There is however a tiny issue with IoC container wireup**. Typically we are used to calling resolve on our container once at the entry point of our system. Our container will then inject all our dependencies and bob's your uncle! However can you spot the problem with our above example? By the time we need to figure out what CommandHandler to use, we have already resolved our dependencies. This means that we need to explicitly resolve the dependencies for our CommandHandler again. 
+**There is however a tiny issue with IoC container wireup**. Typically we are used to calling resolve on our container once at the entry point of our system. Our container will then inject all our dependencies and bob's your uncle! However can you spot the problem with our above example? By the time we need to figure out what CommandHandler to use, we have already resolved our dependencies. This means that we need to explicitly resolve the dependencies for our CommandHandler again.
 
 Simple you say! I'll just pass my container into the code that resolves my command handler.
 
 ```csharp
+class CommandDispatcher : ICommandDispatcher
+{
+    private readonly IContainer container;
 
-	class CommandDispatcher : ICommandDispatcher
+    public CommandDispatcher(IContainer container)
     {
-        private readonly IContainer container;
-
-        public CommandDispatcher(IContainer container)
-        {
-            this.container = container;
-        }
-
-        public void Send<T>(T command) where T : ICommand
-        {
-            var handler = this.container.Resolve<T>();
-            handler.Handle(command);
-        }
+        this.container = container;
     }
+
+    public void Send<T>(T command) where T : ICommand
+    {
+        var handler = this.container.Resolve<T>();
+        handler.Handle(command);
+    }
+}
 
 ```
 
@@ -64,29 +61,28 @@ The clean code god's will smite you for introducing the concept of a container i
 `#rant` Let's get back to solving the problem. A better solution would be to do something like this.
 
 ```csharp
+class CommandDispatcher : ICommandDispatcher
+{
+    private readonly ICommandHandlerFactory factory;
 
-	class CommandDispatcher : ICommandDispatcher
+    public CommandDispatcher(ICommandHandlerFactory factory)
     {
-        private readonly ICommandHandlerFactory factory;
-
-        public CommandDispatcher(ICommandHandlerFactory factory)
-        {
-            this.factory = factory;
-        }
-
-        public void Send<T>(T command) where T : ICommand
-        {
-            var handler = this.factory.Create(command);
-            handler.Handle(command);
-            this.factory.Destroy(handler); //you have to explicitly manage the life cycle of your handler
-        }
+        this.factory = factory;
     }
 
-	public interface ICommandHandlerFactory
+    public void Send<T>(T command) where T : ICommand
     {
-        ICommandHandler<T> Create<T>(T command) where T : ICommand;
-        void Destroy(object handler);
+        var handler = this.factory.Create(command);
+        handler.Handle(command);
+        this.factory.Destroy(handler); //you have to explicitly manage the life cycle of your handler
     }
+}
+
+public interface ICommandHandlerFactory
+{
+    ICommandHandler<T> Create<T>(T command) where T : ICommand;
+    void Destroy(object handler);
+}
 ```
 
 How is this different? First of all you are expressing your needs without polluting your domain. If you ever decide to chuck out your IoC container for a different one, your domain would be unaffected. You would not have to change a single line of code in your domain. The only thing that you would have to do is as part of your container wireup you would need to actually implement `ICommandHandlerFactory`. Because you are doing DI, the implementation does not have to sit inside your domain, but can live outside of it alongside your container.
@@ -94,13 +90,12 @@ How is this different? First of all you are expressing your needs without pollut
 If you are using [Castle Windsor](https://github.com/castleproject/Windsor) you are in luck. They provide a [Typed Factory Facility](https://github.com/castleproject/Windsor/blob/master/docs/typed-factory-facility.md) which means you do not even have to implement `ICommandHandlerFactory`! You just need initialize the factory in you container wireup and bob is your uncle again!
 
 ```csharp
+container.AddFacility<TypedFactoryFacility>();
 
-	container.AddFacility<TypedFactoryFacility>();
-
-    container.Register(
-    	Component.For<ICommandHandlerFactory>()
-        	.AsFactory()
-    );
+container.Register(
+    Component.For<ICommandHandlerFactory>()
+             .AsFactory()
+);
 
 ```
 

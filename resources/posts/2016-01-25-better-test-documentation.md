@@ -27,7 +27,7 @@ Right of the bat we can see that we are dealing with content and more specifical
 
 ![Content Tests Folders](http://res.cloudinary.com/dltpyggxx/image/upload/v1453703518/4_tpx6fa.png)
 
-Even more functionality is exposed by opening these folders. And when finally looking at the actual test classes, a very good overview what our code should actually be doing is gained. 
+Even more functionality is exposed by opening these folders. And when finally looking at the actual test classes, a very good overview what our code should actually be doing is gained.
 
 ![Content Tests Folders](http://res.cloudinary.com/dltpyggxx/image/upload/v1453703518/5_aqy0rw.png)
 
@@ -35,31 +35,30 @@ Up to this point we have not read any code. This is much better than `ContentTes
 
 
 ```csharp
+namespace App.Tests.ContentCreation.WhenUpdatingContent
+{
+  [TestFixture]
+  public class ThrowExceptionIf
+  {
 
-	namespace App.Tests.ContentCreation.WhenUpdatingContent
-	{
-	    [TestFixture]
-	    public class ThrowExceptionIf
-	    {
-	
-	        [Test]
-	        [ExpectedException(typeof(LogicException))]
-	        public void BrowsableIdentifierNotSet()
-	        {
-	            
-	        }
-	
-	        [Test]
-	        [ExpectedException(typeof(LogicException))]
-	        public void BrowsableDisplayNameNotSet()
-	        {
-	            
-	        }
-	    }
-	}
+    [Test]
+    [ExpectedException(typeof(LogicException))]
+    public void BrowsableIdentifierNotSet()
+    {
+
+    }
+
+    [Test]
+    [ExpectedException(typeof(LogicException))]
+    public void BrowsableDisplayNameNotSet()
+    {
+
+    }
+  }
+}
 
 ```
 
-Personally I think this is great, but I would love to hear your comments, suggestions and improvements! 
+Personally I think this is great, but I would love to hear your comments, suggestions and improvements!
 
 <a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a>

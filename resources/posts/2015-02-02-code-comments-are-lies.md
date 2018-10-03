@@ -1,17 +1,19 @@
 {:tags ("clean code" "comments"), :title "Code Comments are Lies", :date "2015-02-02"}
 -----
-**Update**
+### Post Update
 
 This post generated some interesting comments on the [code project site](http://www.codeproject.com/script/Articles/ArticleVersion.aspx?waid=158130&aid=872073).
 Here are some things to note before you continue.
 
 * This post is aimed at higher level languages like C# and Java. Please comment your FORTRAN etc.
 * The best code that you can write is code that is maintainable as this is the true cost of software. If this requires you to add a comment please do that. I also do that.
-* A comment as an excuse for writing bad code, is unacceptable. 
+* A comment as an excuse for writing bad code, is unacceptable.
 
 Please read the comments on code project. There are some valuable usecases there.
+
 ___
-I'm going to make a bold statement. 
+
+**I'm going to make a bold statement.**
 >YOUR COMMENTS ARE BAD AND YOU SHOULD FEEL BAD
 
 <div style="text-align: center;"><img src="http://res.cloudinary.com/dltpyggxx/image/upload/c_scale,w_172/v1422551564/BadAss_t0fi7y.png" alt="We got a Bad Ass here" style="max-width: 200px; margin-bottom:1em"/></div>
@@ -22,8 +24,10 @@ Although there are use cases for comments, I am going to tell you that comments 
 **Let's look at some truths about comments**
 
 * They can state the obvious, thus being redundant.
-<pre><code class="csharp">//The Persons First Name
-public string FirstName { get; set;}</code></pre>
+<pre>
+<code class="csharp">// The Persons First Name</code>
+<code class="csharp">public string FirstName { get; set;}</code>
+</pre>
 
 * Having comments scattered throughout your code, explaining functionality in detail, makes it hard to read code fluently. This means that extra effort and concentration is needed to read between the comment lines. The intent does not jump out at you.
 
@@ -31,7 +35,7 @@ public string FirstName { get; set;}</code></pre>
 
 * Comments rarely get updated when the code changes. This means that overtime the functionality documented by the comments, drifts away from what is actually happening. This causes confusion and again makes the comments worthless.
 
-* ToDo Comments. They usually don't get done. 
+* ToDo Comments. They usually don't get done.
 
 * Comments get copied with code, and as the code changes again the comments don't. First of all you should think twice when you need to copy code, and if you have a great reason you have to make real sure to update (or even just remove) the comments made.
 
@@ -53,7 +57,7 @@ But I hear you shouting from afar: *"Pieter, not all comments can be bad"*. This
 
 **Some Good Comments**
 
-* Comments that you write to document badly written legacy code. It is not always possible to refactor code, so in these cases help yourself and others to document things that might have bad side effects. 
+* Comments that you write to document badly written legacy code. It is not always possible to refactor code, so in these cases help yourself and others to document things that might have bad side effects.
 
 * Comments documenting framework limitations.
 <pre><code class="csharp">public FooConstructor()
