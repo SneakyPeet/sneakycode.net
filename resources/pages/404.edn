@@ -1,0 +1,11 @@
+{:title "404"
+ :content
+ [:article.has-text-centered.is-size-3
+  [:br]
+  [:p "(╯°□°）╯︵ ┻━┻"]
+  [:br]
+  [:p "OOPS! Nothing to see here"]
+  [:br]
+  [:p "¯\\_(ツ)_/¯"]
+  [:br]
+  [:p "aka 404"]]}
