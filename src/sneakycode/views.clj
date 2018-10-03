@@ -147,7 +147,7 @@
            [:p.subtitle.is-6.post-tags
             [:span.tags
              [:span.tag.is-primary.tag-lite date]
-             (->> tags sort (map (fn [t] [:a.tag {:href (conf/url (str "tag/" t))} t])))]]
+             (->> tags sort (map (fn [t] [:a.tag {:href (conf/url (str "tag/" (conf/clean-path t)))} t])))]]
            [:div.has-text-justified.content
             (render post)]]
           [:div.column {:role "navigation" :aria-label "pagination"}

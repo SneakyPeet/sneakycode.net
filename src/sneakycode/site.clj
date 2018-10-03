@@ -121,12 +121,14 @@
         tags  (->> posts
                    (map (fn [{:keys [tags] :as post}]
                           (->> tags
-                               (map #(assoc post :tag (string/replace % " " "-"))))))
+                               (map #(assoc post :tag (string/replace % " " "-")
+                                            :tag-name %)))))
                    (reduce concat)
                    (group-by :tag)
-                   (map (fn [[tag posts]]
-                          (let [file-name (prep-file-extension tag)]
+                   (map (fn [[tag posts tag-name]]
+                          (let [file-name (prep-file-extension (conf/clean-path tag))]
                             {:tag       tag
+                             :tag-name  tag-name
                              :slug      (str "/tag" (prep-file-slug file-name))
                              :file-name (str "/tag" file-name)
                              :posts     posts}))))]

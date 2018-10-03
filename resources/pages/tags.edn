@@ -4,12 +4,12 @@
    (let [tags
          (->> all-tags
               (sort-by :tag)
-              (map (fn [{:keys [tag posts]}]
+              (map (fn [{:keys [tag slug posts tag-name]}]
                      (->
                       (into
                        [[:div.timeline-header
                          [:a.tag.is-primary
-                          {:href (sneakycode.config/url (str "tag/" tag))}
+                          {:href (sneakycode.config/url slug)}
                           tag]]]
                        (->>
                         posts

@@ -42,15 +42,23 @@
   (swap! *config set-date-format))
 
 
+(defn clean-path [path]
+  (->> (string/split path #"[^\p{L}\p{Nd}]+" )
+       (remove string/blank?)
+       (string/join "-")))
+
+
 (defn url
   ([] (url "/"))
   ([path]
-   (let [domain (getv :domain)]
-     (cond
-       (= "" path) domain
-       (= "/" path) domain
-       (string? path) (let [path (if (string/starts-with? path "/")
-                                   (subs path 1)
-                                   path)]
-                        (str domain path))
-       :else (throw (Exception. "path should be a string"))))))
+   (let [domain (getv :domain)
+         url
+         (cond
+           (= "" path) domain
+           (= "/" path) domain
+           (string? path) (let [path (if (string/starts-with? path "/")
+                                       (subs path 1)
+                                       path)]
+                            (str domain path))
+           :else (throw (Exception. "path should be a string")))]
+     url)))
