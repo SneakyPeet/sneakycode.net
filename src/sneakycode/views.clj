@@ -35,6 +35,28 @@
    {:aria "github" :link "https://github.com/sneakypeet" :icon "github" :away? true}
    {:aria "twitter ":link "https://twitter.com/PieterKoornhof" :icon "twitter" :away? true}])
 
+
+(defn- disqus [slug]
+  (let [disqus? (conf/getv :disqus?)
+        disqus-domain (conf/getv :disqus-domain)
+        url (conf/url slug disqus-domain)]
+    (if-not disqus?
+      [:span]
+      [:div
+       [:div {:id "disqus_thread"}]
+       [:script
+        "var disqus_config = function () {
+           this.page.url = '" url "';
+           // this.page.identifier = PAGE_IDENTIFIER;
+         };
+         (function() { // DON'T EDIT BELOW THIS LINE
+           var d = document, s = d.createElement('script');
+           s.src = 'https://sneakycode.disqus.com/embed.js';
+           s.setAttribute('data-timestamp', +new Date());
+           (d.head || d.body).appendChild(s);
+         })();"]])))
+
+
 ;;;; CODE
 
 (defn- extract-code
@@ -209,7 +231,8 @@
               (when-not (empty? all-related)
                 (conj timeline [:div.timeline-header
                                 [:span.tag.is-primary.tag-lite "end"]])))
-            ]]]])))))
+            ]]]
+         (disqus slug)])))))
 
 
 (defn tags-page [{:keys [tag posts slug]}]

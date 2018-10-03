@@ -1,5 +1,8 @@
 {:title "SneakyCode"
  :description "Pieter Koornhof on Domain Driven Design, Clean Code and .Net"
  :author "Pieter Koornhof"
+ :date-format "yyyy-MM-dd"
+
  :domain "http://localhost:4321/"
- :date-format "yyyy-MM-dd"}
+ :disqus? false
+ :disqus-domain "http://sneakycode.net/"}

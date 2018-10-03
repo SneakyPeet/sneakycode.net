@@ -22,9 +22,10 @@
 
 
 (defn getv [key]
-  (if-let [value (get @*config key)]
-    value
-    (throw (Exception. (str "No config value exists for " key)))))
+  (let [value (get @*config key)]
+    (if-not (nil? value)
+      value
+      (throw (Exception. (str "No config value exists for " key))))))
 
 
 (defn setv [key value]
@@ -50,9 +51,9 @@
 
 (defn url
   ([] (url "/"))
-  ([path]
-   (let [domain (getv :domain)
-         url
+  ([path] (url path (getv :domain)))
+  ([path domain]
+   (let [url
          (cond
            (= "" path) domain
            (= "/" path) domain
