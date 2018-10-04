@@ -5,4 +5,4 @@
 
  :domain "http://localhost:4321/"
  :disqus? false
- :disqus-domain "http://sneakycode.net/"}
+ :google-analytics? false}

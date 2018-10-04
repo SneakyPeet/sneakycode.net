@@ -38,8 +38,7 @@
 
 (defn- disqus [slug]
   (let [disqus? (conf/getv :disqus?)
-        disqus-domain (conf/getv :disqus-domain)
-        url (conf/url slug disqus-domain)]
+        url (conf/url slug "http://sneakycode.net/")]
     (if-not disqus?
       [:span]
       [:div
@@ -56,6 +55,37 @@
            (d.head || d.body).appendChild(s);
          })();"]])))
 
+
+(defn- google-analytics []
+  (let [show? (conf/getv :google-analytics?)]
+    (if-not show?
+      []
+      [[:script {:async true :src "https://www.googletagmanager.com/gtag/js?id=UA-58216004-1"}]
+       [:script "window.dataLayer = window.dataLayer || [];
+                 function gtag(){dataLayer.push(arguments);}
+                 gtag('js', new Date());
+                 gtag('config', 'UA-58216004-1');"]])))
+
+
+(defn- disqus [slug]
+  (let [disqus? (conf/getv :disqus?)
+        disqus-domain "http://sneakycode.net/"
+        url (conf/url slug disqus-domain)]
+    (if-not disqus?
+      [:span]
+      [:div
+       [:div {:id "disqus_thread"}]
+       [:script
+        "var disqus_config = function () {
+           this.page.url = '" url "';
+           // this.page.identifier = PAGE_IDENTIFIER;
+         };
+         (function() { // DON'T EDIT BELOW THIS LINE
+           var d = document, s = d.createElement('script');
+           s.src = 'https://sneakycode.disqus.com/embed.js';
+           s.setAttribute('data-timestamp', +new Date());
+           (d.head || d.body).appendChild(s);
+         })();"]])))
 
 ;;;; CODE
 
@@ -130,7 +160,14 @@
                        (map (fn [[p c]] [:meta {:property p :content c}])))
         tags      (->> tags
                        (map (fn [t] [:meta {:property "article:tag" :content t}])))
-        head (->> (concat head-head (favicons) (or meta []) props tags styles)
+        head (->> (concat
+                   (google-analytics)
+                   head-head
+                   (favicons)
+                   (or meta [])
+                   props
+                   tags
+                   styles)
                   (into [:head]))]
     (->
      [:html.has-navbar-fixed-bottom (when-not no-menu? {:class "has-navbar-fixed-top"})
