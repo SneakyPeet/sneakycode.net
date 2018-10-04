@@ -1,3 +1,6 @@
-{:domain "https://sneakypeet.github.io/sneakycode.net/"
+{:domain "https://sneakycode.net/"
  :disqus? true
  :google-analytics? true}
+(email-attachment "application/pdf"
+                  "name.pdf"
+                  (.toByteArray policy-schedule-stream))

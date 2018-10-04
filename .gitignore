@@ -12,3 +12,5 @@ pom.xml.asc
 node_modules
 .sass-cache
 deploy
+/blog-ideas/*
+/docs/*
