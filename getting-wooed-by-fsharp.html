@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html></html><html class="has-navbar-fixed-top"><head><script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-58216004-1"></script><script>window.dataLayer = window.dataLayer || [];
+                 function gtag(){dataLayer.push(arguments);}
+                 gtag('js', new Date());
+                 gtag('config', 'UA-58216004-1');</script><meta charset="utf-8" content="text/html" /><meta content="width=device-width, initial-scale=1" name="viewport" /><link href="https://sneakycode.net/getting-wooed-by-fsharp" rel="canonnical" /><link href="https://sneakycode.net/rss/" rel="alternative" title="SneakyCode" type="application/rss+xml" /><title>Getting wooed by F#</title><meta content="Pieter Koornhof" name="author" /><link href="https://sneakycode.net/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57" /><link href="https://sneakycode.net/apple-icon-60x60.png" rel="apple-touch-icon" sizes="60x60" /><link href="https://sneakycode.net/apple-icon-72x72.png" rel="apple-touch-icon" sizes="72x72" /><link href="https://sneakycode.net/apple-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" /><link href="https://sneakycode.net/apple-icon-114x114.png" rel="apple-touch-icon" sizes="114x114" /><link href="https://sneakycode.net/apple-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" /><link href="https://sneakycode.net/apple-icon-144x144.png" rel="apple-touch-icon" sizes="144x144" /><link href="https://sneakycode.net/apple-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" /><link href="https://sneakycode.net/apple-icon-180x180.png" rel="apple-touch-icon" sizes="180x180" /><link href="https://sneakycode.net/android-icon-192x192.png" rel="icon" sizes="192x192" type="image/png" /><link href="https://sneakycode.net/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" /><link href="https://sneakycode.net/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" /><link href="https://sneakycode.net/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" /><link href="https://sneakycode.net/manifest.json" rel="manifest" /><meta content="#ffffff" name="msapplication-TileColor" /><meta content="ms-icon-144x144.png" name="msapplication-TileImage" /><meta content="#ffffff" name="theme-color" /><meta content="SneakyCode" property="og:site_name" /><meta content="article" property="og:type" /><meta content="Getting wooed by F#" property="og:title" /><meta property="og:description" /><meta content="https://sneakycode.net/getting-wooed-by-fsharp" property="og:url" /><meta content="domain driven design" property="article:tag" /><meta content="ddd" property="article:tag" /><meta content="fsharp" property="article:tag" /><link href="https://sneakycode.net/style.css" rel="stylesheet" /><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /></head><body><nav class="navbar is-fixed-top is-dark has-gradient" role="navigation"><div class="navbar-brand"><a class="navbar-item has-text-weight-bold" href="https://sneakycode.net/">sneakycode</a></div></nav><nav aria-label="main navigation" class="navbar is-fixed-bottom is-dark has-gradient" role="navigation"><div class="navbar-brand"><a aria-label="home" class="navbar-item" href="https://sneakycode.net/"><span class="icon"><i class="fa fa-lg fa-bath"></i></span></a><a aria-label="history" class="navbar-item" href="https://sneakycode.net/all-posts"><span class="icon"><i class="fa fa-lg fa-history"></i></span></a><a aria-label="tags" class="navbar-item" href="https://sneakycode.net/tags"><span class="icon"><i class="fa fa-lg fa-tags"></i></span></a><a aria-label="rss" class="navbar-item" href="https://sneakycode.net/rss.rss"><span class="icon"><i class="fa fa-lg fa-rss"></i></span></a><a aria-label="github" class="navbar-item" href="https://github.com/sneakypeet" target="_blank"><span class="icon"><i class="fa fa-lg fa-github"></i></span></a><a aria-label="twitter " class="navbar-item" href="https://twitter.com/PieterKoornhof" target="_blank"><span class="icon"><i class="fa fa-lg fa-twitter"></i></span></a></div></nav><div class="section"><div class="container"><div class="columns is-8 is-variable is-desktop"><article class="column is-three-quarters-desktop"><h1 class="title has-text-weight-light">Getting wooed by F#</h1><p class="subtitle is-6 post-tags"><span class="tags"><span class="tag is-primary tag-lite">2015-03-18</span><a class="tag" href="https://sneakycode.net/tag/ddd">ddd</a><a class="tag" href="https://sneakycode.net/tag/domain-driven-design">domain driven design</a><a class="tag" href="https://sneakycode.net/tag/fsharp">fsharp</a></span></p><div class="has-text-justified content"><p>One of my goals this year is to learn a new programming language. This language should use a programming style different than what I am familiar with (currently C# and Javascript). As I am settled in the .net space I decided to go with F#. I am only about a week in, but man I have to say I am excited. So excited that I could not hold it in any longer and decided to write about what is getting me excited. I have to stress that my F# skills are equivalent to a baby sliding around on its stomach learning to crawl. Regardless, what I have seen so far is awesome.</p><p>I am currently working through all the content on <a href="http://fsharpforfunandprofit.com/">fsharpforfunandprofit</a> by <a href="https://twitter.com/ScottWlaschin">Scott Wlaschin</a>, and I am borrowing the below example come from there.</p>
+<hr /><p>So my first real surprise is how well F# lends itself to Modeling a Domain. I am going to show you this by using a card game as an example.</p><p>Here is what it might look like in c#.</p>
+<pre class="syntax"><code class="csharp"><span></span><span class="k">public</span> <span class="k">enum</span> <span class="n">Suit</span>
+<span class="p">{</span>
+    <span class="n">Club</span><span class="p">,</span>
+    <span class="n">Diamond</span><span class="p">,</span>
+    <span class="n">Spade</span><span class="p">,</span>
+    <span class="n">Heart</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">enum</span> <span class="n">Rank</span>
+<span class="p">{</span>
+    <span class="n">Two</span><span class="p">,</span>
+    <span class="n">Three</span><span class="p">,</span>
+    <span class="n">Four</span><span class="p">,</span>
+    <span class="n">Five</span><span class="p">,</span>
+    <span class="n">Six</span><span class="p">,</span>
+    <span class="n">Seven</span><span class="p">,</span>
+    <span class="n">Eight</span><span class="p">,</span>
+    <span class="n">Nine</span><span class="p">,</span>
+    <span class="n">Ten</span><span class="p">,</span>
+    <span class="n">Jack</span><span class="p">,</span>
+    <span class="n">Queen</span><span class="p">,</span>
+    <span class="n">King</span><span class="p">,</span>
+    <span class="n">Ace</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Card</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">Card</span><span class="p">(</span><span class="n">Suit</span> <span class="n">suit</span><span class="p">,</span> <span class="n">Rank</span> <span class="n">rank</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">Suit</span> <span class="p">=</span> <span class="n">suit</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">Rank</span> <span class="p">=</span> <span class="n">rank</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">Suit</span> <span class="n">Suit</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Rank</span> <span class="n">Rank</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Hand</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">Hand</span><span class="p">(</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Card</span><span class="p">&gt;</span> <span class="n">cards</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">Cards</span> <span class="p">=</span> <span class="n">cards</span> <span class="p">??</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Card</span><span class="p">&gt;();</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Card</span><span class="p">&gt;</span> <span class="n">Cards</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Deck</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">Deck</span><span class="p">(</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Card</span><span class="p">&gt;</span> <span class="n">cards</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">Cards</span> <span class="p">=</span> <span class="n">cards</span> <span class="p">??</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Card</span><span class="p">&gt;();</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Card</span><span class="p">&gt;</span> <span class="n">Cards</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Player</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">Player</span><span class="p">(</span><span class="kt">string</span> <span class="n">name</span><span class="p">,</span> <span class="n">Hand</span> <span class="n">hand</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">Name</span> <span class="p">=</span> <span class="n">name</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">Hand</span> <span class="p">=</span> <span class="n">hand</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Name</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Hand</span> <span class="n">Hand</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Game</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">Game</span><span class="p">(</span><span class="n">Deck</span> <span class="n">deck</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Player</span><span class="p">&gt;</span> <span class="n">players</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">Deck</span> <span class="p">=</span> <span class="n">deck</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">Players</span> <span class="p">=</span> <span class="n">players</span> <span class="p">??</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Player</span><span class="p">&gt;();</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">Deck</span> <span class="n">Deck</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Player</span><span class="p">&gt;</span> <span class="n">Players</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">private</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><p>Pretty straight forward stuff. I showed this to my wife that knows nothing about code and she had no idea what was going on.</p><p>Then I showed her this.</p>
+<pre class="syntax"><code class="csharp"><span></span><span class="n">module</span> <span class="n">CardGame</span> <span class="p">=</span>
+
+    <span class="n">type</span> <span class="n">Suit</span> <span class="p">=</span> <span class="n">Club</span> <span class="p">|</span> <span class="n">Diamond</span> <span class="p">|</span> <span class="n">Spade</span> <span class="p">|</span> <span class="n">Heart</span>
+
+    <span class="n">type</span> <span class="n">Rank</span> <span class="p">=</span> <span class="n">Two</span> <span class="p">|</span> <span class="n">Three</span> <span class="p">|</span> <span class="n">Four</span> <span class="p">|</span> <span class="n">Five</span> <span class="p">|</span> <span class="n">Six</span> <span class="p">|</span> <span class="n">Seven</span> <span class="p">|</span> <span class="n">Eight</span> <span class="p">|</span> <span class="n">Nine</span> <span class="p">|</span> <span class="n">Ten</span> <span class="p">|</span> <span class="n">Jack</span> <span class="p">|</span> <span class="n">Queen</span> <span class="p">|</span> <span class="n">King</span> <span class="p">|</span> <span class="n">Ace</span>
+
+    <span class="n">type</span> <span class="n">Card</span> <span class="p">=</span> <span class="n">Suit</span> <span class="p">*</span> <span class="n">Rank</span>
+
+    <span class="n">type</span> <span class="n">Hand</span> <span class="p">=</span> <span class="n">Card</span> <span class="n">list</span>
+
+    <span class="n">type</span> <span class="n">Deck</span> <span class="p">=</span> <span class="n">Card</span> <span class="n">list</span>
+
+    <span class="n">type</span> <span class="n">Player</span> <span class="p">=</span> <span class="p">{</span> <span class="n">Name</span><span class="p">:</span><span class="kt">string</span><span class="p">;</span> <span class="n">Hand</span><span class="p">:</span><span class="n">Hand</span><span class="p">}</span>
+
+    <span class="n">type</span> <span class="n">Game</span> <span class="p">=</span> <span class="p">{</span><span class="n">Deck</span><span class="p">:</span><span class="n">Deck</span><span class="p">;</span> <span class="n">Players</span><span class="p">:</span> <span class="n">Player</span> <span class="n">list</span><span class="p">}</span>
+
+    <span class="n">type</span> <span class="n">Deal</span> <span class="p">=</span> <span class="n">Deck</span> <span class="p">-&gt;</span> <span class="p">(</span><span class="n">Deck</span><span class="p">*</span><span class="n">Card</span><span class="p">)</span>
+
+    <span class="n">type</span> <span class="n">PickupCard</span> <span class="p">=</span> <span class="p">(</span><span class="n">Hand</span><span class="p">*</span><span class="n">Card</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">Hand</span>
+</code></pre><p>The above is not pseudo code. It valid f# that compiles. First note the total number of lines. 80 vs 19 like what! I showed this to my wife and even though I still had to explain some of it, she got the gist just by looking at it. This means that a domain expert should fairly easily be able to confirm a domain model correctness, without understanding f#.</p><p>I know there is no behavior in the above example, but the conciseness and lack of clutter really got my attention. When the f# guys where talking about writing less code, they where not kidding.</p><p>What is not apparent from the example is that you get a lot of things for free</p>
+<ul>
+  <li>Types are immutable by default. GoGo <a href="http://sneakycode.net/value-objects/">Value Types</a>. Mutability can be chosen explicitly, but the immutability forces us to transform data into new data, rather than changing it. This prevents bugs and side effects.</li>
+  <li>Types are equatable by default. We get comparison, max, min and ordering for free. Again this is great for Value Types.</li>
+</ul>
+<pre class="syntax"><code class="csharp"><span></span><span class="k">let</span> <span class="n">highcard</span> <span class="p">=</span> <span class="p">(</span><span class="n">Heart</span><span class="p">,</span> <span class="n">Ace</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">lowcard</span> <span class="p">=</span> <span class="p">(</span><span class="n">Club</span><span class="p">,</span> <span class="n">Six</span><span class="p">)</span>
+<span class="n">highcard</span> <span class="p">&lt;</span> <span class="n">lowcard</span> <span class="c1">//false</span>
+<span class="k">let</span> <span class="n">randomcard</span> <span class="p">=</span> <span class="p">(</span><span class="n">Club</span><span class="p">,</span><span class="n">Six</span><span class="p">)</span>
+<span class="n">lowcard</span> <span class="p">=</span> <span class="n">randomcard</span> <span class="c1">//true</span>
+</code></pre>
+<ul>
+  <li>Null reference exceptions are excluded from the above code as non of these types can be null. If you need nullable functionality, you add it explicitly.</li>
+  <li>New primitive types are basically free. We can easily make a string type that has to be less than 40 characters and then use that where we have a less than 40 characters business rule. Although this is possible in c#, it is a lot more code and hassle and we end up not doing it.</li>
+  <li>Less code means less bugs.</li>
+</ul><p>I am going to stop here before I re-write <a href="https://twitter.com/ScottWlaschin">Scott's</a> website. I have not even began to scratch the surface, but if what I have uncovered so far is an indication of what is to come, I am definitely going to become an F# developer.</p><p>I also found a <a href="http://deliberate-software.com/pattern-matching-case-study/">Case Study for Type-safe Domain Modeling in F#</a> on reddit.</p><p>and this <a href="http://simontylercousins.net/does-the-language-you-use-make-a-difference-revisited/">Does the Language You Use Make a Difference (revisited)?</a></p><p>If you want to find out more have a look at the <a href="http://fsharpforfunandprofit.com/why-use-fsharp/">Why use F#</a> series.</p>
+<hr /><p><strong>Update</strong></p><p>To give some credit back to c# I did the following</p>
+<ul>
+  <li>Put all the enums on one line, even though this is not convention</li>
+  <li>Auto initialized the lists (available in C# 6)</li>
+</ul><p>This brought the line count for c# down to 55 vs 19 for f#. I then figured you can write everything on one line and that a word/character count might be a better metric. C# had 160 words and 1063 characters. F# 82 Words and 457 Characters. There is still a significant difference.</p><p>I also feel the need to say that I still love c# and I think it is a great language. This post was less about c# being long winded and more about f# being really compact.</p><p><a href="http://www.codeproject.com/script/Articles/BlogFeedList.aspx?amid=8804440" rel="tag" style="display:none">CodeProject</a></p></div></article><div aria-label="pagination" class="column" role="navigation"><div class="short-timeline"><div class="timeline is-rtl"><div class="timeline-header"><a class="tag is-primary tag-lite" href="https://sneakycode.net/modeling-with-aggregates">Older</a></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/modeling-with-aggregates">Modeling with Aggregates</a></div></div><div class="timeline-header"><a class="tag is-primary tag-lite" href="https://sneakycode.net/aggregates-and-persistence">Newer</a></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/aggregates-and-persistence">Aggregates and Persistence</a></div></div><div class="timeline-header"><a class="tag is-primary tag-lite" href="https://sneakycode.net/tag/ddd">ddd</a></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/what-language-does-your-application-speak">What Language Does Your Application Speak</a></div></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/reflecting-on-domain-driven-design">Reflecting on Domain Driven Design</a></div></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/anemia-induced-memory-loss">Anemia induced memory loss</a></div></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/aggregates-and-persistence">Aggregates and Persistence</a></div></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/modeling-with-aggregates">Modeling with Aggregates</a></div></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/make-those-value-objects-work-for-you">Make Those Value Objects Work For You</a></div></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/value-objects">Value Objects</a></div></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/domain-driven-design-app-structure-part-2">Domain Driven Design App Structure part 2</a></div></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/domain-driven-design-app-structure">Domain Driven Design App Structure</a></div></div><div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><a class="header" href="https://sneakycode.net/intro-to-practical-domain-driven-design">Introduction To Practical Domain Driven Design</a></div></div><div class="timeline-header"><span class="tag is-primary tag-lite">end</span></div></div></div></div></div><div><div id="disqus_thread"></div><script>var disqus_config = function () {
+           this.page.url = 'http://sneakycode.net/getting-wooed-by-fsharp';
+           // this.page.identifier = PAGE_IDENTIFIER;
+         };
+         (function() { // DON'T EDIT BELOW THIS LINE
+           var d = document, s = d.createElement('script');
+           s.src = 'https://sneakycode.disqus.com/embed.js';
+           s.setAttribute('data-timestamp', +new Date());
+           (d.head || d.body).appendChild(s);
+         })();</script></div></div></div></body></html>
