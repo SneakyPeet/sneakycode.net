@@ -5,4 +5,5 @@
 
  :domain "http://localhost:4321/"
  :disqus? false
- :google-analytics? false}
+ :google-analytics? false
+ :js-include-goog? true}

@@ -4,7 +4,8 @@
             [stasis.core :as stasis]
             [ring.middleware.content-type :refer [wrap-content-type]]
             [ring.middleware.resource :refer [wrap-resource]]
-            [sneakycode.site :as site])
+            [sneakycode.site :as site]
+            [sneakycode.cljs])
   (:import [org.apache.commons.io FilenameUtils]))
 
 

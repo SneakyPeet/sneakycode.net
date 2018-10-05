@@ -194,6 +194,9 @@
       :pages (get-pages posts tags)
       :posts posts-map
       :tags  tags-map
-      :rss   (get-rss posts)})))
+      :rss   (get-rss posts)
+      :cljs (if (conf/getv :js-include-goog?)
+              (stasis/slurp-directory "inline-cljs" #"\.js$")
+              {})})))
 
 (def image-resources "images")

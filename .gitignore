@@ -17,3 +17,5 @@ deploy
 /resources/inline-cljs/.cpcache/*
 /resources/inline-cljs/out/*
 /resources/inline-cljs/src/tojs/core.cljs
+out/*
+inline-cljs/*

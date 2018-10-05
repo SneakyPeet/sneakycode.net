@@ -1,0 +1,16 @@
+{:title "TEST"
+ :content
+ (fn [_]
+   [:div "123"
+    [:button {:id "my-button" :onclick "cljs.foo.press()"} "press"]
+    #_(sneakycode.cljs/build '[(ns cljs)
+                               (defn ^:export press [e]
+                                 (println "123"))
+                               #_(.onClick (js/document.getElementById "my-button") println)
+                               #_(defn ^{:export greet} greet [n] (str "Hola " n))
+                               #_(defn ^:export sum [xs] 42)]
+                             {:optimizations :advanced})
+    (sneakycode.cljs/compile-cljs-dev "cljs.foo"
+     (ns cljs.foo)
+     (defn ^:export press [e]
+       (println "12345")))])}

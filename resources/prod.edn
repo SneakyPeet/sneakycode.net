@@ -1,6 +1,4 @@
 {:domain "https://sneakycode.net/"
  :disqus? true
- :google-analytics? true}
-(email-attachment "application/pdf"
-                  "name.pdf"
-                  (.toByteArray policy-schedule-stream))
+ :google-analytics? true
+ :js-include-goog? false}
