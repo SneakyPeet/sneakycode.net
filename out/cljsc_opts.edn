@@ -1,0 +1,1 @@
+{:output-dir "inline-cljs/out", :optimizations :advanced, :output-to "inline-cljs//out/test.js", :asset-path "out", :main nil}
