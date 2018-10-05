@@ -1,0 +1,5 @@
+(ns tojs.core)
+
+(fn [a] a)
+
+(prn 1234)
