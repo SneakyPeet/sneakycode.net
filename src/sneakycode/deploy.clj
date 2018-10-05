@@ -9,11 +9,14 @@
 
 
 (def export-dir "docs")
+(def cljs-dir "inline-cljs")
 (def all-files #"\.[^.]+$")
 
 ;;;; EXPORT
 
-(defn fresh [] (stasis/empty-directory! export-dir))
+(defn fresh []
+  (stasis/empty-directory! export-dir)
+  (stasis/empty-directory! cljs-dir))
 
 
 (defn copy-resource [path]
@@ -23,7 +26,8 @@
 (defn export []
   (fresh)
   (copy-resource site/image-resources)
-  (stasis/export-pages (site/get-site) export-dir))
+  (stasis/export-pages (site/get-site) export-dir)
+  (fs/copy-dir (str cljs-dir "/out") export-dir))
 
 
 (defn load-export-dir [] (stasis/slurp-directory export-dir all-files))
