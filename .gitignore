@@ -14,3 +14,6 @@ node_modules
 deploy
 /blog-ideas/*
 /docs/*
+/resources/inline-cljs/.cpcache/*
+/resources/inline-cljs/out/*
+/resources/inline-cljs/src/tojs/core.cljs
