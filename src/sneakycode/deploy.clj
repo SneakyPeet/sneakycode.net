@@ -51,9 +51,9 @@
       (println (str "Deleted " f)))))
 
 
-(defn -main [& args]
-  (println "Starting Partial Deploy")
-  (conf/merge-config (conf/load-config "prod.edn"))
+(defn -main [& [settings-path]]
+  (println (str "Starting Partial Deploy of " settings-path))
+  (conf/merge-config (conf/load-config settings-path))
   (export-to-local)
   (conf/reset)
   (println "Done"))

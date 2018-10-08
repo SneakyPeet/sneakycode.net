@@ -1,0 +1,4 @@
+{:domain "https://vivacious-toothpaste.surge.sh/"
+ :disqus? false
+ :google-analytics? false
+ :js-include-goog? false}

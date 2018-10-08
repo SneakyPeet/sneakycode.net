@@ -24,4 +24,5 @@
          :init sneakycode.core/app-init
          :auto-refresh? true}
   :aliases {"dev" ["ring" "server-headless" "4321"]
-            "deploy" ["run" "-m" "sneakycode.deploy"]})
+            "build" ["run" "-m" "sneakycode.deploy"]
+            })
