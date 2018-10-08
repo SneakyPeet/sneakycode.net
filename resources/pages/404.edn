@@ -1,11 +1,25 @@
 {:title "404"
  :content
- [:article.has-text-centered.is-size-3
-  [:br]
-  [:p "(╯°□°）╯︵ ┻━┻"]
-  [:br]
-  [:p "OOPS! Nothing to see here"]
-  [:br]
-  [:p "¯\\_(ツ)_/¯"]
-  [:br]
-  [:p "aka 404"]]}
+ (fn [{:keys [slug]}]
+   [:article.has-text-centered.is-size-3
+    [:br]
+    [:p "(╯°□°）╯︵ ┻━┻"]
+    [:br]
+    [:p "OOPS! Nothing to see here"]
+    [:br]
+    [:p "¯\\_(ツ)_/¯"]
+    [:br]
+    [:p "aka 404"]
+    [:script
+     "var path = window.location.pathname;
+      var end = path[path.length - 1];
+      if (path.indexOf('404') > -1) {
+         // swallow
+      }
+      else if ('/' === end) { // redirect for github
+        var next = path.substring(path.length-1, 1);
+        window.location.pathname = next + '.html';
+      } else if (path.indexOf('.html') === -1) { // redirect to .html while github propagates new url
+        window.location.pathname = path + '.html';
+      }
+      "]])}

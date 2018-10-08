@@ -21,5 +21,5 @@
                      :output-to (str "inline-cljs/" (~file-name ~slug))})
        (vec
         [:div
-         (if ~not-optimize? [:script {:type "text/javascript" :src "/out/goog/base.js"}] [:span])
-         [:script {:type "text/javascript" :src (~file-name ~slug)}]]))))
+         (if ~not-optimize? [:script {:type "text/javascript" :src (conf/url "/out/goog/base.js")}] [:span])
+         [:script {:type "text/javascript" :src (conf/url (~file-name ~slug))}]]))))
