@@ -1,2 +1,4 @@
 inline-cljs/*
 target/*
+docs/*
+/.nrepl-port
