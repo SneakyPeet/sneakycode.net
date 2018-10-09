@@ -11,7 +11,7 @@
      [:div.control #_has-icons-left
       [:input.input
        {:id      "monthly-spend" :type "number" :placeholder "Your Monthly Spend?"
-        :onkeyup "s.p.onchange_expenses(this)"}]
+        :onkeyup "s.p.onchange('expenses', this)"}]
       #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
      [:p.help.is-grey "Everything except monthly retirement savings"]]
     [:p "You would need "
@@ -28,19 +28,47 @@
      [:div.control #_has-icons-left
       [:input.input
        {:id      "saving" :type "number" :placeholder "Monthly savings for retirment"
-        :onkeyup "s.p.onchange_savings(this)"}]
+        :onkeyup "s.p.onchange('savings', this)"}]
       #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
      [:p.help.is-grey ""]]
 
     [:div.field
      [:div.control #_has-icons-left
       [:input.input
-       {:id "net-worth" :type "number" :placeholder "All your monies?"}]
+       {:id "net-worth" :type "number" :placeholder "All your monies?"
+        :onkeyup "s.p.onchange('net-worth', this)"}]
       #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
      [:p.help.is-grey "Your house and car should not be added"]]
 
+    [:div.field
+     [:div.control #_has-icons-left
+      [:input.input
+       {:id "interest" :type "range" :min 1 :max 10 :step 1 :value 5
+        :oninput "s.p.onchange('interest', this)"}]
+      #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
+     [:p.help.is-grey "interest above inflation"]]
+
+    [:div.field
+     [:div.control #_has-icons-left
+      [:input.input
+       {:id "withdraw-rate" :type "range" :min 1 :max 5 :step 1 :value 4
+        :oninput "s.p.onchange('withdraw-rate', this)"}]
+      #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
+     [:p.help.is-grey "withdraw-rate"]]
+
     [:strong.is-size-4.has-text-danger
      {:id "savings-rate"} "___"]
+    [:br]
+    [:strong.is-size-4.has-text-danger
+     {:id "years-left"} "___"]
+
+    [:div.columns
+     [:div.column.is-half
+      [:table.table.is-narrow.has-text-weight-bold
+       [:thead [:tr [:th "Savings Rate"] [:th "Years Left"]]]
+       [:tbody {:id "years"}]]]]
+
+
 
     (sneakycode.cljs/compile-cljs
      slug "s.p"
@@ -68,7 +96,7 @@
      (def assumed-return-after-inflation 5)
      (def assumed-safe-withdrawal-rate 4)
 
-     #_(defn years-till-financially-independent
+     (defn years-till-financially-independent
        "Implements the spreadsheet found here
         https://www.mrmoneymustache.com/2012/01/13/the-shockingly-simple-math-behind-early-retirement/"
        ([net-worth take-home-pay saving-rate]
@@ -114,26 +142,49 @@
 
      (def retire-amount-el (js/document.getElementById "retire-amount"))
      (def savings-rate-el (js/document.getElementById "savings-rate"))
+     (def years-left-el (js/document.getElementById "years-left"))
+     (def years-el (js/document.getElementById "years"))
 
 
      ;; STATE
 
-     (def *state (atom {:expenses nil}))
+     (def *state (atom {:withdraw-rate 4
+                        :interest 5}))
 
 
      (defn update-view []
-       (let [{:keys [retire-amount savings-rate]} @*state]
+       (let [{:keys [retire-amount savings-rate years-left years]} @*state]
          (prn @*state)
          (when retire-amount
            (set! (.-innerHTML retire-amount-el) (nice-number retire-amount)))
          (when savings-rate
            (set! (.-innerHTML savings-rate-el) (str savings-rate "%")))
+         (when years-left
+           (set! (.-innerHTML years-left-el) (if (> years-left 1000) "> 1000" years-left)))
+         (when years
+           (let [html (->> years
+                           (sort-by first)
+                           reverse
+                           (map (fn [[rate years you?]]
+                                  (str
+                                   "<tr style='background-color: "
+                                   (cond
+                                     you?  "#a3c7ff"
+                                     (<= years 10) "#83de83"
+                                     (<= years 20) "#fdfdac"
+                                     (<= years 30) "#fdd283"
+                                     (<= years 40) "#ffa1a1"
+                                     (> years 40) "#ff7171") "'>"
+                                   "<td>" rate "%</td>"
+                                   "<td>" years (if you? " (this is you)" "") "</td>"
+                                   "</tr>")))
+                           (string/join ""))]
+             (set! (.-innerHTML years-el) html)))
          ))
 
 
      (defn recalculate []
-       (let [{:keys [expenses savings net-worth]} @*state
-             net-worth (if (usable? net-worth) net-worth 0)
+       (let [{:keys [expenses savings net-worth interest withdraw-rate]} @*state
              next
              (cond-> @*state
                (usable? expenses)
@@ -141,48 +192,31 @@
 
                (and (usable? expenses) (usable? savings))
                (merge
-                (let [savings-rate (calc-savings-rate expenses savings)]
-                  {:savings-rate savings-rate})))]
+                (let [savings-rate (calc-savings-rate expenses savings)
+                      income (+ expenses savings)
+                      net-worth (if (usable? net-worth) net-worth 0)
+                      years-left (years-till-financially-independent net-worth income interest savings-rate withdraw-rate)]
+                  {:savings-rate savings-rate
+                   :years-left years-left
+                   :years [[5 (years-till-financially-independent net-worth income 5)]
+                           [10 (years-till-financially-independent net-worth income 10)]
+                           [15 (years-till-financially-independent net-worth income 15)]
+                           [20 (years-till-financially-independent net-worth income 20)]
+                           [30 (years-till-financially-independent net-worth income 30)]
+                           [40 (years-till-financially-independent net-worth income 40)]
+                           [50 (years-till-financially-independent net-worth income 50)]
+                           [60 (years-till-financially-independent net-worth income 60)]
+                           [70 (years-till-financially-independent net-worth income 70)]
+                           [savings-rate years-left :this-is-you]]})))]
          (reset! *state next)))
-
-
-     (defn update []
-       (recalculate)
-       (update-view))
-
-
-     (defn set-expenses [n]
-       (swap! *state assoc :expenses n)
-       (update))
-
-
-     (defn set-savings [n]
-       (swap! *state assoc :savings n)
-       (update))
-
-
-     #_(defn set-net-worth [n]
-         (let [{:keys [expenses]} @*state
-               savings-rate       (* (/ n expenses) 100)]
-           (swap! *state assoc
-                  :expenses n
-                  :retire- (* 300 n)))
-         (update))
-
 
      ;; IO
 
-
-     (defn ^:export onchange_expenses [el]
+     (defn ^:export onchange [k el]
        (let [value (.-value el)]
          (when-not (string/blank? value)
-           (set-expenses (js/parseInt (.-value el))))))
+           (swap! *state assoc (keyword k) (js/parseInt (.-value el)))
+           (recalculate)
+           (update-view))))
 
-
-     (defn ^:export onchange_savings [el]
-       (let [value (.-value el)]
-         (when-not (string/blank? value)
-           (set-savings (js/parseInt (.-value el))))))
-
-     )
-    ])}
+     )])}
