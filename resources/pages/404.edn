@@ -10,7 +10,7 @@
     [:p "¯\\_(ツ)_/¯"]
     [:br]
     [:p "aka 404"]
-    [:script
+    #_[:script
      "var path = window.location.pathname;
       var end = path[path.length - 1];
       if (path.indexOf('404') > -1) {

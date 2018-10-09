@@ -19,3 +19,5 @@ deploy
 /resources/inline-cljs/src/tojs/core.cljs
 out/*
 inline-cljs/*
+.cljs_nashorn_repl/*
+nashorn_code_cache/*

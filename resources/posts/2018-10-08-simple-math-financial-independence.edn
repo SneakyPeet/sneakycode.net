@@ -1,0 +1,83 @@
+{:title "The surprisingly simple road financial independence"
+
+ :content
+ (fn [{:keys [slug]}]
+   [:div.has-text-left
+    [:p [:strong "Financial Independence"] " "]
+    [:h4 "How much do I need"]
+    [:p "The answer to this question is very simple. How much money do you spend in a month?"
+     [:small ]]
+    [:div.field
+     [:div.control #_has-icons-left
+      [:input.input
+       {:id "monthly-spend" :type "number" :placeholder "Your Monthly Spend?"
+        :onkeyup "s.p.onchange_expenses(this)"}]
+      #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
+     [:p.help.is-grey "Everything except monthly retirement savings"]]
+    [:p "Thats it. Easy! To know how much you need we simply use what is called "
+     [:a "the 4% rule"] " and multiply your monthy expenses by 300."]
+    [:p "You will need "
+     [:strong.is-size-4.has-text-danger
+      {:id "retire-amount"}
+      "123524"]
+     " per month."]
+
+    [:h4 "How long will it take?"]
+    [:div.field
+     [:div.control #_has-icons-left
+      [:input.input
+       {:id "net-worth":type "number" :placeholder "All your monies?"}]
+      #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
+     [:p.help.is-grey "Everything except monthly retirement savings"]]
+
+    [:strong.is-size-4-has-text-danger
+     {:id "savings-rate"}]
+
+    (sneakycode.cljs/compile-cljs
+     slug "s.p"
+     (ns s.p
+       (:require [clojure.string :as string]))
+
+     ;; HELPERS
+
+     (defn nice-number [n]
+       (loop [s (str n)
+              result '()]
+         (if (empty? s)
+           (string/join " " result)
+           (recur
+            (string/join "" (drop-last 3 s))
+            (conj result (string/join "" (take-last 3 s)))))))
+
+     ;; ELEMENTS
+
+     (def retire-amount-el (js/document.getElementById "retire-amount"))
+
+
+     ;; STATE
+
+     (def *state (atom {:expenses nil}))
+
+
+     (defn update []
+       (let [{:keys [retire-amount]} @*state]
+         (set! (.-innerHTML retire-amount-el) (nice-number retire-amount))))
+
+
+     (defn set-expenses [n]
+       (swap! *state assoc
+              :expenses n
+              :retire-amount (* 300 n))
+       (update))
+
+
+     ;; IO
+
+
+     (defn ^:export onchange_expenses [el]
+       (let [value (.-value el)]
+         (when-not (string/blank? value)
+           (set-expenses (js/parseInt (.-value el))))))
+
+     )
+    ])}
