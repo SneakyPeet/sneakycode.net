@@ -10,28 +10,37 @@
     [:div.field
      [:div.control #_has-icons-left
       [:input.input
-       {:id "monthly-spend" :type "number" :placeholder "Your Monthly Spend?"
+       {:id      "monthly-spend" :type "number" :placeholder "Your Monthly Spend?"
         :onkeyup "s.p.onchange_expenses(this)"}]
       #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
      [:p.help.is-grey "Everything except monthly retirement savings"]]
-    [:p "Thats it. Easy! To know how much you need we simply use what is called "
-     [:a "the 4% rule"] " and multiply your monthy expenses by 300."]
-    [:p "You will need "
+    [:p "You would need "
      [:strong.is-size-4.has-text-danger
       {:id "retire-amount"}
-      "123524"]
-     " per month."]
+      "____"]
+     " saved if you wanted to retire today! As easy as that. To know how much you need we simply use what is called "
+     [:a "the 4% rule"] " and multiply your monthy expenses by 300."]
+
 
     [:h4 "How long will it take?"]
+
     [:div.field
      [:div.control #_has-icons-left
       [:input.input
-       {:id "net-worth":type "number" :placeholder "All your monies?"}]
+       {:id      "saving" :type "number" :placeholder "Monthly savings for retirment"
+        :onkeyup "s.p.onchange_savings(this)"}]
       #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
-     [:p.help.is-grey "Everything except monthly retirement savings"]]
+     [:p.help.is-grey ""]]
 
-    [:strong.is-size-4-has-text-danger
-     {:id "savings-rate"}]
+    [:div.field
+     [:div.control #_has-icons-left
+      [:input.input
+       {:id "net-worth" :type "number" :placeholder "All your monies?"}]
+      #_[:span.icon.is-small.is-left [:i.fas.fa-user]]]
+     [:p.help.is-grey "Your house and car should not be added"]]
+
+    [:strong.is-size-4.has-text-danger
+     {:id "savings-rate"} "___"]
 
     (sneakycode.cljs/compile-cljs
      slug "s.p"
@@ -41,7 +50,7 @@
      ;; HELPERS
 
      (defn nice-number [n]
-       (loop [s (str n)
+       (loop [s      (str n)
               result '()]
          (if (empty? s)
            (string/join " " result)
@@ -49,9 +58,62 @@
             (string/join "" (drop-last 3 s))
             (conj result (string/join "" (take-last 3 s)))))))
 
+     (defn usable? [n] (> n 0))
+
+
+     (defn calc-savings-rate [expenses savings]
+       (max 0 (js/Math.round (* 100 (- 1 (/ expenses (+ expenses savings)))))))
+
+
+     (def assumed-return-after-inflation 5)
+     (def assumed-safe-withdrawal-rate 4)
+
+     #_(defn years-till-financially-independent
+       "Implements the spreadsheet found here
+        https://www.mrmoneymustache.com/2012/01/13/the-shockingly-simple-math-behind-early-retirement/"
+       ([net-worth take-home-pay saving-rate]
+        (years-till-financially-independent
+         net-worth take-home-pay assumed-return-after-inflation saving-rate assumed-safe-withdrawal-rate))
+       ([net-worth take-home-pay return-after-inflation saving-rate withdrawal-rate]
+        (let [years-of-take-home-pay (/ net-worth (* take-home-pay 12))
+              return-after-inflation (/ return-after-inflation 100)
+              saving-rate            (/ saving-rate 100)]
+          (loop
+              [year                       0
+               investment-gains           0
+               years-of-take-home-income  years-of-take-home-pay
+               stash-relative-to-spending 0
+               withdraw-spend-percent     0]
+            (if (or (>= year 1000) (>= withdraw-spend-percent 100))
+              year
+              (let [year'                       (inc year)
+                    investment-gains'
+                    (+
+                     (-
+                      (*
+                       years-of-take-home-income
+                       (+
+                        1
+                        return-after-inflation))
+                      years-of-take-home-income)
+                     (*
+                      (/
+                       saving-rate
+                       2)
+                      return-after-inflation))
+                    years-of-take-home-income'  (+ (+ years-of-take-home-income investment-gains') saving-rate)
+                    stash-relative-to-spending' (/ years-of-take-home-income' (- 1 saving-rate))
+                    withdraw-spend-percent'     (* stash-relative-to-spending' withdrawal-rate)
+                    ]
+                (recur
+                 year' investment-gains' years-of-take-home-income'
+                 stash-relative-to-spending' withdraw-spend-percent')))))))
+
+
      ;; ELEMENTS
 
      (def retire-amount-el (js/document.getElementById "retire-amount"))
+     (def savings-rate-el (js/document.getElementById "savings-rate"))
 
 
      ;; STATE
@@ -59,16 +121,53 @@
      (def *state (atom {:expenses nil}))
 
 
+     (defn update-view []
+       (let [{:keys [retire-amount savings-rate]} @*state]
+         (prn @*state)
+         (when retire-amount
+           (set! (.-innerHTML retire-amount-el) (nice-number retire-amount)))
+         (when savings-rate
+           (set! (.-innerHTML savings-rate-el) (str savings-rate "%")))
+         ))
+
+
+     (defn recalculate []
+       (let [{:keys [expenses savings net-worth]} @*state
+             net-worth (if (usable? net-worth) net-worth 0)
+             next
+             (cond-> @*state
+               (usable? expenses)
+               (assoc :retire-amount (* 300 expenses))
+
+               (and (usable? expenses) (usable? savings))
+               (merge
+                (let [savings-rate (calc-savings-rate expenses savings)]
+                  {:savings-rate savings-rate})))]
+         (reset! *state next)))
+
+
      (defn update []
-       (let [{:keys [retire-amount]} @*state]
-         (set! (.-innerHTML retire-amount-el) (nice-number retire-amount))))
+       (recalculate)
+       (update-view))
 
 
      (defn set-expenses [n]
-       (swap! *state assoc
-              :expenses n
-              :retire-amount (* 300 n))
+       (swap! *state assoc :expenses n)
        (update))
+
+
+     (defn set-savings [n]
+       (swap! *state assoc :savings n)
+       (update))
+
+
+     #_(defn set-net-worth [n]
+         (let [{:keys [expenses]} @*state
+               savings-rate       (* (/ n expenses) 100)]
+           (swap! *state assoc
+                  :expenses n
+                  :retire- (* 300 n)))
+         (update))
 
 
      ;; IO
@@ -78,6 +177,12 @@
        (let [value (.-value el)]
          (when-not (string/blank? value)
            (set-expenses (js/parseInt (.-value el))))))
+
+
+     (defn ^:export onchange_savings [el]
+       (let [value (.-value el)]
+         (when-not (string/blank? value)
+           (set-savings (js/parseInt (.-value el))))))
 
      )
     ])}
