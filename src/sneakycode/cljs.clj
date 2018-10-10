@@ -1,17 +1,13 @@
 (ns sneakycode.cljs
   (:require [cljs.build.api :as build]
-            [sneakycode.config :as conf]))
-
-
-#_(defmacro compile-cljs
-  ([& body]
-   `(vec [:script (build/build '[~@body] {:optimizations :advanced})])))
+            [sneakycode.config :as conf]
+            [clojure.string :as string]))
 
 
 (defmacro compile-cljs
   [slug namespace-str & body]
   (let [not-optimize? (conf/getv :js-include-goog?)
-        file-name #(str "/out" % ".js")]
+        file-name #(str "/out" (if (string/starts-with? % "/") % (str "/" %)) ".js")]
     `(do
        (build/build '[~@body]
                     {:optimizations (if ~not-optimize? :none :advanced)
