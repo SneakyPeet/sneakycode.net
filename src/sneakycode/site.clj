@@ -4,7 +4,7 @@
             [me.raynes.cegdown :as md]
             [sneakycode.config :as conf]
             [sneakycode.cljs]
-            [sneakycode.md]
+            [sneakycode.render]
             [sneakycode.views :as views]
             [clojure.test :refer [function?]]
             [clj-rss.core :as rss])

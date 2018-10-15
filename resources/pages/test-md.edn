@@ -2,13 +2,16 @@
  :content
  (fn [{:keys [slug]}]
    [:div
-    (sneakycode.md/edn
+    (sneakycode.render/markdown
 
-     (sneakycode.md/clj
+     (sneakycode.render/clj
 
       (defn 1 2 3)))
 
-    (sneakycode.md/edn
+   (sneakycode.render/snipit :p5)
+
+
+    (sneakycode.render/markdown
      "# hello"
 
      "
@@ -17,7 +20,7 @@
 
      "bar"
 
-     (sneakycode.md/clj
+     (sneakycode.render/clj
 
       (defn foo [a b]
         (->> (+ a b)

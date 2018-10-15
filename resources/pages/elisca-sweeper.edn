@@ -3,7 +3,7 @@
  (fn [{:keys [slug]}]
    [:div
     [:p "ELISCAAAAAAAAA  Shift Click To Flag"]
-    [:script {:src "https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"}]
+    (sneakycode.render/snipit :p5)
     (sneakycode.cljs/compile-cljs
      slug "p.f"
      (ns p.f)
