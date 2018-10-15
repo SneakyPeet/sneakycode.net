@@ -18,7 +18,8 @@
                  [clygments "1.0.0"]
                  [enlive "1.1.6"]
                  [org.clojure/clojurescript "1.10.339" :exclusions [[com.google.code.findbugs/jsr305]
-                                                                    [com.google.code.gson/gson]]]]
+                                                                    [com.google.code.gson/gson]]]
+                 [zprint "0.4.10"]]
   :plugins [[lein-ring "0.12.4"]]
   :ring {:handler sneakycode.core/app
          :init sneakycode.core/app-init

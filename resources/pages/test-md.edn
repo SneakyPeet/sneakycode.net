@@ -1,0 +1,29 @@
+{:title "TEST MD"
+ :content
+ (fn [{:keys [slug]}]
+   [:div
+    (sneakycode.md/edn
+
+     (sneakycode.md/clj
+
+      (defn 1 2 3)))
+
+    (sneakycode.md/edn
+     "# hello"
+
+     "
+1. footer
+2. bar"
+
+     "bar"
+
+     (sneakycode.md/clj
+
+      (defn foo [a b]
+        (->> (+ a b)
+             inc
+             dec))
+
+      (+ 1 1)
+
+      ))])}
