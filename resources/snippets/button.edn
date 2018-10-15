@@ -1,0 +1,3 @@
+{:content
+ (fn [_ t]
+   [:button.button.is-primary t])}

@@ -20,15 +20,16 @@
 
 
 (defn markdown [& body]
-  [:div.content
+  [:div
    (md/to-html
     (->> body
          (map str)
          (string/join "\r\n\r\n")))])
 
 
-(defn snipit [k & args]
-  (let [path (str "snipits/" (name k) ".edn")
+(defn snippet [k & args]
+  (let [path (str "snippets/" (name k) ".edn")
+        _ (prn path)
         config (->> path
                     io/resource
                     slurp
@@ -52,6 +53,6 @@
     (+ 1 1)
     (- 2 2)))
 
-  (snipit :p5)
+  (snippet :button "sdf")
 
   )

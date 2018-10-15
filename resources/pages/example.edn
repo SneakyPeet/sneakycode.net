@@ -1,0 +1,30 @@
+{:title "Example"
+ :content
+ (fn [{:keys [slug]}]
+
+   [:div.content
+    [:h1 "Welcome"]
+
+    (sneakycode.render/markdown
+     "
+* have
+* some
+* markdown")
+
+    (sneakycode.render/clj
+     (defn awesomeness []
+       (prn "The Greatest")
+       )
+
+     (+ 1 1))
+
+    [:blockquote "Normal Hiccup also works"]
+
+
+    (sneakycode.cljs/compile-cljs
+     slug "foo.bar"
+     (ns foo.bar)
+     (prn "even the js works"))
+
+    (sneakycode.render/snippet :button "this can be anything you want to reuse around the site.")
+    ])}
