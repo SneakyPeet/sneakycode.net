@@ -29,7 +29,6 @@
 
 (defn snippet [k & args]
   (let [path (str "snippets/" (name k) ".edn")
-        _ (prn path)
         config (->> path
                     io/resource
                     slurp
@@ -46,12 +45,16 @@
 
 (comment
   (markdown
-   "# You Ma"
+   "# You Ma")
 
-   (code
-    "clojure"
-    (+ 1 1)
-    (- 2 2)))
+  (clj
+   (defn foo []
+     (->>  (+ 1 1)
+           dec
+           inc))
+
+   (- 2 2))
+
 
   (snippet :button "sdf")
 
