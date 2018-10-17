@@ -37,8 +37,11 @@ hr {
 .content {
   padding-bottom: $size-1;
   pre {
-    background-color: #f0f3f3; //#151718;
     border-radius: 5px;
+    box-shadow: 10px 14px 19px -9px rgba(0,0,0,0.15);
+    display: inline-block;
+    padding: 1.5rem 2.5rem !important;
+    margin: 1.25rem 0 1.5rem;
   }
   p {
     a {

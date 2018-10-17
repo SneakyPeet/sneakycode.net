@@ -16,6 +16,14 @@
        (prn "The Greatest")
        )
 
+     (defn my-foo [purple cars {:keys [a b]}]
+       (let [you-ma []
+             se-pa {:foo "123" }]
+         (-> se-pa
+             (assoc :ma you-ma)
+             ))
+       )
+
      (+ 1 1))
 
     [:blockquote "Normal Hiccup also works"]

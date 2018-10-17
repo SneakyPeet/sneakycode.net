@@ -1,0 +1,203 @@
+.syntax {
+  .hll {
+    background-color: #ffffcc;
+  }
+
+  background: #f9f9f9;
+  color: #586e75;
+
+  $sred: #c2324b;
+
+  $spurple: #844981;
+
+  $sgreen: #2aa198;
+
+  // Mine
+  .p {
+
+  }
+
+  .kd, .nb, .nd, .k {
+    color: $sred;
+  }
+
+  .nv {
+    color: $spurple;
+  }
+
+  .s, .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss, .mi {
+    color: $sgreen;
+  }
+
+
+  //Legacy
+
+  .c {
+    color: #93a1a1;
+    font-style: italic;
+  }
+
+  .g {
+    color: #d33682;
+  }
+
+  .l {
+    color: $sgreen;
+  }
+
+  .n {
+    color: $sgreen;
+  }
+
+  .ch, .cm, .cp, .cpf, .c1, .cs {
+    color: #93a1a1;
+    font-style: italic;
+  }
+
+  .gd, .ge, .gr, .gh, .gi, .go, .gp, .gs, .gu, .gt {
+    color: #d33682;
+  }
+
+  .kc {
+    color: #859900;
+    font-weight: bold;
+  }
+
+  .kn {
+    color: $sred;
+    font-weight: bold;
+  }
+
+  .kp, .kr {
+    color: #859900;
+  }
+
+  .kt {
+    color: $spurple;
+    font-weight: bold;
+  }
+
+  .ld {
+    color: $sgreen;
+  }
+
+  .m {
+    color: $sgreen;
+    font-weight: bold;
+  }
+
+
+  .na {
+    color: #844981;
+  }
+
+  .nb, .nc {
+    color: $sred;
+  }
+
+  .no, .ni, .ne, .nf, .nl, .nn, .nx, .py {
+    color: $sgreen;
+  }
+
+  .nt {
+    color: #844981;
+    font-weight: bold;
+  }
+
+
+
+  .ow {
+    color: #859900;
+  }
+
+  .w {
+    color: #586e75;
+  }
+
+  .mb, .mf, .mh, .mi, .mo {
+    color: $sgreen;
+    font-weight: bold;
+  }
+
+
+  .bp {
+    color: $sred;
+  }
+
+  .vc, .vg, .vi {
+    color: #844981;
+  }
+
+  .il {
+    color: $sgreen;
+    font-weight: bold;
+  }
+}
+
+/* Comment */
+/* Generic */
+/* Keyword */
+/* Literal */
+/* Name */
+/* Comment.Hashbang */
+/* Comment.Multiline */
+/* Comment.Preproc */
+/* Comment.PreprocFile */
+/* Comment.Single */
+/* Comment.Special */
+/* Generic.Deleted */
+/* Generic.Emph */
+/* Generic.Error */
+/* Generic.Heading */
+/* Generic.Inserted */
+/* Generic.Output */
+/* Generic.Prompt */
+/* Generic.Strong */
+/* Generic.Subheading */
+/* Generic.Traceback */
+/* Keyword.Constant */
+/* Keyword.Declaration */
+/* Keyword.Namespace */
+/* Keyword.Pseudo */
+/* Keyword.Reserved */
+/* Keyword.Type */
+/* Literal.Date */
+/* Literal.Number */
+/* Literal.String */
+/* Name.Attribute */
+/* Name.Builtin */
+/* Name.Class */
+/* Name.Constant */
+/* Name.Decorator */
+/* Name.Entity */
+/* Name.Exception */
+/* Name.Function */
+/* Name.Label */
+/* Name.Namespace */
+/* Name.Other */
+/* Name.Property */
+/* Name.Tag */
+/* Name.Variable */
+/* Operator.Word */
+/* Text.Whitespace */
+/* Literal.Number.Bin */
+/* Literal.Number.Float */
+/* Literal.Number.Hex */
+/* Literal.Number.Integer */
+/* Literal.Number.Oct */
+/* Literal.String.Backtick */
+/* Literal.String.Char */
+/* Literal.String.Doc */
+/* Literal.String.Double */
+/* Literal.String.Escape */
+/* Literal.String.Heredoc */
+/* Literal.String.Interpol */
+/* Literal.String.Other */
+/* Literal.String.Regex */
+/* Literal.String.Single */
+/* Literal.String.Symbol */
+/* Name.Builtin.Pseudo */
+/* Name.Variable.Class */
+/* Name.Variable.Global */
+/* Name.Variable.Instance */
+/* Literal.Number.Integer.Long */

@@ -7582,21 +7582,25 @@ label.panel-block {
         text-align: right; }
 
 .syntax {
-  background: #eee8d5;
+  background: #f9f9f9;
   color: #586e75; }
   .syntax .hll {
     background-color: #ffffcc; }
+  .syntax .kd, .syntax .nb, .syntax .nd, .syntax .k {
+    color: #c2324b; }
+  .syntax .nv {
+    color: #844981; }
+  .syntax .s, .syntax .sb, .syntax .sc, .syntax .sd, .syntax .s2, .syntax .se, .syntax .sh, .syntax .si, .syntax .sx, .syntax .sr, .syntax .s1, .syntax .ss, .syntax .mi {
+    color: #2aa198; }
   .syntax .c {
     color: #93a1a1;
     font-style: italic; }
   .syntax .g {
     color: #d33682; }
-  .syntax .k {
-    color: #859900; }
   .syntax .l {
     color: #2aa198; }
   .syntax .n {
-    color: #268bd2; }
+    color: #2aa198; }
   .syntax .ch, .syntax .cm, .syntax .cp, .syntax .cpf, .syntax .c1, .syntax .cs {
     color: #93a1a1;
     font-style: italic; }
@@ -7605,34 +7609,28 @@ label.panel-block {
   .syntax .kc {
     color: #859900;
     font-weight: bold; }
-  .syntax .kd {
-    color: #859900; }
   .syntax .kn {
-    color: #dc322f;
+    color: #c2324b;
     font-weight: bold; }
   .syntax .kp, .syntax .kr {
     color: #859900; }
   .syntax .kt {
-    color: #859900;
+    color: #844981;
     font-weight: bold; }
   .syntax .ld {
     color: #2aa198; }
   .syntax .m {
     color: #2aa198;
     font-weight: bold; }
-  .syntax .s {
-    color: #2aa198; }
   .syntax .na {
-    color: #268bd2; }
+    color: #844981; }
   .syntax .nb, .syntax .nc {
-    color: #cb4b16; }
-  .syntax .no, .syntax .nd, .syntax .ni, .syntax .ne, .syntax .nf, .syntax .nl, .syntax .nn, .syntax .nx, .syntax .py {
-    color: #268bd2; }
+    color: #c2324b; }
+  .syntax .no, .syntax .ni, .syntax .ne, .syntax .nf, .syntax .nl, .syntax .nn, .syntax .nx, .syntax .py {
+    color: #2aa198; }
   .syntax .nt {
-    color: #268bd2;
+    color: #844981;
     font-weight: bold; }
-  .syntax .nv {
-    color: #268bd2; }
   .syntax .ow {
     color: #859900; }
   .syntax .w {
@@ -7640,12 +7638,10 @@ label.panel-block {
   .syntax .mb, .syntax .mf, .syntax .mh, .syntax .mi, .syntax .mo {
     color: #2aa198;
     font-weight: bold; }
-  .syntax .sb, .syntax .sc, .syntax .sd, .syntax .s2, .syntax .se, .syntax .sh, .syntax .si, .syntax .sx, .syntax .sr, .syntax .s1, .syntax .ss {
-    color: #2aa198; }
   .syntax .bp {
-    color: #cb4b16; }
+    color: #c2324b; }
   .syntax .vc, .syntax .vg, .syntax .vi {
-    color: #268bd2; }
+    color: #844981; }
   .syntax .il {
     color: #2aa198;
     font-weight: bold; }
@@ -14771,8 +14767,11 @@ hr {
 .content {
   padding-bottom: 3rem; }
   .content pre {
-    background-color: #f0f3f3;
-    border-radius: 5px; }
+    border-radius: 5px;
+    box-shadow: 10px 14px 19px -9px rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    padding: 1.5rem 2.5rem !important;
+    margin: 1.25rem 0 1.5rem; }
   .content p a {
     color: #23d160; }
     .content p a:hover {
