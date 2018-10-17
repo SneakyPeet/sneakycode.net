@@ -1,4 +1,4 @@
-@import url(https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css);
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro);
 
 pre {
   margin: 1.25rem 0;
@@ -6,7 +6,6 @@ pre {
 }
 
 pre, code {
-  font-family: 'Fira Code' !important;
+  font-family: 'Source Code Pro', monospace !important;
   font-variant-ligatures: normal !important;
 }
-
