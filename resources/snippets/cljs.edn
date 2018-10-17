@@ -1,0 +1,3 @@
+{:content
+ (fn [_ name]
+   [:script {:src (sneakycode.config/url (str "/out/" name ".js"))}])}

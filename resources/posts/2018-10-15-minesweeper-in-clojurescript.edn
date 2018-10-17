@@ -1,0 +1,17 @@
+{:title "Minesweeper with clojurescript"
+ :description ""
+ :content
+ (fn [{:keys [slug]}]
+   [:div.content
+
+    [:div {:id "game"}]
+
+    ;;;; Load minesweeper
+    (sneakycode.render/snippet :p5)
+    (sneakycode.render/snippet :cljs "minesweeper")
+    (sneakycode.cljs/compile-cljs
+     false slug "mine.blog"
+     (ns mine.blog)
+     (.addEventListener js/window "load" js/mine.core.phone_game))
+
+    ])}

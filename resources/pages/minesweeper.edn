@@ -14,8 +14,7 @@
 
     (sneakycode.render/snippet :p5)
     (sneakycode.cljs/compile-cljs
-     slug
-     "mine.core"
+     true slug "mine.core"
 
      (ns mine.core)
 

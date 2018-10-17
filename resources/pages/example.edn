@@ -22,7 +22,7 @@
 
 
     (sneakycode.cljs/compile-cljs
-     slug "foo.bar"
+     false slug "foo.bar"
      (ns foo.bar)
      (prn "even the js works"))
 

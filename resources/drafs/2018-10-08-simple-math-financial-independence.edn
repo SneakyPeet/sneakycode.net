@@ -71,7 +71,7 @@
 
 
     (sneakycode.cljs/compile-cljs
-     slug "s.p"
+     false slug "s.p"
      (ns s.p
        (:require [clojure.string :as string]))
 
