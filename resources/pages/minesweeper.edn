@@ -7,7 +7,7 @@
     [:p "Shift Click to Flag a Square"]
     [:div.field.has-addons
      [:p.control
-      [:button.button.is-info {:onclick "mine.core.easy_game()"} "Easy"]
+      [:button.button.is-success {:onclick "mine.core.easy_game()"} "Easy"]
       [:button.button.is-warning {:onclick "mine.core.medium_game()"} "Medium"]
       [:button.button.is-danger {:onclick "mine.core.hard_game()"} "Hard"]]]
     [:div {:id "game"}]
