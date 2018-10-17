@@ -1,10 +1,36 @@
 {:title "Minesweeper with clojurescript"
  :description ""
+ :link (fn [k]
+         (let [links {:coding-challange ["https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH" "The Coding Train Coding Challenges"]
+                      :p5 ["https://p5js.org/" "p5.js"]
+                      :daniel ["https://twitter.com/shiffman" "Daniel Shiffman"]
+                      :minesweeper ["https://www.youtube.com/watch?v=LFU5ZlrR21E" "minesweeper coding challange"]
+                      :mine-wiki ["https://en.wikipedia.org/wiki/Minesweeper_(video_game)" "minesweeper"]
+                      :minesweeper-game [(sneakycode.config/url "/minesweeper") "play the full version here"]
+                      :clojure ["" "Clojure/Clojurescript"]}
+               [url text] (get links k)]
+           [:a {:href url :target "_blank"} text]))
  :content
- (fn [{:keys [slug]}]
+ (fn [{:keys [slug link]}]
    [:div.content
+    [:p "I have been working my way through the "
+     (link :coding-challange)
+     " videos on youtube. So far they have been quite informative and entertaining.
+There is something about combining math and graphics that has grabbed my attention and I have started to play around with building drawings and games using "
+     (link :p5)
+     " and clojurescript."
+     [:br]
+     (link :daniel)
+     " does an excellent job in presenting and producing these videos and I suggest you go and check them out."]
+    [:p "Daniel typically does these challanges in a javascript object oriented style and the resulting code is typically intuative and readable.
+However he often runs into some funny bugs due to the stateful nature of OO (like this dot!) and I sometimes wonder if the code could have been more consise if written in a functional style. In this post I am going to attemt just that."]
+    [:p "I'll be building a " (link :mine-wiki)" clone. You should go and watch the " (link :minesweeper) " as this will give you a nice idea of how the 2 paridimes differ. "
+     "Below is a tiny demo of the game (shift click to flag) and you can go and " (link :minesweeper-game) "."]
 
     [:div {:id "game"}]
+
+    [:hr]
+    [:h4 "Let's build!"]
 
     ;;;; Load minesweeper
     (sneakycode.render/snippet :p5)
