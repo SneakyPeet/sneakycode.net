@@ -7,7 +7,7 @@
                       :minesweeper ["https://www.youtube.com/watch?v=LFU5ZlrR21E" "minesweeper coding challange"]
                       :mine-wiki ["https://en.wikipedia.org/wiki/Minesweeper_(video_game)" "minesweeper"]
                       :minesweeper-game [(sneakycode.config/url "/minesweeper") "play the full version here"]
-                      :clojure ["" "Clojure/Clojurescript"]}
+                      :clojure ["https://clojurescript.org/" "Clojurescript"]}
                [url text] (get links k)]
            [:a {:href url :target "_blank"} text]))
  :content
@@ -23,7 +23,8 @@ There is something about combining math and graphics that has grabbed my attenti
      (link :daniel)
      " does an excellent job in presenting and producing these videos and I suggest you go and check them out."]
     [:p "Daniel typically does these challanges in a javascript object oriented style and the resulting code is typically intuative and readable.
-However he often runs into some funny bugs due to the stateful nature of OO (like this dot!) and I sometimes wonder if the code could have been more consise if written in a functional style. In this post I am going to attemt just that."]
+I have been keen for a while to replicate these challanges using " (link :clojure) " and this is the first attempt. In doing this I hope to 1. have fun and 2. get people excited about Clojure.
+Clojure has turned everything I believed about software on it's head and I am a better developer because of it. I am also having lots of fun."]
     [:p "I'll be building a " (link :mine-wiki)" clone. You should go and watch the " (link :minesweeper) " as this will give you a nice idea of how the 2 paridimes differ. "
      "Below is a tiny demo of the game (shift click to flag) and you can go and " (link :minesweeper-game) "."]
 
@@ -31,13 +32,37 @@ However he often runs into some funny bugs due to the stateful nature of OO (lik
 
     [:hr]
     [:h4 "Let's build!"]
+    [:p "Clojure is a dynamic functional hosted lisp. The lisp syntax might be trippy if you come from curly bracket land but in essence it is always"
+     [:code "(my-function arg1 arg2 ...)"]
+     " ... for everything ... ever. Clojure is functional and its core datastructures are persistant so we will be focusing on building the core minesweeper functionality using pure functions that opperate on immutable data. Once this is done we will add a state handling mechanism and finally the drawing of the game on the screen. This is typically how we build functional applications. We have a stateful outer layer that calls into a functional inner layer. Like a metaphorical functional sandwitch. Yummy!" ]
+    [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essencially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a map of index to cells. This allows me todo easy value lookups and update. Because the the basic board state does not change during the game, I can initialize the cells with all the information about their neighbouring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid datastructure then ends up looking like this"]
+    (sneakycode.render/clj
+     {0 {:i 0 :row 0 :col 0
+         :type :empty ; can also be :bomb or :bomb-adjacent
+         :flagged? false
+         :opened? false
+         :neighbours [1 5 6] ; indexes of neighbouring cells
+         :bombs-touching 0
+         }
+      1 {:i 1 :row 0 :col 1}
+      2 {:i 2 :row 0 :col 2}})
 
+    [:p "Now that I have an idea of what the data is going to look like, I can start creating and combining functions to build up this board state. The first thing I want to be able todo is to convert an index to a row and column and vice versa."]
+    (sneakycode.render/clj
+     (defn position
+       "given the grid width and index returns a vector containing column and row"
+       [col-count i]
+       (let [col (mod i col-count)
+             row (/ (- i col) col-count)]
+         [col row]))
+
+
+     (defn index
+       "given the grid width and the row and column, returns the index"
+       [col-count row col]
+       (+ col (* row col-count))))
     ;;;; Load minesweeper
     (sneakycode.render/snippet :p5)
     (sneakycode.render/snippet :cljs "minesweeper")
-    (sneakycode.cljs/compile-cljs
-     false slug "mine.blog"
-     (ns mine.blog)
-     (.addEventListener js/window "load" js/mine.core.phone_game))
-
+    [:script "window.addEventListener('load', mine.core.phone_game)"]
     ])}

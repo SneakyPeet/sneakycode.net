@@ -5,6 +5,7 @@
             [zprint.core :as zp]
             [clojure.java.io :as io]))
 
+(def default-clj-render-opts {:binding {:force-nl? true}})
 
 (defmacro clj [& body]
   (let [start "<pre><code class=\"clojure\">"
@@ -13,7 +14,7 @@
      start
      "\r\n"
      (->> body
-          (map zp/zprint-str)
+          (map #(zp/zprint-str % default-clj-render-opts))
           (string/join "\r\n\r\n"))
      "\r\n"
      end)))

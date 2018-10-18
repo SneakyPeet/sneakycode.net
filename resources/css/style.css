@@ -7586,7 +7586,7 @@ label.panel-block {
   color: #586e75; }
   .syntax .hll {
     background-color: #ffffcc; }
-  .syntax .kd, .syntax .nb, .syntax .nd, .syntax .k {
+  .syntax .kd, .syntax .nb, .syntax .nd, .syntax .k, .syntax .nf {
     color: #c2324b; }
   .syntax .nv {
     color: #844981; }
@@ -7626,7 +7626,7 @@ label.panel-block {
     color: #844981; }
   .syntax .nb, .syntax .nc {
     color: #c2324b; }
-  .syntax .no, .syntax .ni, .syntax .ne, .syntax .nf, .syntax .nl, .syntax .nn, .syntax .nx, .syntax .py {
+  .syntax .no, .syntax .ni, .syntax .ne, .syntax .nl, .syntax .nn, .syntax .nx, .syntax .py {
     color: #2aa198; }
   .syntax .nt {
     color: #844981;
