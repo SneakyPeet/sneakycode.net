@@ -38,10 +38,10 @@ Clojure has turned everything I believed about software on it's head and I am a 
     [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essencially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a map of index to cells. This allows me todo easy value lookups and update. Because the the basic board state does not change during the game, I can initialize the cells with all the information about their neighbouring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid datastructure then ends up looking like this"]
     (sneakycode.render/clj
      {0 {:i 0 :row 0 :col 0
-         :type :empty ; can also be :bomb or :bomb-adjacent
+         :type :empty
          :flagged? false
          :opened? false
-         :neighbours [1 5 6] ; indexes of neighbouring cells
+         :neighbours [1 5 6]
          :bombs-touching 0
          }
       1 {:i 1 :row 0 :col 1}

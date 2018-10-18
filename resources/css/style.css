@@ -14771,7 +14771,9 @@ hr {
     box-shadow: 10px 14px 19px -9px rgba(0, 0, 0, 0.15);
     display: inline-block;
     padding: 1.5rem 2.5rem !important;
-    margin: 1.25rem 0 1.5rem; }
+    margin: 1.25rem 0 1.5rem;
+    max-width: 90vw;
+    overflow-x: scroll; }
   .content p a {
     color: #23d160; }
     .content p a:hover {
