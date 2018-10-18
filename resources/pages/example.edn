@@ -12,6 +12,7 @@
 * markdown")
 
     (sneakycode.render/clj
+     {}
      (defn awesomeness []
        (prn "The Greatest")
        )

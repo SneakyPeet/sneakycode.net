@@ -28,7 +28,7 @@ Clojure has turned everything I believed about software on it's head and I am a 
     [:p "I'll be building a " (link :mine-wiki)" clone. You should go and watch the " (link :minesweeper) " as this will give you a nice idea of how the 2 paridimes differ. "
      "Below is a tiny demo of the game (shift click to flag) and you can go and " (link :minesweeper-game) "."]
 
-    [:div {:id "game"}]
+    [:div {:id "game" :style "display: inline-flex; box-shadow: 10px 14px 19px -9px rgba(0,0,0,0.15);"}]
 
     [:hr]
     [:h4 "Let's build!"]
@@ -37,6 +37,7 @@ Clojure has turned everything I believed about software on it's head and I am a 
      " ... for everything ... ever. Clojure is functional and its core datastructures are persistant so we will be focusing on building the core minesweeper functionality using pure functions that opperate on immutable data. Once this is done we will add a state handling mechanism and finally the drawing of the game on the screen. This is typically how we build functional applications. We have a stateful outer layer that calls into a functional inner layer. Like a metaphorical functional sandwitch. Yummy!" ]
     [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essencially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a map of index to cells. This allows me todo easy value lookups and update. Because the the basic board state does not change during the game, I can initialize the cells with all the information about their neighbouring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid datastructure then ends up looking like this"]
     (sneakycode.render/clj
+     {:map {:sort? false}}
      {0 {:i 0 :row 0 :col 0
          :type :empty
          :flagged? false
@@ -49,18 +50,39 @@ Clojure has turned everything I believed about software on it's head and I am a 
 
     [:p "Now that I have an idea of what the data is going to look like, I can start creating and combining functions to build up this board state. The first thing I want to be able todo is to convert an index to a row and column and vice versa."]
     (sneakycode.render/clj
+     {}
      (defn position
-       "given the grid width and index returns a vector containing column and row"
+       "given the grid width and index, returns a vector containing column and row"
        [col-count i]
        (let [col (mod i col-count)
              row (/ (- i col) col-count)]
          [col row]))
 
-
      (defn index
        "given the grid width and the row and column, returns the index"
        [col-count row col]
        (+ col (* row col-count))))
+    [:p "With that out of the way we can write a simple function that, given a grid width and an index, will create an empty cell."]
+    (sneakycode.render/clj
+     {:map {:sort? false :force-nl? true}}
+     (defn cell [col-count i]
+       (let [[col row] (position col-count i)]
+         {:i        i :row row :col col
+          :type     :empty
+          :flagged? false
+          :opened?  false})))
+
+    [:h5 "Creating the board"]
+    [:p "At the start of each game we want to initialize a new board. This is done in three simple steps. 1. Initialize the board with empty cells. 2. Randomly place some bombs. 3. Calculate the number of bombs each cell is touching."]
+    [:p "Initializing the grid is fairly simple. We simply calculate the number of cells, create a list of indexes from 0 to n-1, map over this list and create an empty cell for each index and finally create the map strucute we defined above."]
+    (sneakycode.render/clj
+     {:parse-string? true}
+     "(defn init-cells [row-count col-count]
+       (let [size (* row-count col-count)]
+         (->> (range size)
+              (map #(cell col-count %))
+              (map (juxt :i identity))
+              (into {}))))")
     ;;;; Load minesweeper
     (sneakycode.render/snippet :p5)
     (sneakycode.render/snippet :cljs "minesweeper")
