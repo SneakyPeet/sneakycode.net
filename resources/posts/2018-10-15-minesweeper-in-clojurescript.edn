@@ -73,8 +73,15 @@ Clojure has turned everything I believed about software on it's head and I am a 
           :opened?  false})))
 
     [:h5 "Creating the board"]
-    [:p "At the start of each game we want to initialize a new board. This is done in three simple steps. 1. Initialize the board with empty cells. 2. Randomly place some bombs. 3. Calculate the number of bombs each cell is touching."]
-    [:p "Initializing the grid is fairly simple. We simply calculate the number of cells, create a list of indexes from 0 to n-1, map over this list and create an empty cell for each index and finally create the map strucute we defined above."]
+    (sneakycode.render/markdown
+     "At the start of each game we want to initialize a new board. This is done in three simple steps.
+
+1. Initialize the board with empty cells.
+2. Randomly place some bombs.
+3. Calculate the number of bombs each cell is touching.
+
+**Initializing** the grid is fairly simple. We simply calculate the number of cells, create a list of indexes from 0 to size-1 using `range`, map over this list and create an empty cell for each index and finally, using `juxt` and `into`, create the map strucute we defined above.
+" )
     (sneakycode.render/clj
      {:parse-string? true}
      "(defn init-cells [row-count col-count]
@@ -83,6 +90,24 @@ Clojure has turned everything I believed about software on it's head and I am a 
               (map #(cell col-count %))
               (map (juxt :i identity))
               (into {}))))")
+
+    (sneakycode.render/markdown
+     "To **randomly place bombs** on the existing grid, we will create a loop that counts down from the number of bombs to zero. For every iteration we will randomly pick one of the empty cells and set its type to `:bomb`. That cell gets removed from the set of empty cells and we go back to the start of the loop until all bombs are placed. Recursion is the functional/immutable worlds answer to for loops that update state as part of their body. We use recur for non-stack-consuming looping.")
+    (sneakycode.render/clj
+     {:parse-string? true}
+     "(defn place-bombs [bomb-count cells-map]
+       (loop [bomb-count  bomb-count
+              empty-cells (set (keys cells-map))
+              result      cells-map]
+         (if (<= bomb-count 0)
+           result
+           (let [random-index (rand-int (count empty-cells))
+                 bomb-index   (nth (vec empty-cells) random-index)]
+             (recur
+              (dec bomb-count)
+              (disj empty-cells bomb-index) ; remove index from empty cells set
+              (assoc-in result [bomb-index :type] :bomb) ; update cell to contain a bomb
+)))))")
     ;;;; Load minesweeper
     (sneakycode.render/snippet :p5)
     (sneakycode.render/snippet :cljs "minesweeper")
