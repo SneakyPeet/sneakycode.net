@@ -18,6 +18,12 @@
       (last vs))))
 
 
+(defn- render-clj [options s]
+  (-> s
+      (zp/zprint-str (deep-merge default-clj-render-opts options))
+      (string/replace "<" "&lt;")))
+
+
 (defmacro clj [options & body]
   (let [start "<pre><code class=\"clojure\">"
         end   "</code></pre>"]
@@ -25,7 +31,7 @@
      start
      "\r\n"
      (->> body
-          (map #(zp/zprint-str % (deep-merge default-clj-render-opts options)))
+          (map #(render-clj options %))
           (string/join "\r\n\r\n"))
      "\r\n"
      end)))
