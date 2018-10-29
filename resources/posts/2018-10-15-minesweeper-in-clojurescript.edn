@@ -160,6 +160,45 @@ Clojure has turned everything I believed about software on it's head and I am a 
        (->> (init-cells row-count col-count)
             (place-bombs bomb-count)
             (set-neighbours row-count col-count))))
+
+    [:h5 "Handling game actions"]
+    (sneakycode.render/markdown
+     "Now that we have a board we want to be change the board state in a number of ways. We want to be able to:
+
+* toggle a cell as flagged
+* open a cell, which in turn will either
+    * detonate a bomb, causing us to lose the game
+    * open a cell that is bomb adjacent
+    * open an empty cell and recursively open all other non bomb cells that are adjacent
+* Check if we won the game
+
+Let's start with the latter. We have won the game if there are only bomb cells left to be opened")
+
+    (sneakycode.render/clj
+     {}
+     (defn win? [board]
+       (->> board
+            vals
+            (filter not-opened-non-bomb-cell?)
+            empty?)))
+    [:div [:p "Toggeling a cell as flagged is pretty straight forward. We simply set flagged as true:"]]
+    (sneakycode.render/clj
+     {}
+     (defn toggle-cell-flag [board i]
+       (update-in board [i :flagged?] not)))
+    [:div [:p "Opening an adjacent cell is also easy mode"]]
+    (sneakycode.render/clj
+     {}
+     (defn open-adjacent-cell [board i]
+       (assoc-in board [i :opened?] true)))
+    [:div [:p "As is detonating a bomb. Detonating a bomb opens all cells to reveal the entire board"]]
+    (sneakycode.render/clj
+     {}
+     (defn detonate [board {:keys [i] :as cell}]
+       (->> board
+            (map (fn [[i cell]]
+                   [i (assoc cell :opened? true)]))
+            (into {}))))
     ;;;; Load minesweeper
     (sneakycode.render/snippet :p5)
     (sneakycode.render/snippet :cljs "minesweeper")
