@@ -7,7 +7,7 @@
                       :minesweeper ["https://www.youtube.com/watch?v=LFU5ZlrR21E" "minesweeper coding challange"]
                       :mine-wiki ["https://en.wikipedia.org/wiki/Minesweeper_(video_game)" "minesweeper"]
                       :minesweeper-game [(sneakycode.config/url "/minesweeper") "play the full version here"]
-                      :clojure ["https://clojurescript.org/" "Clojurescript"]}
+                      :clojure ["https://clojurescript.org/" "Clojure/Clojurescript"]}
                [url text] (get links k)]
            [:a {:href url :target "_blank"} text]))
  :content
@@ -18,24 +18,22 @@
      " videos on youtube. So far they have been quite informative and entertaining.
 There is something about combining math and graphics that has grabbed my attention and I have started to play around with building drawings and games using "
      (link :p5)
-     " and clojurescript."
-     [:br]
+     " and clojurescript. "
      (link :daniel)
      " does an excellent job in presenting and producing these videos and I suggest you go and check them out."]
-    [:p "Daniel typically does these challanges in a javascript object oriented style and the resulting code is typically intuative and readable.
-I have been keen for a while to replicate these challanges using " (link :clojure) " and this is the first attempt. In doing this I hope to 1. have fun and 2. get people excited about Clojure.
+    [:p "Daniel typically does these challanges in a javascript object oriented style. I have been keen for a while to replicate these challanges using Functional Programming (via " (link :clojure) ") and this is the first attempt. In doing this I hope to 1. have fun and 2. get people excited about Clojure.
 Clojure has turned everything I believed about software on it's head and I am a better developer because of it. I am also having lots of fun."]
-    [:p "I'll be building a " (link :mine-wiki)" clone. You should go and watch the " (link :minesweeper) " as this will give you a nice idea of how the 2 paridimes differ. "
+    [:p "I'll be building a " (link :mine-wiki)" clone. You should go and watch the " (link :minesweeper) " as this will give you a nice idea of how the OO and FP paridimes differ. "
      "Below is a tiny demo of the game (shift click to flag) and you can go and " (link :minesweeper-game) "."]
 
     [:div {:id "game" :style "display: inline-flex; box-shadow: 10px 14px 19px -9px rgba(0,0,0,0.15);"}]
 
     [:hr]
     [:h4 "Let's build!"]
-    [:p "Clojure is a dynamic functional hosted lisp. The lisp syntax might be trippy if you come from curly bracket land but in essence it is always"
+    [:p "Clojure is a dynamic functional hosted lisp. The lisp syntax might be trippy if you come from curly bracket land, but in essence it is always"
      [:code "(my-function arg1 arg2 ...)"]
      " ... for everything ... ever. Clojure is functional and its core datastructures are persistant so we will be focusing on building the core minesweeper functionality using pure functions that opperate on immutable data. Once this is done we will add a state handling mechanism and finally the drawing of the game on the screen. This is typically how we build functional applications. We have a stateful outer layer that calls into a functional inner layer. Like a metaphorical functional sandwitch. Yummy!" ]
-    [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essencially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a map of index to cells. This allows me todo easy value lookups and update. Because the the basic board state does not change during the game, I can initialize the cells with all the information about their neighbouring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid datastructure then ends up looking like this"]
+    [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essencially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a map of indexes to cells. This allows me todo easy value lookups and update. Because the the basic board state does not change during the game, I can initialize the cells with all the information about their neighbouring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid datastructure then ends up looking like this:"]
     (sneakycode.render/clj
      {:map {:sort? false}}
      {0 {:i 0 :row 0 :col 0
@@ -45,10 +43,10 @@ Clojure has turned everything I believed about software on it's head and I am a 
          :neighbours [1 5 6]
          :bombs-touching 0
          }
-      1 {:i 1 :row 0 :col 1}
-      2 {:i 2 :row 0 :col 2}})
+      1 {:i 1 :row 0 :col 1 :type ..}
+      2 {:i 2 :row 0 :col 2 :type ..}})
 
-    [:p "Now that I have an idea of what the data is going to look like, I can start creating and combining functions to build up this board state. The first thing I want to be able todo is to convert an index to a row and column and vice versa."]
+    [:p "Now that I have an idea of what the data is going to look like, I can start creating and combining functions to build up the board state. The first thing I want to be able todo is to convert an index to a row and column and vice versa."]
     (sneakycode.render/clj
      {}
      (defn position
@@ -80,16 +78,17 @@ Clojure has turned everything I believed about software on it's head and I am a 
 2. Randomly place some bombs.
 3. Calculate the number of bombs each cell is touching.
 
-**Initializing** the grid is fairly simple. We simply calculate the number of cells, create a list of indexes from 0 to size-1 using `range`, map over this list and create an empty cell for each index and finally, using `juxt` and `into`, create the map strucute we defined above.
+**Initializing** the grid is fairly simple. We simply calculate the number of cells, create a list of indexes from 0 to size-1 using `range`, map over this list and create an empty cell for each index and finally, using `juxt` and `into`, create the map strucute we defined above. The threading macro (`->>`) helps us keep the code nice and readable.
 " )
     (sneakycode.render/clj
      {:parse-string? true}
      "(defn init-cells [row-count col-count]
        (let [size (* row-count col-count)]
-         (->> (range size)
-              (map #(cell col-count %))
+         (->> (range size) ; => (0 1 2 ... size-1)
+              (map #(cell col-count %)) ; => ({:i 0 :row ..} {:i 1 :row ..} ...)
               (map (juxt :i identity))
-              (into {}))))")
+              (into {}) ; => {0 {:i 0 :row ..} 1 {:i 1 :row ..} ...}
+)))")
 
     (sneakycode.render/markdown
      "To **randomly place bombs** on the existing grid, we will create a loop that counts down from the number of bombs to zero. For every iteration we will randomly pick one of the empty cells and set its type to `:bomb`. That cell gets removed from the set of empty cells and we go back to the start of the loop until all bombs are placed. Recursion is the functional/immutable worlds answer to for loops that update state as part of their body. We use recur for non-stack-consuming looping.")
@@ -104,10 +103,63 @@ Clojure has turned everything I believed about software on it's head and I am a 
            (let [random-index (rand-int (count empty-cells))
                  bomb-index   (nth (vec empty-cells) random-index)]
              (recur
-              (dec bomb-count)
-              (disj empty-cells bomb-index) ; remove index from empty cells set
-              (assoc-in result [bomb-index :type] :bomb) ; update cell to contain a bomb
+              (dec bomb-count) ; bomb-count - 1
+              (disj empty-cells bomb-index) ; remove index from empty cells
+              (assoc-in result [bomb-index :type] :bomb) ; update cell at index
 )))))")
+
+    (sneakycode.render/markdown
+     "For each cell, we want to know how many of their adjacent cells contains bombs. We will do this using two functions. The first function `neighbours` is a helper function that, given a cell, returns all the indexes of that cells neighbours. The `set-neighbours` function will map over our cells and for each cell set its neighbours, count its adjacent bomb cells and change the type of the cell if it is bomb adjacent.")
+    (sneakycode.render/clj
+     {:parse-string? true}
+     "
+     (defn neighbours
+       \"Calculates the indexes of a cell' neighbours\"
+       [row-count col-count cell]
+       (let [{:keys [i row col]} cell
+             row-                (dec row)
+             row+                (inc row)
+             col-                (dec col)
+             col+                (inc col)
+             neighbours          [[col- row-] [col row-] [col+ row-]
+                                  [col- row]             [col+ row]
+                                  [col- row+] [col row+] [col+ row+]]]
+         (->> neighbours
+              (filter (fn [[col row]] ; remove out of bounds cells
+                        (and (>= row 0) (>= col 0)
+                             (< row row-count) (< col col-count))))
+              (map (fn [[col row]] ; get the neighbour cell index
+                     (index col-count row col))))))"
+
+     )
+    (sneakycode.render/clj
+     {:parse-string? true}
+     "(defn set-neighbours
+       \"Calculates bomb adjacent cell totals and updates cell types if bomb adjacent\"
+       [row-count col-count cells-map]
+       (->> cells-map
+            (map (fn [[i cell]]
+                   (let [neighbours     (neighbours row-count col-count cell)
+                         bombs-touching (->> neighbours ; count adjacent bombs
+                                             (filter #(= :bomb (get-in cells-map [% :type])))
+                                             count)]
+                     [i
+                      (assoc cell
+                             :neighbours neighbours
+                             :bombs-touching bombs-touching
+                             :type (cond
+                                     (= :bomb (:type cell)) :bomb
+                                     (> bombs-touching 0)   :bomb-adjacent
+                                     :else                  (:type cell)))])))
+            (into {})))")
+    (sneakycode.render/markdown
+     "Finally we can compose our above functions into a single, board generating, function.")
+    (sneakycode.render/clj
+     {}
+     (defn board [row-count col-count bomb-count]
+       (->> (init-cells row-count col-count)
+            (place-bombs bomb-count)
+            (set-neighbours row-count col-count))))
     ;;;; Load minesweeper
     (sneakycode.render/snippet :p5)
     (sneakycode.render/snippet :cljs "minesweeper")
