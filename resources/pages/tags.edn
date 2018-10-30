@@ -13,6 +13,7 @@
                           tag]]]
                        (->>
                         posts
+                        (filter #(not (:draft? %)))
                         (map
                          (fn [{:keys [title slug]}]
                            [:div.timeline-item

@@ -5,6 +5,7 @@
    (let [posts
           (->> all-posts
                (map #(update % :date (fn [date] (subs date 0 7))))
+               (filter #(not (:draft? %)))
                (group-by :date)
                (sort-by first)
                (reverse)

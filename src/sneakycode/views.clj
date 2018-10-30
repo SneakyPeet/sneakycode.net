@@ -129,6 +129,7 @@
    [:div.navbar-brand
     [:a.navbar-item.has-text-weight-bold {:href (conf/url)} "sneakycode"]]])
 
+
 (defn- footer []
   [:nav.navbar.is-fixed-bottom.is-dark.has-gradient
    {:role "navigation" :aria-label "main navigation"}
@@ -182,7 +183,8 @@
 
 
 (defn post-page [{:keys [title description render tags date next previous all-tags all-posts group slug] :as post}]
-  (let [all-tags    (->> all-tags
+  (let [all-posts   (filter #(not (:draft? %)) all-posts)
+        all-tags    (->> all-tags
                          (map #(hash-map (:tag %) (:posts %)))
                          (into {}))
         group-posts (->> all-posts
@@ -249,6 +251,7 @@
                                                 (remove #(= title (:title %))))]
                              (when-not (empty? tag-posts)
                                (->> tag-posts
+                                    (filter #(not (:draft? %)))
                                     (map (fn [{:keys [title slug]}]
                                            [[:div.timeline-item
                                              [:div.timeline-marker]
@@ -280,6 +283,7 @@
     (fn [_]
       (let [posts
             (->> posts
+                 (filter #(not (:draft? %)))
                  (sort-by :date)
                  reverse
                  (map (fn [{:keys[date title slug]}]

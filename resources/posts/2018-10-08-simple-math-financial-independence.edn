@@ -1,5 +1,5 @@
 {:title "The surprisingly simple road financial independence"
-
+ :draft? true
  :content
  (fn [{:keys [slug]}]
    [:div.has-text-left

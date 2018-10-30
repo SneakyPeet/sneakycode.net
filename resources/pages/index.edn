@@ -33,6 +33,7 @@
  :recent-posts
  (fn [{:keys [all-posts post-tile] :as page}]
    (let [posts (->> all-posts
+                    (filter #(not (:draft? %)))
                     (sort-by :date)
                     reverse
                     (take 4)
