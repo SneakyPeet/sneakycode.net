@@ -199,7 +199,7 @@
              col                      (js/Math.floor (/ mx size))
              row                      (js/Math.floor (/ my size))
              i                        (index cols row col)
-             ctrl-pressed?            (= 16 (when js/keyIsPressed js/keyCode))
+             ctrl-pressed?            (= 16 (when (js/keyIsDown 16) js/keyCode))
              dead?                    (:dead? @*state)
              win?                     (:win? @*state)
              f                        (cond
@@ -499,7 +499,7 @@
              col                      (js/Math.floor (/ mx size))
              row                      (js/Math.floor (/ my size))
              i                        (index cols row col)
-             ctrl-pressed?            (= 16 (when js/keyIsPressed js/keyCode))
+             ctrl-pressed?            (= 16 (when (js/keyIsDown 16) js/keyCode))
              dead?                    (:dead? @*state)
              win?                     (:win? @*state)
              f                        (cond
