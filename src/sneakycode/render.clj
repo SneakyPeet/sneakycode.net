@@ -6,7 +6,8 @@
             [clojure.java.io :as io]))
 
 (def default-clj-render-opts {:binding {:force-nl? true}
-                              :map {:comma? false}})
+                              :map {:comma? false}
+                              :parse {:interpose "\n\n"}})
 
 (defn- deep-merge [v & vs]
   (letfn [(rec-merge [v1 v2]
