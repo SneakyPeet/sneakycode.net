@@ -2,4 +2,4 @@
  (fn [_ {:keys [file-path page?]}]
    (let [base (if page? "page" "post")
          href (str "https://github.com/SneakyPeet/sneakycode.net/tree/master/resources/" base "s" file-path)]
-     [:p [:small [:i "The source code for this " base " is available on " [:a {:href href :target "_blank"} "github"]]]]))}
+     [:p [:small [:i "The source code for this " base " is available on " [:a {:href href :target "_blank"} "GitHub"]]]]))}
