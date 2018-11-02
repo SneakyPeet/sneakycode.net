@@ -53,7 +53,7 @@
           {:n "Gitlab TV" :l "https://sneakypeet.github.io/gitlab-tv/" :g "https://github.com/SneakyPeet/gitlab-tv"
            :d "A TV for watching gitlab ci pipelines"
            :t ["clojure_alt"]}
-          {:n "P5 CLJS Starter" :l "https://github.com/SneakyPeet/p5js-cljs-starter"
+          #_{:n "P5 CLJS Starter" :l "https://github.com/SneakyPeet/p5js-cljs-starter"
            :d "A Figwheel project template for building P5.js drawings using clojurescript"
            :t ["clojure_alt"]}
           {:n "bucks" :l "https://sneakypeet.github.io/bucks/" :g "https://github.com/sneakypeet/bucks"

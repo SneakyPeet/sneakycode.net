@@ -28,16 +28,16 @@
      (defn index [col-count row col] (+ col (* row col-count)))
 
 
-     (defn neighbours [row-count col-count cell]
+     (defn neighbors [row-count col-count cell]
        (let [{:keys [i row col]} cell
              row-                (dec row)
              row+                (inc row)
              col-                (dec col)
              col+                (inc col)
-             neighbours          [[col- row-] [col row-] [col+ row-]
+             neighbors          [[col- row-] [col row-] [col+ row-]
                                   [col- row]             [col+ row]
                                   [col- row+] [col row+] [col+ row+]]]
-         (->> neighbours
+         (->> neighbors
               (filter (fn [[col row]]
                         (and (>= row 0) (>= col 0)
                              (< row row-count) (< col col-count))))
@@ -75,16 +75,16 @@
               (assoc-in result [bomb-index :type] :bomb))))))
 
 
-     (defn set-neighbours [row-count col-count cells-map]
+     (defn set-neighbors [row-count col-count cells-map]
        (->> cells-map
             (map (fn [[i cell]]
-                   (let [neighbours     (neighbours row-count col-count cell)
-                         bombs-touching (->> neighbours
+                   (let [neighbors     (neighbors row-count col-count cell)
+                         bombs-touching (->> neighbors
                                              (filter #(= :bomb (get-in cells-map [% :type])))
                                              count)]
                      [i
                       (assoc cell
-                             :neighbours neighbours
+                             :neighbors neighbors
                              :bombs-touching bombs-touching
                              :type (cond
                                      (= :bomb (:type cell)) :bomb
@@ -96,7 +96,7 @@
      (defn board [row-count col-count bomb-count]
        (->> (init-cells row-count col-count)
             (place-bombs bomb-count)
-            (set-neighbours row-count col-count)))
+            (set-neighbors row-count col-count)))
 
 
      (defn adjacent-open-cells
@@ -107,7 +107,7 @@
          (if (empty? cells-to-check)
            cells-to-open
            (let [i                                     (first cells-to-check)
-                 {:keys [neighbours opened?] :as cell} (get board i)
+                 {:keys [neighbors opened?] :as cell} (get board i)
                  t                                     (:type cell)
                  should-open?                          (and (not= :bomb t) (not opened?))]
              (if-not should-open?
@@ -115,9 +115,9 @@
                       (conj cells-checked i)
                       cells-to-open)
                (let [cells-not-to-check (into cells-checked cells-to-check)
-                     neighbours-to-add  (when (= :empty t)
-                                          (filter #(not (contains? cells-not-to-check %))  neighbours))]
-                 (recur (into (disj cells-to-check i) neighbours-to-add)
+                     neighbors-to-add  (when (= :empty t)
+                                          (filter #(not (contains? cells-not-to-check %))  neighbors))]
+                 (recur (into (disj cells-to-check i) neighbors-to-add)
                         (conj cells-checked i)
                         (conj cells-to-open i))))))))
 
@@ -329,16 +329,16 @@
      (defn index [col-count row col] (+ col (* row col-count)))
 
 
-     (defn neighbours [row-count col-count cell]
+     (defn neighbors [row-count col-count cell]
        (let [{:keys [i row col]} cell
              row-                (dec row)
              row+                (inc row)
              col-                (dec col)
              col+                (inc col)
-             neighbours          [[col- row-] [col row-] [col+ row-]
+             neighbors          [[col- row-] [col row-] [col+ row-]
                                   [col- row]             [col+ row]
                                   [col- row+] [col row+] [col+ row+]]]
-         (->> neighbours
+         (->> neighbors
               (filter (fn [[col row]]
                         (and (>= row 0) (>= col 0)
                              (< row row-count) (< col col-count))))
@@ -376,16 +376,16 @@
               (assoc-in result [bomb-index :type] :bomb))))))
 
 
-     (defn set-neighbours [row-count col-count cells-map]
+     (defn set-neighbors [row-count col-count cells-map]
        (->> cells-map
             (map (fn [[i cell]]
-                   (let [neighbours     (neighbours row-count col-count cell)
-                         bombs-touching (->> neighbours
+                   (let [neighbors     (neighbors row-count col-count cell)
+                         bombs-touching (->> neighbors
                                              (filter #(= :bomb (get-in cells-map [% :type])))
                                              count)]
                      [i
                       (assoc cell
-                             :neighbours neighbours
+                             :neighbors neighbors
                              :bombs-touching bombs-touching
                              :type (cond
                                      (= :bomb (:type cell)) :bomb
@@ -397,7 +397,7 @@
      (defn board [row-count col-count bomb-count]
        (->> (init-cells row-count col-count)
             (place-bombs bomb-count)
-            (set-neighbours row-count col-count)))
+            (set-neighbors row-count col-count)))
 
 
      (defn adjacent-open-cells
@@ -408,7 +408,7 @@
          (if (empty? cells-to-check)
            cells-to-open
            (let [i                                     (first cells-to-check)
-                 {:keys [neighbours opened?] :as cell} (get board i)
+                 {:keys [neighbors opened?] :as cell} (get board i)
                  t                                     (:type cell)
                  should-open?                          (and (not= :bomb t) (not opened?))]
              (if-not should-open?
@@ -416,9 +416,9 @@
                       (conj cells-checked i)
                       cells-to-open)
                (let [cells-not-to-check (into cells-checked cells-to-check)
-                     neighbours-to-add  (when (= :empty t)
-                                          (filter #(not (contains? cells-not-to-check %))  neighbours))]
-                 (recur (into (disj cells-to-check i) neighbours-to-add)
+                     neighbors-to-add  (when (= :empty t)
+                                          (filter #(not (contains? cells-not-to-check %))  neighbors))]
+                 (recur (into (disj cells-to-check i) neighbors-to-add)
                         (conj cells-checked i)
                         (conj cells-to-open i))))))))
 
