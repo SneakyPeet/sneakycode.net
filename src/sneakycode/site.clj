@@ -68,7 +68,8 @@
     (merge
      file-config
      (prep-file-name file-type file-name)
-     {:render (fn [{:keys [content] :as file-config}]
+     {:file-path file-name
+      :render (fn [{:keys [content] :as file-config}]
                 (if (function? content)
                   (content file-config)
                   content))})))
@@ -81,6 +82,7 @@
      file-config
      (prep-file-name file-type file-name)
      {:content markdown
+      :file-path file-name
       :render (fn [{:keys [content]}]
                 (md/to-html content [:autolinks :fenced-code-blocks :strikethrough]))})))
 
@@ -90,10 +92,11 @@
 (defn get-pages [posts tags]
   (->> (stasis/slurp-directory "resources/pages" file-extensions)
        (map #(prep-file :page %))
-       (map (fn [{:keys [file-name] :as file-config}]
+       (map (fn [{:keys [file-name file-path] :as file-config}]
               [file-name (fn [req] (-> file-config
                                       (assoc :all-tags tags
-                                             :all-posts posts)
+                                             :all-posts posts
+                                             :page? true)
                                       views/layout-page))]))
        (into {})))
 

@@ -12,7 +12,7 @@
                [url text] (get links k)]
            [:a {:href url :target "_blank"} text]))
  :content
- (fn [{:keys [slug link]}]
+ (fn [{:keys [slug link] :as post}]
    [:div.content
     [:p "I have been working my way through the "
      (link :coding-challange)
@@ -34,7 +34,7 @@ Clojure has turned everything I believed about software on it's head and I am a 
     [:p "Clojure is a dynamic functional hosted lisp. The lisp syntax might be trippy if you come from curly bracket land, but in essence it is always"
      [:code "(my-function arg1 arg2 ...)"]
      " ... for everything ... ever. Clojure is functional and its core datastructures are persistant so we will be focusing on building the core minesweeper functionality using pure functions that opperate on immutable data. Once this is done we will add a state handling mechanism and finally the drawing of the game on the screen. This is typically how we build functional applications. We have a stateful outer layer that calls into a functional inner layer. Like a metaphorical functional sandwitch. Yummy!" ]
-    [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essencially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a map of indexes to cells. This allows me todo easy value lookups and update. Because the the basic board state does not change during the game, I can initialize the cells with all the information about their neighbouring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid datastructure then ends up looking like this:"]
+    [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essencially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a hash-map of indexes to cells. This allows me to easily do value lookups and updates. Because the the basic board state does not change during the game, I can initialize the cells with all the information about their neighbouring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid datastructure then ends up looking like this:"]
     (sneakycode.render/clj
      {:map {:sort? false}}
      {0 {:i 0 :row 0 :col 0
@@ -76,11 +76,11 @@ Clojure has turned everything I believed about software on it's head and I am a 
     (sneakycode.render/markdown
      "At the start of each game we want to initialize a new board. This is done in three simple steps.
 
-1. Initialize the board with empty cells.
-2. Randomly place some bombs.
-3. Calculate the number of bombs each cell is touching.
+1. Initialize the grid with empty cells
+2. Randomly place some bombs
+3. Calculate the number of bombs each cell is touching
 
-**Initializing** the grid is fairly simple. We simply calculate the number of cells, create a list of indexes from 0 to size-1 using `range`, map over this list and create an empty cell for each index and finally, using `juxt` and `into`, create the map strucute we defined above. The threading macro (`->>`) helps us keep the code nice and readable.
+**Initializing** the grid is fairly simple. We simply calculate the number of cells, create a list of indexes from 0 to size-1 using `range`, map over this list and create an empty cell for each index and finally, using `juxt` and `into`, create the hash-map strucute we defined above. The threading macro `->>` helps us keep the code nice and readable.
 " )
     (sneakycode.render/clj
      {:parse-string? true}
@@ -111,7 +111,7 @@ Clojure has turned everything I believed about software on it's head and I am a 
 )))))")
 
     (sneakycode.render/markdown
-     "For each cell, we want to know how many of their adjacent cells contains bombs. We will do this using two functions. The first function `neighbours` is a helper function that, given a cell, returns all the indexes of that cells neighbours. The `set-neighbours` function will map over our cells and for each cell set its neighbours, count its adjacent bomb cells and change the type of the cell if it is bomb adjacent.")
+     "For each cell, we want to know how many of their adjacent cells **contains bombs**. We will do this using two functions. The first function, `neighbours`, is a helper function that, given a cell, returns all the indexes of that cell's neighbours. The `set-neighbours` function will map over our cells and for each cell set its neighbours, count its adjacent bomb cells and change the type of the cell if it is bomb adjacent.")
     (sneakycode.render/clj
      {:parse-string-all? true}
      "
@@ -171,9 +171,9 @@ Clojure has turned everything I believed about software on it's head and I am a 
     * detonate a bomb, causing us to lose the game
     * open a cell that is bomb adjacent
     * open an empty cell and recursively open all other non bomb cells that are adjacent
-* Check if we won the game
+* check if we won the game
 
-Let's start with the latter. We have won the game if all non-bomb cells have been opened:")
+Let's start with the latter. We have **won the game** if all non-bomb cells have been opened:")
 
     (sneakycode.render/clj
      {}
@@ -186,19 +186,19 @@ Let's start with the latter. We have won the game if all non-bomb cells have bee
             (filter not-opened-non-bomb-cell?)
             empty?)))
 
-    [:div [:p "Toggeling a cell as flagged is pretty straight forward. We simply negate the flagged? field:"]]
+    (sneakycode.render/markdown  "**Flagging** a cell is pretty straight forward. We simply negate the flagged? field:")
     (sneakycode.render/clj
      {}
      (defn toggle-cell-flag [board i]
        (update-in board [i :flagged?] not)))
 
-    [:div [:p "Opening a cell that is adjacent to a bomb is also easy mode"]]
+    [:div [:p [:strong "Opening "] "a cell that is adjacent to a bomb is also easy mode"]]
     (sneakycode.render/clj
      {}
      (defn open-adjacent-cell [board i]
        (assoc-in board [i :opened?] true)))
 
-    [:div [:p "As is detonating a bomb. Detonating a bomb opens all cells to reveal the entire board"]]
+    (sneakycode.render/markdown  "As is **detonating** a bomb. Detonating a bomb opens all cells to reveal the entire board")
     (sneakycode.render/clj
      {}
      (defn detonate [board {:keys [i] :as cell}]
@@ -208,7 +208,8 @@ Let's start with the latter. We have won the game if all non-bomb cells have bee
             (into {}))))
 
     (sneakycode.render/markdown
-     "Opening a cell that is not touching a bomb cell is slightly less trivial. We want to recursively check the neighbours of this cell and the neighbours neighbours, and if they are not bombs, we want to open them. We use the `adjacent-open-cells` function to get all the cells we need to open and then we simply reduce that list over the board and open the cells")
+     (str
+      "Opening a cell that is **not touching a bomb cell** is slightly less trivial. We want to recursively check the neighbours of this cell and the neighbours neighbours, and if they are not bombs, we want to open them. We use the `adjacent-open-cells` function to get all the cells we need to open and then we simply reduce that list over the board and open the cells. *(I'm sure a better way to do this exists, but I only have so many hours in the day " (sneakycode.render/snippet :emoji :shrug) " )*"))
 
     (sneakycode.render/clj
      {:parse-string-all? true}
@@ -263,7 +264,7 @@ Let's start with the latter. We have won the game if all non-bomb cells have bee
                  :win?  win?}))))
 
     (sneakycode.render/markdown
-     "You will notice that the `open-cell` function does not take a board hash-map as the other functions does, but a game hash-map. This is simply to allow us to define some more general fields around our board that can be used by the consumer to determine various things. We call this state the `game` and we initialize the game using:")
+     "You will notice that the `open-cell` function does not take a board hash-map as the other functions does, but a game hash-map. This is simply to allow us to define some general fields around our board that can be used by the consumer to determine various things. We call this state the `game` and we initialize a game using:")
 
     (sneakycode.render/clj
      {}
@@ -299,14 +300,14 @@ Let's start with the latter. We have won the game if all non-bomb cells have bee
      (run-game) ; => You died at index 9")
 
     (sneakycode.render/markdown
-     "* All of the code is above is expressed using pure functions, meaning that given an input we can always expect the same output. Nowhere are we mutating any state. All of the clojure data types we have used are immutable and persistent.
+     "* All of the code above is expressed using pure functions, meaning that given an input we can always expect the same output. Nowhere are we mutating any state. All of the clojure data types we have used are immutable and persistent. This makes our code very easy to reason about and writing tests trivial.
 
-* The above code is valid clojure and clojurescript, meaning it will run on the jvm, node and in the browser without us having to make any changes. Technically it will run on the clr too using clojureclr, but I have not tried it. This is the power of a hosted language.")
+* All the code is valid clojure and clojurescript, meaning it will run on the jvm, node and in the browser without us having to make any changes. Technically it will run on the clr too using clojureclr, but I have not tried it. This is the power of a hosted language.")
 
     [:hr]
     [:h5 "Can haz side effects?"]
     (sneakycode.render/markdown
-     "Ultimately, any useful program will end up having some side effects, whether this is writing to disk or reacting to user input. Our game will be rendered in the browser using p5.js and the game state will be kept in a clojure atom. You can see in the `mouse-clicked` function how easily we interop with javascript and p5 by simply using `js/`. ")
+     "Ultimately, any useful program will end up having some side effects, whether this is writing to disk or reacting to user input. Our game will be rendered in the browser using p5.js and the game state will be kept in a clojure atom. Everytime the user clicks we will call a function that will run the current state through our functions and then save the new state in our atom. Our view render code can then simply query the state atom for the latest state. You can see in the `mouse-clicked` function how easily we interop with javascript and p5 by simply using `js/`. ")
 
     (sneakycode.render/clj
      {:parse-string-all? true}
@@ -341,15 +342,94 @@ Let's start with the latter. We have won the game if all non-bomb cells have bee
        (reset! *state (new-game 10 10 10)))
 
      (easy-game)")
-    [:div [:p "To see the full p5.js implementation you can jump over to the " (link :minesweeper-code) "."]]
+
+    (sneakycode.render/markdown
+     "Finally we can render our game to the screen. We initialize the board inside of p5.js's draw function and then \"save\" ut in the `*state` atom. Then in the p5 draw function we iterate the items in the grid and draw them to screen, we use multimethods to draw open cells based on the type of cell.")
+    (sneakycode.render/clj
+     {:parse-string-all? true}
+     "(defonce *canvas (atom nil))
+
+(defn setup
+  []
+  (easy-game)
+  (let [{:keys [rows cols size]} @*state
+        canvas (js/createCanvas (+ 1 (* cols size)) (+ 1 (* rows size)))]
+    (.parent canvas \"game\")
+    (js/rectMode \"CENTER\")
+    (js/noStroke)
+    (reset! *canvas canvas)
+    (add-watch *state \"redraw\" #(js/redraw))))
+
+(defn draw-initial-cell
+  []
+  (if (:win? @*state) (js/fill 0 255 0) (js/fill 240))
+  (let [{:keys [size]} @*state]
+    (js/rect 0 0 size size)))
+
+(defn draw-flagged-cell
+  []
+  (draw-initial-cell)
+  (js/fill 255 150 0)
+  (js/noStroke)
+  (let [{:keys [size]} @*state]
+    (js/ellipse (/ size 2) (/ size 2) (/ size 3) (/ size 3))))
+
+(defn draw-empty-cell
+  []
+  (js/fill 150)
+  (let [{:keys [size]} @*state]
+    (js/rect 0 0 size size)))
+
+(defmulti draw-cell :type)
+
+(defmethod draw-cell :empty [_] (draw-empty-cell))
+
+(defmethod draw-cell :bomb
+  [_]
+  (draw-empty-cell)
+  (js/fill 255 0 0)
+  (js/noStroke)
+  (let [{:keys [size]} @*state]
+    (js/ellipse (/ size 2) (/ size 2) (/ size 2) (/ size 2))))
+
+(defmethod draw-cell :bomb-adjacent
+  [cell]
+  (draw-empty-cell)
+  (js/noStroke)
+  (js/fill (* 50 (:bombs-touching cell)) 0 0)
+  (js/textSize 15)
+  (let [{:keys [size]} @*state]
+    (js/text (str (:bombs-touching cell)) (/ size 2.2) (/ size 1.5))))
+
+(defn draw
+  []
+  (let [{:keys [size board cols rows]} @*state]
+    (.resize @*canvas (inc (* cols size)) (inc (* rows size)))
+    (doseq [[i {:keys [row col flagged? opened?] :as cell}] board]
+      (js/push)
+      (js/stroke 180)
+      (js/translate (* col size) (* row size))
+      (cond opened? (draw-cell cell)
+            flagged? (draw-flagged-cell)
+            :else (draw-initial-cell))
+      (js/pop)))
+  (js/noLoop))
+
+(doto js/window
+  (aset \"setup\" setup)
+  (aset \"draw\" draw)
+  (aset \"touchStarted\" mouse-clicked))")
+    [:div [:p "To see the full implementation in one place you can jump over to the " (link :minesweeper-code) "."]]
     [:hr]
     [:h5 "Conclusion"]
     (sneakycode.render/markdown
-     "Implementing minesweeper we have seen the beauty of expressing code using pure functions. We simply define some data and then transform that data into new data. This results in a codebase that is clean, consise and easy to reason about and maintain. To make the code usable we wrap our functional code in a stateful shell, allowing us to easily run our code anywhere we like, whilst maintaining integrity.
+     "Implementing minesweeper we have seen the simplicity of expressing code using a set of pure functions. We simply define some data and then transform that data. We are also free of weird side effects and bugs because we rely on immutable datastructures. This results in a codebase that is clean, consise and easy to reason about and maintain. To make the code usable we wrap our functional code in a stateful shell, allowing us to easily run our code anywhere we like, whilst maintaining integrity.
 
-I hope you have found my clojure ramblings useful and I hope that I have planted a small seed of interest/curiosity in your brain that will compell you to have a look at functional programming and at clojure. Personally I have fallen in love with clojure. It is such an elegant and thought through language. Since moving to clojure I have 10X more fun writing code aswell as completed many more side projects than I ever manged before. I would encourage you to go and play with clojure. Simply trying out things that you are not familiar with (like lisp, FP and immutability) will make you a better programmer.
+I hope you have found my clojure ramblings useful and I hope that I have planted a small seed of interest/curiosity in your brain that will compell you to have a look at functional programming and at clojure. Personally I have fallen in love with clojure. It is such an elegant and thought through language. Since moving to clojure I have 10X more fun writing code as well as completed many more side projects than I ever manged before. I would encourage you to go and play with clojure. Simply trying out things that you are not familiar with (like lisp, FP and immutability) will make you a better programmer.
 
 > note: I am pretty sure that the code above is not perfect, and if you are reading this as an experienced clojure developer, feel free to point that out in the comments below.")
+    [:br]
+    (sneakycode.render/snippet :source post)
     ;;;; Load minesweeper
     (sneakycode.render/snippet :p5)
     (sneakycode.render/snippet :cljs "minesweeper")

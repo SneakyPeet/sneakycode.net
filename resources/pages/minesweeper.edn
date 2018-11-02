@@ -1,7 +1,7 @@
 {:title "Minesweeper"
  :description "Minesweeper implemented using clojurescript and P5 js"
  :content
- (fn [{:keys [slug description]}]
+ (fn [{:keys [slug description] :as page}]
    [:div.content
     [:p.has-text-weight-bold description]
     [:p "Shift Click to Flag a Square"]
@@ -309,9 +309,10 @@
        (aset "draw" draw)
        (aset "touchStarted" mouse-clicked))
      )
-    [:br][:br][:br]
+    [:br]
     (sneakycode.render/markdown
      "The below code requires the [p5.js](https://p5js.org/) library to be included on the page before it is executed.")
+    (sneakycode.render/snippet :source page)
     (sneakycode.render/clj
      {:parse-string-all? true}
 

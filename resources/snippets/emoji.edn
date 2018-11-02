@@ -1,0 +1,6 @@
+{:content
+ (fn [_ key]
+   (get
+    {:table-flip "(╯°□°）╯︵ ┻━┻"
+     :shrug "¯&#92;_(ツ)_/¯"}
+    key))}
