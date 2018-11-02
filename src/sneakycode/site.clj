@@ -104,7 +104,10 @@
 ;;;; POSTS
 
 (defn link-posts [posts]
-  (let [posts (->> posts (sort-by :date) reverse)]
+  (let [posts (->> posts
+                   (filter #(not (:draft? %)))
+                   (sort-by :date)
+                   reverse)]
     (loop [previous  nil
            remainder posts
            result    []]
