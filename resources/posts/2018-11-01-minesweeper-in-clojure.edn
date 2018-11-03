@@ -29,7 +29,13 @@ Clojure has turned everything I believed about software on its head and I am a b
      "Below is a tiny demo of the game (shift click to flag) and you can go and " (link :minesweeper-game) "."]
 
     [:div {:id "game" :style "display: inline-flex; box-shadow: 10px 14px 19px -9px rgba(0,0,0,0.15);"}]
-
+    [:br] [:br]
+    [:p
+     [:small
+      [:strong "Update: "]
+      "This post made it to the front page of "
+      [:a {:href "https://news.ycombinator.com/item?id=18363750" :target "_blank"} "hackernews"]
+      ". Head there for some nice conversation in the comments section."]]
     [:hr]
     [:h4 "Let's build!"]
     [:p "Clojure is a dynamic functional hosted lisp. The lisp syntax might be trippy if you come from curly bracket land, but in essence it is always"
