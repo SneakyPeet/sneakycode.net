@@ -1,5 +1,6 @@
 {:title "Minesweeper in clojure"
- :description ""
+ :description "As a fun experiment, and to show the basics of clojure development, I implemented a minesweeper clone using clojurescript and p5.js."
+ :tags ["clojurescript" "p5"]
  :link (fn [k]
          (let [links {:coding-challenge ["https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH" "Coding Train Coding Challenges"]
                       :p5 ["https://p5js.org/" "p5.js"]
