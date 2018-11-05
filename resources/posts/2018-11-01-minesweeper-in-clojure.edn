@@ -43,40 +43,40 @@ Clojure has turned everything I believed about software on its head and I am a b
      " ... for everything ... ever. Clojure is functional and its core data structures are persistant, so we will be focusing on building the core minesweeper functionality using pure functions that operate on immutable data. Once this is done we will add a state handling mechanism and finally the drawing of the game on the screen. This is typically how we build functional applications. We have a stateful outer layer that calls into a functional inner layer. Like a metaphorical functional sandwich. Yummy!" ]
     [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essencially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a hash-map of indexes to cells. This allows me to easily do value lookups and updates. Because the basic board state does not change during the game, I can initialize the cells with all the information about their neighboring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid data structure then ends up looking like this:"]
     (sneakycode.render/clj
-     {:map {:sort? false}}
-     {0 {:i 0 :row 0 :col 0
-         :type :empty
-         :flagged? false
-         :opened? false
-         :neighbors [1 5 6]
-         :bombs-touching 0
-         }
-      1 {:i 1 :row 0 :col 1 :type ..}
-      2 {:i 2 :row 0 :col 2 :type ..}})
+     "
+{0 {:i 0 :row 0 :col 0
+    :type :empty
+    :flagged? false
+    :opened? false
+    :neighbors [1 5 6]
+    :bombs-touching 0
+    }
+ 1 {:i 1 :row 0 :col 1 :type ..}
+ 2 {:i 2 :row 0 :col 2 :type ..}}")
 
     [:p "Now that I have an idea of what the data is going to look like, I can start creating and combining functions to build up the board state. The first thing I want to be able to do is to convert an index to a row and column and vice versa."]
     (sneakycode.render/clj
-     {}
-     (defn position
-       "given the grid width and index, returns a vector containing column and row"
-       [col-count i]
-       (let [col (mod i col-count)
-             row (/ (- i col) col-count)]
-         [col row]))
+     "
+(defn position
+  \"given the grid width and index, returns a vector containing column and row\"
+  [col-count i]
+  (let [col (mod i col-count)
+        row (/ (- i col) col-count)]
+    [col row]))
 
-     (defn index
-       "given the grid width and the row and column, returns the index"
-       [col-count row col]
-       (+ col (* row col-count))))
+(defn index
+  \"given the grid width and the row and column, returns the index\"
+  [col-count row col]
+  (+ col (* row col-count)))")
     [:p "With that out of the way we can write a simple function that, given a grid width and an index, will create an empty cell."]
     (sneakycode.render/clj
-     {:map {:sort? false :force-nl? true}}
-     (defn cell [col-count i]
-       (let [[col row] (position col-count i)]
-         {:i        i :row row :col col
-          :type     :empty
-          :flagged? false
-          :opened?  false})))
+     "
+(defn cell [col-count i]
+  (let [[col row] (position col-count i)]
+    {:i        i :row row :col col
+     :type     :empty
+     :flagged? false
+     :opened?  false}))")
 
     [:hr]
     [:h5 "Creating the board"]
@@ -90,84 +90,81 @@ Clojure has turned everything I believed about software on its head and I am a b
 **Initializing** the grid is fairly simple. We simply calculate the number of cells, create a list of indexes from 0 to size-1 using `range`, map over this list and create an empty cell for each index and finally, using `juxt` and `into`, create the hash-map structure we defined above. The threading macro `->>` helps us keep the code nice and readable.
 " )
     (sneakycode.render/clj
-     {:parse-string? true}
-     "(defn init-cells [row-count col-count]
-       (let [size (* row-count col-count)]
-         (->> (range size) ; => (0 1 2 ... size-1)
-              (map #(cell col-count %)) ; => ({:i 0 :row ..} {:i 1 :row ..} ...)
-              (map (juxt :i identity))
-              (into {}) ; => {0 {:i 0 :row ..} 1 {:i 1 :row ..} ...}
-)))")
+     "
+(defn init-cells [row-count col-count]
+  (let [size (* row-count col-count)]
+    (->> (range size) ; => (0 1 2 ... size-1)
+         (map #(cell col-count %)) ; => ({:i 0 :row ..} {:i 1 :row ..} ...)
+         (map (juxt :i identity))
+         (into {}) ; => {0 {:i 0 :row ..} 1 {:i 1 :row ..} ...})))")
 
     (sneakycode.render/markdown
      "To **randomly place bombs** on the existing grid, we will create a loop that counts down from the number of bombs to zero. For every iteration we will randomly pick one of the empty cells and set its type to `:bomb`. That cell gets removed from the set of empty cells and we go back to the start of the loop until all bombs are placed. Recursion is the functional/immutable worlds answer to for loops that update state as part of their body. We use recur for non-stack-consuming looping.")
     (sneakycode.render/clj
-     {:parse-string? true}
-     "(defn place-bombs [bomb-count cells-map]
-       (loop [bomb-count  bomb-count
-              empty-cells (set (keys cells-map))
-              result      cells-map]
-         (if (<= bomb-count 0)
-           result
-           (let [random-index (rand-int (count empty-cells))
-                 bomb-index   (nth (vec empty-cells) random-index)]
-             (recur
-              (dec bomb-count) ; bomb-count - 1
-              (disj empty-cells bomb-index) ; remove index from empty cells
-              (assoc-in result [bomb-index :type] :bomb) ; update cell at index
+     "
+(defn place-bombs [bomb-count cells-map]
+  (loop [bomb-count  bomb-count
+         empty-cells (set (keys cells-map))
+         result      cells-map]
+    (if (<= bomb-count 0)
+      result
+      (let [random-index (rand-int (count empty-cells))
+            bomb-index   (nth (vec empty-cells) random-index)]
+        (recur
+         (dec bomb-count) ; bomb-count - 1
+         (disj empty-cells bomb-index) ; remove index from empty cells
+         (assoc-in result [bomb-index :type] :bomb) ; update cell at index
 )))))")
 
     (sneakycode.render/markdown
      "For each cell, we want to know how many of their adjacent cells **contains bombs**. We will do this using two functions. The first function, `neighbors`, is a helper function that, given a cell, returns all the indexes of that cell's neighbors. The `set-neighbors` function will map over our cells and for each cell set its neighbors, count its adjacent bomb cells and change the type of the cell if it is bomb adjacent.")
     (sneakycode.render/clj
-     {:parse-string-all? true}
      "
-     (defn neighbors
-       \"Calculates the indexes of a cell' neighbors\"
-       [row-count col-count cell]
-       (let [{:keys [i row col]} cell
-             row-                (dec row)
-             row+                (inc row)
-             col-                (dec col)
-             col+                (inc col)
-             neighbors          [[col- row-] [col row-] [col+ row-]
-                                  [col- row]             [col+ row]
-                                  [col- row+] [col row+] [col+ row+]]]
-         (->> neighbors
-              (filter (fn [[col row]] ; remove out of bounds cells
-                        (and (>= row 0) (>= col 0)
-                             (< row row-count) (< col col-count))))
-              (map (fn [[col row]] ; get the neighbor cell index
-                     (index col-count row col))))))
+(defn neighbors
+  \"Calculates the indexes of a cell' neighbors\"
+  [row-count col-count cell]
+  (let [{:keys [i row col]} cell
+        row- (dec row)
+        row+ (inc row)
+        col- (dec col)
+        col+ (inc col)
+        neighbors [[col- row-] [col row-] [col+ row-]
+                   [col- row]             [col+ row]
+                   [col- row+] [col row+] [col+ row+]]]
+    (->> neighbors
+         (filter (fn [[col row]] ; remove out of bounds cells
+                   (and (>= row 0) (>= col 0)
+                        (< row row-count) (< col col-count))))
+         (map (fn [[col row]] ; get the neighbor cell index
+                (index col-count row col))))))
 
-     (defn set-neighbors
-       \"Calculates bomb adjacent cell totals and updates cell types if bomb adjacent\"
-       [row-count col-count cells-map]
-       (->> cells-map
-            (map (fn [[i cell]]
-                   (let [neighbors     (neighbors row-count col-count cell)
-                         bombs-touching (->> neighbors ; count adjacent bombs
-                                             (filter #(= :bomb (get-in cells-map [% :type])))
-                                             count)]
-                     [i
-                      (assoc cell
-                             :neighbors neighbors
-                             :bombs-touching bombs-touching
-                             :type (cond
-                                     (= :bomb (:type cell)) :bomb
-                                     (> bombs-touching 0)   :bomb-adjacent
-                                     :else                  (:type cell)))])))
-            (into {})))"
-     )
+(defn set-neighbors
+  \"Calculates bomb adjacent cell totals and updates cell types if bomb adjacent\"
+  [row-count col-count cells-map]
+  (->> cells-map
+       (map (fn [[i cell]]
+              (let [neighbors (neighbors row-count col-count cell)
+                    bombs-touching (->> neighbors ; count adjacent bombs
+                                        (filter #(= :bomb (get-in cells-map [% :type])))
+                                        count)]
+                [i
+                 (assoc cell
+                        :neighbors neighbors
+                        :bombs-touching bombs-touching
+                        :type (cond
+                                (= :bomb (:type cell)) :bomb
+                                (> bombs-touching 0)   :bomb-adjacent
+                                :else                  (:type cell)))])))
+       (into {})))")
 
     (sneakycode.render/markdown
      "Finally we can compose our above functions into a single, board generating, function.")
     (sneakycode.render/clj
-     {}
-     (defn board [row-count col-count bomb-count]
-       (->> (init-cells row-count col-count)
-            (place-bombs bomb-count)
-            (set-neighbors row-count col-count))))
+     "
+(defn board [row-count col-count bomb-count]
+  (->> (init-cells row-count col-count)
+       (place-bombs bomb-count)
+       (set-neighbors row-count col-count)))")
     [:hr]
     [:h5 "Handling game actions"]
     (sneakycode.render/markdown
@@ -183,106 +180,106 @@ Clojure has turned everything I believed about software on its head and I am a b
 Let's start with the latter. We have **won the game** if all non-bomb cells have been opened:")
 
     (sneakycode.render/clj
-     {}
-     (defn not-opened-non-bomb-cell? [cell]
-       (and (false? (:opened? cell)) (not= :bomb (:type cell))))
+     "
+(defn not-opened-non-bomb-cell? [cell]
+  (and (false? (:opened? cell)) (not= :bomb (:type cell))))
 
-     (defn win? [board]
-       (->> board
-            vals
-            (filter not-opened-non-bomb-cell?)
-            empty?)))
+(defn win? [board]
+  (->> board
+       vals
+       (filter not-opened-non-bomb-cell?)
+       empty?))")
 
     (sneakycode.render/markdown  "**Flagging** a cell is pretty straight forward. We simply negate the flagged? field:")
     (sneakycode.render/clj
-     {}
-     (defn toggle-cell-flag [board i]
-       (update-in board [i :flagged?] not)))
+     "
+(defn toggle-cell-flag [board i]
+  (update-in board [i :flagged?] not))")
 
     [:div [:p [:strong "Opening "] "a cell that is adjacent to a bomb is also easy mode"]]
     (sneakycode.render/clj
-     {}
-     (defn open-adjacent-cell [board i]
-       (assoc-in board [i :opened?] true)))
+     "
+(defn open-adjacent-cell [board i]
+  (assoc-in board [i :opened?] true))")
 
     (sneakycode.render/markdown  "As is **detonating** a bomb. Detonating a bomb opens all cells to reveal the entire board")
     (sneakycode.render/clj
-     {}
-     (defn detonate [board {:keys [i] :as cell}]
-       (->> board
-            (map (fn [[i cell]]
-                   [i (assoc cell :opened? true)]))
-            (into {}))))
+     "
+(defn detonate [board {:keys [i] :as cell}]
+  (->> board
+       (map (fn [[i cell]]
+              [i (assoc cell :opened? true)]))
+       (into {})))")
 
     (sneakycode.render/markdown
      (str
       "Opening a cell that is **not touching a bomb cell** is slightly less trivial. We want to recursively check the neighbors of this cell and the neighbors neighbors, and if they are not bombs, we want to open them. We use the `adjacent-open-cells` function to get all the cells we need to open and then we simply reduce that list over the board and open the cells. *(I'm sure a better way to do this exists, but I only have so many hours in the day " (sneakycode.render/snippet :emoji :shrug) " )*"))
 
     (sneakycode.render/clj
-     {:parse-string-all? true}
-     "(defn adjacent-open-cells
-       [board i]
-       (loop [cells-to-check #{i}
-              cells-checked  #{}
-              cells-to-open  []]
-         (if (empty? cells-to-check)
-           cells-to-open
-           (let [i                                     (first cells-to-check)
-                 {:keys [neighbors opened?] :as cell} (get board i)
-                 t                                     (:type cell)
-                 should-open?                          (and (not= :bomb t) (not opened?))]
-             (if-not should-open?
-               (recur (disj cells-to-check i)
-                      (conj cells-checked i)
-                      cells-to-open)
-               (let [cells-not-to-check (into cells-checked cells-to-check)
-                     neighbors-to-add  (when (= :empty t)
-                                          (filter #(not (contains? cells-not-to-check %))  neighbors))]
-                 (recur (into (disj cells-to-check i) neighbors-to-add)
-                        (conj cells-checked i)
-                        (conj cells-to-open i))))))))
+     "
+(defn adjacent-open-cells
+  [board i]
+  (loop [cells-to-check #{i}
+         cells-checked  #{}
+         cells-to-open  []]
+    (if (empty? cells-to-check)
+      cells-to-open
+      (let [i (first cells-to-check)
+            {:keys [neighbors opened?] :as cell} (get board i)
+            t (:type cell)
+            should-open? (and (not= :bomb t) (not opened?))]
+        (if-not should-open?
+          (recur (disj cells-to-check i)
+                 (conj cells-checked i)
+                 cells-to-open)
+          (let [cells-not-to-check (into cells-checked cells-to-check)
+                neighbors-to-add  (when (= :empty t)
+                                     (filter #(not (contains? cells-not-to-check %))  neighbors))]
+            (recur (into (disj cells-to-check i) neighbors-to-add)
+                   (conj cells-checked i)
+                   (conj cells-to-open i))))))))
 
 
-      (defn open-empty-cell [board i]
-       (reduce
-        (fn [b i] (open-adjacent-cell b i))
-        board
-        (adjacent-open-cells board i)))")
+ (defn open-empty-cell [board i]
+  (reduce
+   (fn [b i] (open-adjacent-cell b i))
+   board
+   (adjacent-open-cells board i)))")
 
 
     (sneakycode.render/markdown
      "And finally we compose all these functions together into a single function that allows us to open any cell.")
 
     (sneakycode.render/clj
-     {}
-     (defn open-cell [{:keys [board] :as game} i]
-       (let [cell   (get board i)
-             bomb?  (= :bomb (:type cell))
-             empty? (= :empty (:type cell))
-             next-board
-             (cond
-               bomb?  (detonate board cell)
-               empty? (open-empty-cell board i)
-               :else  (open-adjacent-cell board i))
-             win?   (win? next-board)]
-         (merge game
-                {:board next-board
-                 :dead? bomb?
-                 :win?  win?}))))
+     "
+(defn open-cell [{:keys [board] :as game} i]
+  (let [cell   (get board i)
+        bomb?  (= :bomb (:type cell))
+        empty? (= :empty (:type cell))
+        next-board
+        (cond
+          bomb?  (detonate board cell)
+          empty? (open-empty-cell board i)
+          :else  (open-adjacent-cell board i))
+        win?   (win? next-board)]
+    (merge game
+           {:board next-board
+            :dead? bomb?
+            :win?  win?})))")
 
     (sneakycode.render/markdown
      "You will notice that the `open-cell` function does not take a board hash-map as the other functions does, but a game hash-map. This is simply to allow us to define some general fields around our board that can be used by the consumer to determine various things. We call this state the `game` and we initialize a game using:")
 
     (sneakycode.render/clj
-     {}
-     (defn new-game [rows cols bombs]
-       {:board (board rows cols bombs)
-        :win?  false
-        :dead? false
-        :rows  rows
-        :cols  cols
-        :bombs bombs
-        :size  35}))
+     "
+(defn new-game [rows cols bombs]
+  {:board (board rows cols bombs)
+   :win?  false
+   :dead? false
+   :rows  rows
+   :cols  cols
+   :bombs bombs
+   :size  35})")
 
     [:hr]
     [:h5 "Taking a step back"]
@@ -292,19 +289,19 @@ Let's start with the latter. We have **won the game** if all non-bomb cells have
 * The above code is enough to run a game of minesweeper. A very naive way would be to recursively open cells until a bomb is found:")
 
     (sneakycode.render/clj
-     {:parse-string-all? true}
-     "(defn run-game
-       \"Recursively open cells from index 0 until a bomb is found\"
-       []
-       (loop [index 0
-              game (new-game 10 10 10)]
-         (if (:dead? game)
-           (str \"You died at index \" index)
-           (recur
-            (inc index)
-            (open-cell game index)))))
+     "
+(defn run-game
+  \"Recursively open cells from index 0 until a bomb is found\"
+  []
+  (loop [index 0
+         game (new-game 10 10 10)]
+    (if (:dead? game)
+      (str \"You died at index \" index)
+      (recur
+       (inc index)
+       (open-cell game index)))))
 
-     (run-game) ; => You died at index 9")
+(run-game) ; => You died at index 9")
 
     (sneakycode.render/markdown
      "* All of the code above is expressed using pure functions, meaning that given an input we can always expect the same output. Nowhere are we mutating any state. All of the clojure data types we have used are immutable and persistent. This makes our code very easy to reason about and writing tests trivial.
@@ -317,44 +314,44 @@ Let's start with the latter. We have **won the game** if all non-bomb cells have
      "Ultimately, any useful program will end up having some side effects, whether this is writing to disk or reacting to user input. Our game will be rendered in the browser using p5.js and the game state will be kept in a clojure atom. Every time the user clicks we will call a function that will run the current state through our functions and then save the new state in our atom. Our view render code can then simply query the state atom for the latest state. You can see in the `mouse-clicked` function how easily we interop with javascript and p5 by simply using `js/`. ")
 
     (sneakycode.render/clj
-     {:parse-string-all? true}
-     "(defonce *state (atom nil))
+     "
+(defonce *state (atom nil))
 
 
-     (defn reset-game []
-       (let [{:keys [rows cols bombs]} @*state]
-         (reset! *state (new-game rows cols bombs))))
+(defn reset-game []
+  (let [{:keys [rows cols bombs]} @*state]
+    (reset! *state (new-game rows cols bombs))))
 
 
-     (defn mouse-clicked []
-       (let [{:keys [rows cols size]} @*state
-             mx                       js/mouseX
-             my                       js/mouseY
-             in-bounds?               (and (pos? mx) (pos? my) (< mx (* size cols)) (< my (* size rows)))
-             col                      (js/Math.floor (/ mx size))
-             row                      (js/Math.floor (/ my size))
-             i                        (index cols row col)
-             shift-pressed?           (= 16 (when (js/keyIsDown 16) js/keyCode))
-             dead?                    (:dead? @*state)
-             win?                     (:win? @*state)
-             f                        (cond
-                                        (or dead? win?)  #(reset-game)
-                                        (not in-bounds?) identity
-                                        shift-pressed?   #(update % :board toggle-cell-flag i)
-                                        :else            #(open-cell % i))]
-         (swap! *state f)))
+(defn mouse-clicked []
+  (let [{:keys [rows cols size]} @*state
+        mx                       js/mouseX
+        my                       js/mouseY
+        in-bounds?               (and (pos? mx) (pos? my) (< mx (* size cols)) (< my (* size rows)))
+        col                      (js/Math.floor (/ mx size))
+        row                      (js/Math.floor (/ my size))
+        i                        (index cols row col)
+        shift-pressed?           (= 16 (when (js/keyIsDown 16) js/keyCode))
+        dead?                    (:dead? @*state)
+        win?                     (:win? @*state)
+        f                        (cond
+                                   (or dead? win?)  #(reset-game)
+                                   (not in-bounds?) identity
+                                   shift-pressed?   #(update % :board toggle-cell-flag i)
+                                   :else            #(open-cell % i))]
+    (swap! *state f)))
 
 
-     (defn easy-game []
-       (reset! *state (new-game 10 10 10)))
+(defn easy-game []
+  (reset! *state (new-game 10 10 10)))
 
-     (easy-game)")
+(easy-game)")
 
     (sneakycode.render/markdown
      "Finally we can render our game to the screen. We initialize the board inside of p5.js's draw function and then \"save\" it in the `*state` atom. Then in the p5 draw function we iterate the items in the grid and draw them to screen, we use multimethods to draw open cells based on the type of cell.")
     (sneakycode.render/clj
-     {:parse-string-all? true}
-     "(defonce *canvas (atom nil))
+     "
+(defonce *canvas (atom nil))
 
 (defn setup
   []
