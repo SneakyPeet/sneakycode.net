@@ -39,12 +39,6 @@
         [:table.table.is-striped.is-full-width
          [:tbody
           [:tr
-           [:td "Interest Above Inflation"]
-           [:th.has-text-right {:name "interest"} (str interest "%")]]
-          [:tr
-           [:td "Withdrawal Rate"]
-           [:th.has-text-right {:name "withdraw-rate"} (str withdraw-rate "%")]]
-          [:tr
            [:td "Retire Amount"]
            [:th.has-text-right {:name "retire-amount"}]]
           [:tr
@@ -55,27 +49,29 @@
            [:th.has-text-right {:name "years-left"}]]]]
 
         [:div.field
-         [:label.label "Interest Over Inflation"]
+         [:label.label "Interest Over Inflation (" [:span {:name "interest"} interest "%"] ")"]
          [:div.control
-          [:input.input {:name "interest"
-                         :type "range"
-                         :min min-interest
-                         :max max-interest
-                         :step 1
-                         :value interest
-                         :oninput "fin.core.onchange(this)"}]]
+          [:input.slider.is-fullwidth
+           {:name "interest"
+            :type "range"
+            :min min-interest
+            :max max-interest
+            :step 1
+            :value interest
+            :oninput "fin.core.onchange(this)"}]]
          [:p.help "How much interest you earn after inflation. If you earn 11% interest, but inflation is 5%, then your interest over inflation is 6%"]]
 
         [:div.field
-         [:label.label "Withdrawal Rate"]
+         [:label.label "Withdrawal Rate (" [:span {:name "withdraw-rate"} withdraw-rate "%"] ")"]
          [:div.control
-          [:input.input {:name "withdraw-rate"
-                         :type "range"
-                         :min min-withdraw-rate
-                         :max max-withdraw-rate
-                         :step 1
-                         :value withdraw-rate
-                         :oninput "fin.core.onchange(this)"}]]]
+          [:input.slider.is-fullwidth
+           {:name "withdraw-rate"
+            :type "range"
+            :min min-withdraw-rate
+            :max max-withdraw-rate
+            :step 1
+            :value withdraw-rate
+            :oninput "fin.core.onchange(this)"}]]]
         [:p.help "The % of your money that you can withdraw yearly, without your money ever running out"]]
 
        [:div.column.is-one-third-tablet.is-one-quarter-desktop
