@@ -17,41 +17,23 @@
          [:label.label "Monthly Spend"]
          [:div.control
           [:input.input {:type "number" :name "expenses"
-                         :onkeyup "fin.core.onchange(this)"}]]]
+                         :onkeyup "fin.core.onchange(this)"}]]
+         [:p.help "This should exclude any savings toward retirement. Include everything else you spend in a month. For more accuracy try and average your yearly spend"]]
 
         [:div.field
          [:label.label "Monthly Savings For Retirement"]
          [:div.control
           [:input.input {:type "number" :name "savings"
-                         :onkeyup "fin.core.onchange(this)"}]]]
+                         :onkeyup "fin.core.onchange(this)"}]]
+         [:p.help "How much money do you save for your retirement every month?"]]
 
         [:div.field
          [:label.label "Net worth"]
          [:div.control
           [:input.input {:type "number" :name "net-worth"
-                         :onkeyup "fin.core.onchange(this)"}]]]
-
-        [:div.field
-         [:label.label "Interest Over Inflation"]
-         [:div.control
-          [:input.input {:name "interest"
-                         :type "range"
-                         :min min-interest
-                         :max max-interest
-                         :step 1
-                         :value interest
-                         :oninput "fin.core.onchange(this)"}]]]
-
-        [:div.field
-         [:label.label "Withdrawal Rate"]
-         [:div.control
-          [:input.input {:name "withdraw-rate"
-                         :type "range"
-                         :min min-withdraw-rate
-                         :max max-withdraw-rate
-                         :step 1
-                         :value withdraw-rate
-                         :oninput "fin.core.onchange(this)"}]]]]
+                         :onkeyup "fin.core.onchange(this)"}]]
+         [:p.help "How much money/assets have you already saved? Assets that costs you money should be excluded (like the house you live in)."]]
+        ]
 
        [:div.column.is-one-third-tablet.is-one-quarter-desktop
         [:table.table.is-striped.is-full-width
@@ -70,8 +52,31 @@
            [:th.has-text-right {:name "savings-rate"}]]
           [:tr
            [:td "Years Left"]
-           [:th.has-text-right {:name "years-left"}]]]
-         ]]
+           [:th.has-text-right {:name "years-left"}]]]]
+
+        [:div.field
+         [:label.label "Interest Over Inflation"]
+         [:div.control
+          [:input.input {:name "interest"
+                         :type "range"
+                         :min min-interest
+                         :max max-interest
+                         :step 1
+                         :value interest
+                         :oninput "fin.core.onchange(this)"}]]
+         [:p.help "How much interest you earn after inflation. If you earn 11% interest, but inflation is 5%, then your interest over inflation is 6%"]]
+
+        [:div.field
+         [:label.label "Withdrawal Rate"]
+         [:div.control
+          [:input.input {:name "withdraw-rate"
+                         :type "range"
+                         :min min-withdraw-rate
+                         :max max-withdraw-rate
+                         :step 1
+                         :value withdraw-rate
+                         :oninput "fin.core.onchange(this)"}]]]
+        [:p.help "The % of your money that you can withdraw yearly, without your money ever running out"]]
 
        [:div.column.is-one-third-tablet.is-one-quarter-desktop
         [:table.table
