@@ -7,69 +7,93 @@
          withdraw-rate 4
          max-withdraw-rate 4
          min-withdraw-rate 1]
-     [:div.columns.is-variable.is-8
-      [:div.column.is-one-quarter
-       [:div.field
-        [:label.label "Monthly Spend"]
-        [:div.control
-         [:input.input {:type "number" :name "expenses"
-                        :onkeyup "fin.core.onchange(this)"}]]]
+     [:div.content
+      [:h3 "Years to Financial Independence"]
 
-       [:div.field
-        [:label.label "Monthly Savings For Retirement"]
-        [:div.control
-         [:input.input {:type "number" :name "savings"
-                        :onkeyup "fin.core.onchange(this)"}]]]
+      [:div.columns.is-variable.is-8.is-multiline
 
-       [:div.field
-        [:label.label "Net worth"]
-        [:div.control
-         [:input.input {:type "number" :name "net-worth"}]]]
+       [:div.column.is-one-third-tablet.is-one-quarter-desktop
+        [:div.field
+         [:label.label "Monthly Spend"]
+         [:div.control
+          [:input.input {:type "number" :name "expenses"
+                         :onkeyup "fin.core.onchange(this)"}]]]
 
-       [:div.field
-        [:label.label "Interest Over Inflation"]
-        [:div.control
-         [:input.input {:name "interest"
-                        :type "range"
-                        :min min-interest
-                        :max max-interest
-                        :step 1
-                        :value interest
-                        :oninput "fin.core.onchange(this)"}]]]
+        [:div.field
+         [:label.label "Monthly Savings For Retirement"]
+         [:div.control
+          [:input.input {:type "number" :name "savings"
+                         :onkeyup "fin.core.onchange(this)"}]]]
 
-       [:div.field
-        [:label.label "Withdrawal Rate"]
-        [:div.control
-         [:input.input {:name "withdraw-rate"
-                        :type "range"
-                        :min min-withdraw-rate
-                        :max max-withdraw-rate
-                        :step 1
-                        :value withdraw-rate
-                        :oninput "fin.core.onchange(this)"}]]]]
-      [:div.column
-       [:table.table.is-striped
-        [:tbody
-         [:tr
-          [:td "Interest Above Inflation"]
-          [:th {:name "interest"} (str interest "%")]]
-         [:tr
-          [:td "Withdrawal Rate"]
-          [:th {:name "withdraw-rate"} (str withdraw-rate "%")]]
-         [:tr
-          [:td "Retire Amount"]
-          [:th {:name "retire-amount"}]]
-         [:tr
-          [:td "Savings Rate"]
-          [:th {:name "savings-rate"}]]
-         [:tr
-          [:td "Years Left"]
-          [:th {:name "years-left"}]]]
-        ]]
+        [:div.field
+         [:label.label "Net worth"]
+         [:div.control
+          [:input.input {:type "number" :name "net-worth"
+                         :onkeyup "fin.core.onchange(this)"}]]]
+
+        [:div.field
+         [:label.label "Interest Over Inflation"]
+         [:div.control
+          [:input.input {:name "interest"
+                         :type "range"
+                         :min min-interest
+                         :max max-interest
+                         :step 1
+                         :value interest
+                         :oninput "fin.core.onchange(this)"}]]]
+
+        [:div.field
+         [:label.label "Withdrawal Rate"]
+         [:div.control
+          [:input.input {:name "withdraw-rate"
+                         :type "range"
+                         :min min-withdraw-rate
+                         :max max-withdraw-rate
+                         :step 1
+                         :value withdraw-rate
+                         :oninput "fin.core.onchange(this)"}]]]]
+
+       [:div.column.is-one-third-tablet.is-one-quarter-desktop
+        [:table.table.is-striped.is-full-width
+         [:tbody
+          [:tr
+           [:td "Interest Above Inflation"]
+           [:th.has-text-right {:name "interest"} (str interest "%")]]
+          [:tr
+           [:td "Withdrawal Rate"]
+           [:th.has-text-right {:name "withdraw-rate"} (str withdraw-rate "%")]]
+          [:tr
+           [:td "Retire Amount"]
+           [:th.has-text-right {:name "retire-amount"}]]
+          [:tr
+           [:td "Savings Rate"]
+           [:th.has-text-right {:name "savings-rate"}]]
+          [:tr
+           [:td "Years Left"]
+           [:th.has-text-right {:name "years-left"}]]]
+         ]]
+
+       [:div.column.is-one-third-tablet.is-one-quarter-desktop
+        [:table.table
+         [:thead [:tr [:th "Savings Rate"] [:th "Years Left"]]]
+         [:tbody {:name "years"}]]]
+
+       [:div.column.is-full-tablet.is-one-quarter-desktop
+        (sneakycode.render/markdown
+         "The purpose of this calculator is to give you an estimate on when you will become financially independent (aka be able to retire).
+
+It is based on the 4% rule and assumes that any interest earned is above inflation *(if selected interst is 6% and inflation is 5% you would need annual returns of 11%)*.
+
+Obviously we do not live in a perfect world and your interest, income, spend etc will change over time. Given these facts this calculator can only give an estimated value based on your current state of afairs.
+
+The goal of this calculator is two fold
+
+1. To show that with discipline, you can easily become financially independent
+2. Serve as a wakeup call if you are not on track with your retirement savings")]]
 
 
       (sneakycode.cljs/compile-cljs
-       false slug "fin.core"
+       true slug "fin.core"
        (ns fin.core
          (:require [clojure.string :as string]))
 
@@ -118,7 +142,7 @@
 
 
        (defn years-till-financially-independent
-       "Implements the spreadsheet found here
+         "Implements the spreadsheet found here
         https://www.mrmoneymustache.com/2012/01/13/the-shockingly-simple-math-behind-early-retirement/"
          [net-worth take-home-pay return-after-inflation saving-rate withdrawal-rate]
          (let [years-of-take-home-pay (/ net-worth (* take-home-pay 12))
@@ -192,6 +216,28 @@
 
        ;;;; VIEWS
 
+       (defn update-years-table [state]
+         (when-let [years (:years state)]
+           (let [html (->> years
+                           (sort-by first)
+                           reverse
+                           (map (fn [[rate years you?]]
+                                  (str
+                                   "<tr style='background-color: "
+                                   (cond
+                                     you?  "#a3c7ff"
+                                     (<= years 10) "#83de83"
+                                     (<= years 20) "#fdfdac"
+                                     (<= years 30) "#fdd283"
+                                     (<= years 40) "#ffa1a1"
+                                     (> years 40) "#ff7171") "'>"
+                                   "<td>" rate "%</td>"
+                                   "<td>" years (if you? " (this is you)" "") "</td>"
+                                   "</tr>")))
+                           (string/join ""))]
+             (update-nodes "years" (set-node-html html)))))
+
+
        (defn update-views []
          (let [state @*state
                percentage #(str % "%")]
@@ -199,7 +245,8 @@
            (update-calculated-value state :withdraw-rate percentage)
            (update-calculated-value state :retire-amount nice-number)
            (update-calculated-value state :savings-rate percentage)
-           (update-calculated-value state :years-left #(if (> % 1000) "> 1000" %))))
+           (update-calculated-value state :years-left #(if (> % 1000) "> 1000" %))
+           (update-years-table state)))
 
 
        (defn ^:export onchange [el]
