@@ -1,0 +1,213 @@
+{:title "Years to financial independence"
+ :content
+ (fn [{:keys [slug] :as page}]
+   (let [interest 5
+         max-interest 10
+         min-interest 0
+         withdraw-rate 4
+         max-withdraw-rate 4
+         min-withdraw-rate 1]
+     [:div.columns.is-variable.is-8
+      [:div.column.is-one-quarter
+       [:div.field
+        [:label.label "Monthly Spend"]
+        [:div.control
+         [:input.input {:type "number" :name "expenses"
+                        :onkeyup "fin.core.onchange(this)"}]]]
+
+       [:div.field
+        [:label.label "Monthly Savings For Retirement"]
+        [:div.control
+         [:input.input {:type "number" :name "savings"
+                        :onkeyup "fin.core.onchange(this)"}]]]
+
+       [:div.field
+        [:label.label "Net worth"]
+        [:div.control
+         [:input.input {:type "number" :name "net-worth"}]]]
+
+       [:div.field
+        [:label.label "Interest Over Inflation"]
+        [:div.control
+         [:input.input {:name "interest"
+                        :type "range"
+                        :min min-interest
+                        :max max-interest
+                        :step 1
+                        :value interest
+                        :oninput "fin.core.onchange(this)"}]]]
+
+       [:div.field
+        [:label.label "Withdrawal Rate"]
+        [:div.control
+         [:input.input {:name "withdraw-rate"
+                        :type "range"
+                        :min min-withdraw-rate
+                        :max max-withdraw-rate
+                        :step 1
+                        :value withdraw-rate
+                        :oninput "fin.core.onchange(this)"}]]]]
+      [:div.column
+       [:table.table.is-striped
+        [:tbody
+         [:tr
+          [:td "Interest Above Inflation"]
+          [:th {:name "interest"} (str interest "%")]]
+         [:tr
+          [:td "Withdrawal Rate"]
+          [:th {:name "withdraw-rate"} (str withdraw-rate "%")]]
+         [:tr
+          [:td "Retire Amount"]
+          [:th {:name "retire-amount"}]]
+         [:tr
+          [:td "Savings Rate"]
+          [:th {:name "savings-rate"}]]
+         [:tr
+          [:td "Years Left"]
+          [:th {:name "years-left"}]]]
+        ]]
+
+
+      (sneakycode.cljs/compile-cljs
+       false slug "fin.core"
+       (ns fin.core
+         (:require [clojure.string :as string]))
+
+
+       ;;;; HELPERS
+
+       (defn update-nodes [name f]
+         (let [nodes (js/document.getElementsByName name)]
+           (doseq [i (range (.-length nodes))]
+             (let [el (aget nodes i)]
+               (f el)))))
+
+
+       (defn set-node-value [v]
+         (fn [el]
+           (set! (.-value el) v)))
+
+
+       (defn set-node-html [v]
+         (fn [el]
+           (set! (.-innerHTML el) v)))
+
+
+       (defn update-calculated-value
+         ([state k] (update-calculated-value state k identity))
+         ([state k transform]
+          (when-let [n (get state k)]
+            (update-nodes (name k) (set-node-html (transform n))))))
+
+
+       (defn nice-number [n]
+         (loop [s      (str n)
+                result '()]
+           (if (empty? s)
+             (string/join " " result)
+             (recur
+              (string/join "" (drop-last 3 s))
+              (conj result (string/join "" (take-last 3 s)))))))
+
+
+       (defn usable? [n] (> n 0))
+
+
+       (defn calc-savings-rate [expenses savings]
+         (max 0 (js/Math.round (* 100 (- 1 (/ expenses (+ expenses savings)))))))
+
+
+       (defn years-till-financially-independent
+       "Implements the spreadsheet found here
+        https://www.mrmoneymustache.com/2012/01/13/the-shockingly-simple-math-behind-early-retirement/"
+         [net-worth take-home-pay return-after-inflation saving-rate withdrawal-rate]
+         (let [years-of-take-home-pay (/ net-worth (* take-home-pay 12))
+               return-after-inflation (/ return-after-inflation 100)
+               saving-rate            (/ saving-rate 100)]
+           (loop
+               [year                       0
+                investment-gains           0
+                years-of-take-home-income  years-of-take-home-pay
+                stash-relative-to-spending 0
+                withdraw-spend-percent     0]
+             (if (or (>= year 1000) (>= withdraw-spend-percent 100))
+               year
+               (let [year'                       (inc year)
+                     investment-gains'
+                     (+
+                      (-
+                       (*
+                        years-of-take-home-income
+                        (+
+                         1
+                         return-after-inflation))
+                       years-of-take-home-income)
+                      (*
+                       (/
+                        saving-rate
+                        2)
+                       return-after-inflation))
+                     years-of-take-home-income'  (+ (+ years-of-take-home-income investment-gains') saving-rate)
+                     stash-relative-to-spending' (/ years-of-take-home-income' (- 1 saving-rate))
+                     withdraw-spend-percent'     (* stash-relative-to-spending' withdrawal-rate)
+                     ]
+                 (recur
+                  year' investment-gains' years-of-take-home-income'
+                  stash-relative-to-spending' withdraw-spend-percent'))))))
+
+
+     ;;;; STATE
+
+       (def *state (atom {:withdraw-rate 4
+                          :interest 5}))
+
+
+       (defn update-state [name value]
+         (swap! *state assoc (keyword name) (js/parseInt value)))
+
+
+       (defn recalculate []
+         (let [{:keys [expenses savings net-worth interest withdraw-rate]} @*state
+               next
+               (cond-> @*state
+                 (usable? expenses)
+                 (assoc :retire-amount (* 300 expenses))
+
+                 (and (usable? expenses) (usable? savings))
+                 (merge
+                  (let [savings-rate (calc-savings-rate expenses savings)
+                        income (+ expenses savings)
+                        net-worth (if (usable? net-worth) net-worth 0)
+                        years-left (years-till-financially-independent net-worth income interest savings-rate withdraw-rate)
+                        years (->> [5 10 15 20 30 40 50 60 70]
+                                   (map (fn [y]
+                                          [y (years-till-financially-independent
+                                              net-worth income interest y withdraw-rate)])))]
+                    {:savings-rate savings-rate
+                     :years-left years-left
+                     :years (into years [[savings-rate years-left :this-is-you]])})))]
+           (reset! *state next)
+           (prn @*state)))
+
+
+       ;;;; VIEWS
+
+       (defn update-views []
+         (let [state @*state
+               percentage #(str % "%")]
+           (update-calculated-value state :interest percentage)
+           (update-calculated-value state :withdraw-rate percentage)
+           (update-calculated-value state :retire-amount nice-number)
+           (update-calculated-value state :savings-rate percentage)
+           (update-calculated-value state :years-left #(if (> % 1000) "> 1000" %))))
+
+
+       (defn ^:export onchange [el]
+         (let [name (.-name el)
+               value (.-value el)]
+           (when-not (string/blank? value)
+             (update-nodes name (set-node-value value))
+             (update-state name value)
+             (recalculate)
+             (update-views))))
+       )]))}
