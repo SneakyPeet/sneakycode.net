@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "sass --watch main.sass:../css/style.css",
-    "once": "sass main.sass ../css/style.css"
+    "dev": "sass --watch main.sass:../css/style.css --style compressed",
+    "once": "sass main.sass ../css/style.css --style compressed"
   },
   "author": "",
   "license": "MIT",
