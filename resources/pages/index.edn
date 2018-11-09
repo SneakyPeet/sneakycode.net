@@ -131,7 +131,7 @@
     [:div.section
      [:div.columns.is-multiline
       (titled-column "recent posts" (recent-posts page))
-      (titled-column "projects" (my-projects page) "column-hidden-tab-to-desk")
+      (titled-column "work" (my-projects page) "column-hidden-tab-to-desk")
       (titled-column "tools" (my-tools page))
       (titled-column "projects" (my-projects page) "column-visible-tab-to-desk")
       (titled-column "me" (about-me page))
