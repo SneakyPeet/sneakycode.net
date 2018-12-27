@@ -1,0 +1,45 @@
+{:title "Work"
+
+ :heading (fn [t & [c]] [:h4.is-uppercase {:style "font-size: 18px; margin: 5px 0" :class c} t])
+ :content
+ (fn [{:keys [heading body slug]}]
+   [:div.tile.is-ancestor.content
+    [:div.tile.is-3.is-vertical.is-parent
+     [:div.tile.is-child.notification {:style "position: relative"}
+      [:a {:href "https://simply.co.za" :target "_blank"}
+       [:img {:src (sneakycode.config/url "simply.svg")}]]
+      (for [[i p] [["MY DAY JOB" ["senior software engineer" "architect" "remote"]]
+                   ["clojure" [ "compojure" "integrant" "ddd" "event sourcing"
+                               "gcp datastore"
+                               "gcp pubsub"
+                               ]]
+                   ["clojurescript" ["rum" "figwheel"]]
+                   ["node" ["react" "express" "babel" "webpack"]]]]
+        [:div.tags {:style "margin: 5px 0 0 0"}
+         [:span.tag.is-info i]
+         (for [x p] [:span.tag.is-white x])
+         ])]]
+    #_[:div {:style "width:100px; height:100px;" :id "test"}]
+
+    (sneakycode.render/snippet :p5)
+    (sneakycode.cljs/compile-cljs
+     false slug "work.core"
+
+     (ns work.core)
+
+     (defn render-drawing [id setup draw]
+       (let [el (js/document.getElementById id)
+             width (.-offsetWidth el)
+             height (.-offsetHeight el)
+             drawing
+             (fn [p]
+               (prn "123")
+               (set! (.-setup p) (fn []
+                                   (.createCanvas p width height)
+                                   (when setup (setup p))))
+               (set! (.-draw p) (fn []
+                                  (when draw (draw p))
+                                   #_(.noLoop p))))]
+         (js/p5. drawing id)))
+
+     #_(render-drawing "test" (fn [p] (.background p 0)) nil))])}

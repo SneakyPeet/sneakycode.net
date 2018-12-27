@@ -1,0 +1,266 @@
+{:title "Years to financial independence"
+ :content
+ (fn [{:keys [slug] :as page}]
+   (let [interest 5
+         max-interest 10
+         min-interest 0
+         withdraw-rate 4
+         max-withdraw-rate 4
+         min-withdraw-rate 1
+         sliders (fn [style]
+                   [:div {:class style}
+                    [:div.field
+                     [:label.label "Interest Over Inflation (" [:span {:name "interest"} interest "%"] ")"]
+                     [:div.control
+                      [:input.slider.is-fullwidth
+                       {:name "interest"
+                        :type "range"
+                        :min min-interest
+                        :max max-interest
+                        :step 1
+                        :value interest
+                        :oninput "fin.core.onchange(this)"}]]
+                     [:p.help "How much interest you earn after inflation. If you earn 11% interest, but inflation is 5%, then your interest over inflation is 6%"]]
+
+                    [:div.field
+                     [:label.label "Withdrawal Rate (" [:span {:name "withdraw-rate"} withdraw-rate "%"] ")"]
+                     [:div.control
+                      [:input.slider.is-fullwidth
+                       {:name "withdraw-rate"
+                        :type "range"
+                        :min min-withdraw-rate
+                        :max max-withdraw-rate
+                        :step 1
+                        :value withdraw-rate
+                        :oninput "fin.core.onchange(this)"}]]
+                     [:p.help "The % of your money that you can withdraw yearly from your retirement savings, without your money ever running out"]]])]
+     [:div.content
+      [:div.columns.is-variable.is-8.is-multiline
+       [:div.column.is-full-tablet.is-one-quarter-desktop
+        [:h3 "Years to Financial Independence"]
+        (sneakycode.render/markdown
+         "This calculator, given your spending habits and using the [4% rule](http://www.stealthywealth.co.za/2016/06/what-is-4-rule-for-retirement.html), estimates how many years you are from financial independence (aka being able to retire).
+
+The goal of this calculator is to show that:
+
+* The most important financial principle is to spend less than you earn and save the rest
+* With enough discipline, you can easily become financially independent
+* Serve as a wake up call if you are not on track with your retirement savings")]
+
+       [:div.column.is-one-third-tablet.is-one-quarter-desktop
+        [:div.field
+         [:label.label "Monthly Spend"]
+         [:div.control
+          [:input.input {:type "number" :name "expenses"
+                         :onkeyup "fin.core.onchange(this)"}]]
+         [:p.help "This should exclude any savings toward retirement. Include everything else you spend in a month. For more accuracy try averaging your yearly spend"]]
+
+        [:div.field
+         [:label.label "Monthly Savings For Retirement"]
+         [:div.control
+          [:input.input {:type "number" :name "savings"
+                         :onkeyup "fin.core.onchange(this)"}]]
+         [:p.help "How much money do you save for your retirement every month?"]]
+
+        [:div.field
+         [:label.label "Net worth"]
+         [:div.control
+          [:input.input {:type "number" :name "net-worth"
+                         :onkeyup "fin.core.onchange(this)"}]]
+         [:p.help "How much money/assets have you already saved? Assets that costs you money should be excluded (like the house you live in or the car you drive)"]]
+        ]
+
+       [:div.column.is-one-third-tablet.is-one-quarter-desktop
+        [:table.table.is-striped.is-full-width
+         [:tbody
+          [:tr
+           [:td "Target Retire Amount"]
+           [:th.has-text-right {:name "retire-amount" :style {:white-space "nowrap"}}]]
+          [:tr
+           [:td "Current Savings Rate"]
+           [:th.has-text-right {:name "savings-rate"}]]
+          [:tr
+           [:td "Years Left"]
+           [:th.has-text-right {:name "years-left"}]]]]
+
+        (sliders "is-hidden-mobile")
+
+        ]
+
+       [:div.column.is-one-third-tablet.is-one-quarter-desktop
+        [:table.table
+         [:thead [:tr [:th "Savings Rate"] [:th "Years Left"]]]
+         [:tbody {:name "years"}]]
+
+
+        (sliders "is-hidden-tablet")]
+
+       ]
+
+
+      (sneakycode.cljs/compile-cljs
+       true slug "fin.core"
+       (ns fin.core
+         (:require [clojure.string :as string]))
+
+
+       ;;;; HELPERS
+
+       (defn update-nodes [name f]
+         (let [nodes (js/document.getElementsByName name)]
+           (doseq [i (range (.-length nodes))]
+             (let [el (aget nodes i)]
+               (f el)))))
+
+
+       (defn set-node-value [v]
+         (fn [el]
+           (set! (.-value el) v)))
+
+
+       (defn set-node-html [v]
+         (fn [el]
+           (set! (.-innerHTML el) v)))
+
+
+       (defn update-calculated-value
+         ([state k] (update-calculated-value state k identity))
+         ([state k transform]
+          (when-let [n (get state k)]
+            (update-nodes (name k) (set-node-html (transform n))))))
+
+
+       (defn nice-number [n]
+         (loop [s      (str n)
+                result '()]
+           (if (empty? s)
+             (string/join " " result)
+             (recur
+              (string/join "" (drop-last 3 s))
+              (conj result (string/join "" (take-last 3 s)))))))
+
+
+       (defn usable? [n] (> n 0))
+
+
+       (defn calc-savings-rate [expenses savings]
+         (max 0 (js/Math.round (* 100 (- 1 (/ expenses (+ expenses savings)))))))
+
+
+       (defn years-till-financially-independent
+         "Implements the spreadsheet found here
+        https://www.mrmoneymustache.com/2012/01/13/the-shockingly-simple-math-behind-early-retirement/"
+         [net-worth take-home-pay return-after-inflation saving-rate withdrawal-rate]
+         (let [years-of-take-home-pay (/ net-worth (* take-home-pay 12))
+               return-after-inflation (/ return-after-inflation 100)
+               saving-rate            (/ saving-rate 100)]
+           (loop
+               [year                       0
+                investment-gains           0
+                years-of-take-home-income  years-of-take-home-pay
+                stash-relative-to-spending 0
+                withdraw-spend-percent     0]
+             (if (or (>= year 1000) (>= withdraw-spend-percent 100))
+               year
+               (let [year'                       (inc year)
+                     investment-gains'
+                     (+
+                      (-
+                       (*
+                        years-of-take-home-income
+                        (+
+                         1
+                         return-after-inflation))
+                       years-of-take-home-income)
+                      (*
+                       (/
+                        saving-rate
+                        2)
+                       return-after-inflation))
+                     years-of-take-home-income'  (+ (+ years-of-take-home-income investment-gains') saving-rate)
+                     stash-relative-to-spending' (/ years-of-take-home-income' (- 1 saving-rate))
+                     withdraw-spend-percent'     (* stash-relative-to-spending' withdrawal-rate)
+                     ]
+                 (recur
+                  year' investment-gains' years-of-take-home-income'
+                  stash-relative-to-spending' withdraw-spend-percent'))))))
+
+
+     ;;;; STATE
+
+       (def *state (atom {:withdraw-rate 4
+                          :interest 5}))
+
+
+       (defn update-state [name value]
+         (swap! *state assoc (keyword name) (js/parseInt value)))
+
+
+       (defn recalculate []
+         (let [{:keys [expenses savings net-worth interest withdraw-rate]} @*state
+               next
+               (cond-> @*state
+                 (usable? expenses)
+                 (assoc :retire-amount (* 300 expenses))
+
+                 (and (usable? expenses) (usable? savings))
+                 (merge
+                  (let [savings-rate (calc-savings-rate expenses savings)
+                        income (+ expenses savings)
+                        net-worth (if (usable? net-worth) net-worth 0)
+                        years-left (years-till-financially-independent net-worth income interest savings-rate withdraw-rate)
+                        years (->> [5 10 15 20 30 40 50 60 70]
+                                   (map (fn [y]
+                                          [y (years-till-financially-independent
+                                              net-worth income interest y withdraw-rate)])))]
+                    {:savings-rate savings-rate
+                     :years-left years-left
+                     :years (into years [[savings-rate years-left :this-is-you]])})))]
+           (reset! *state next)
+           (prn @*state)))
+
+
+       ;;;; VIEWS
+
+       (defn update-years-table [state]
+         (when-let [years (:years state)]
+           (let [html (->> years
+                           (sort-by first)
+                           reverse
+                           (map (fn [[rate years you?]]
+                                  (str
+                                   "<tr style='background-color: "
+                                   (cond
+                                     you?  "#a3c7ff"
+                                     (<= years 10) "#83de83"
+                                     (<= years 20) "#fdfdac"
+                                     (<= years 30) "#fdd283"
+                                     (<= years 40) "#ffa1a1"
+                                     (> years 40) "#ff7171") "'>"
+                                   "<td>" rate "%</td>"
+                                   "<td>" years (if you? " (this is you)" "") "</td>"
+                                   "</tr>")))
+                           (string/join ""))]
+             (update-nodes "years" (set-node-html html)))))
+
+
+       (defn update-views []
+         (let [state @*state
+               percentage #(str % "%")]
+           (update-calculated-value state :interest percentage)
+           (update-calculated-value state :withdraw-rate percentage)
+           (update-calculated-value state :retire-amount nice-number)
+           (update-calculated-value state :savings-rate percentage)
+           (update-calculated-value state :years-left #(if (> % 1000) "> 1000" %))
+           (update-years-table state)))
+
+
+       (defn ^:export onchange [el]
+         (let [name (.-name el)
+               value (.-value el)]
+           (when-not (string/blank? value)
+             (update-nodes name (set-node-value value))
+             (update-state name value)
+             (recalculate)
+             (update-views))))
+       )]))}

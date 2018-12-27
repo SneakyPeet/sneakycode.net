@@ -171,7 +171,7 @@
                               url                          (str (conf/url slug) "/")]
                           (-> p
                               (update :title cdata)
-                              (assoc :description (cdata (render p))
+                              (assoc ;:description (cdata (render p))
                                      :link url
                                      :guid url
                                      :pubDate (.parse (conf/getv :date-format) date)
@@ -183,7 +183,7 @@
                 (rss/channel-xml
                  {:title         (cdata (conf/getv :title))
                   :description   (cdata (conf/getv :description))
-                  :link          (conf/url)
+                  :link          (conf/url "/rss.rss" )
                   :lastBuildDate (java.util.Date.)
                   :ttl           "60"}
                  items)]
