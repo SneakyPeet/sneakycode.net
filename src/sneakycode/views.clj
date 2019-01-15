@@ -146,6 +146,7 @@
 
 (defn layout-page [{:keys [description title render meta props slug tags author no-section? no-menu?] :as page}]
   (let [head-head [[:meta {:charset "utf-8" :content "text/html"}]
+                   [:meta {:http-equiv "Content-Security-Policy" :content "upgrade-insecure-requests"}]
                    [:meta {:name    "viewport"
                            :content "width=device-width, initial-scale=1"}]
                    [:link {:rel "canonnical" :href (conf/url slug)}]

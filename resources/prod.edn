@@ -1,4 +1,4 @@
-{:domain "http://sneakycode.net/"
+{:domain "https://sneakycode.net/"
  :disqus? true
  :google-analytics? true
  :js-include-goog? false}
