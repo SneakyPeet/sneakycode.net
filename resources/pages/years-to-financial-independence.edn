@@ -45,7 +45,8 @@ The goal of this calculator is to show that:
 
 * The most important financial principle is to spend less than you earn and save the rest
 * With enough discipline, you can easily become financially independent
-* Serve as a wake up call if you are not on track with your retirement savings")]
+* Serve as a wake up call if you are not on track with your retirement savings")
+        (sneakycode.render/snippet :source page)]
 
        [:div.column.is-one-third-tablet.is-one-quarter-desktop
         [:div.field

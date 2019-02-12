@@ -50,6 +50,8 @@
          [{:n "simply.co.za" :l "https://simply.co.za"
            :d "My day job, where we try and improve the financial futures of millions"
            :t ["clojure_alt" "nodejs_small" "react" "google-cloud-platform"]}
+          {:n "Financial Independece Calculator" :l (sneakycode.config/url "/years-to-financial-independence")
+           :d "Calculates the years it will take you to reach financial independence"}
           {:n "Gitlab TV" :l "https://sneakypeet.github.io/gitlab-tv/" :g "https://github.com/SneakyPeet/gitlab-tv"
            :d "A TV for watching gitlab ci pipelines"
            :t ["clojure_alt"]}
@@ -62,7 +64,7 @@
           {:n "moola-bank" :l "http://www.moola-bank.me/"
            :d "A budgeting app for young kids"
            :t ["clojure_alt" "react" "sass"]}
-          {:n "sneakycode.net" :l "https://sneakycode.net/" :g "https://github.com/sneakypeet/sneakycode.net"
+          #_{:n "sneakycode.net" :l "https://sneakycode.net/" :g "https://github.com/sneakypeet/sneakycode.net"
            :d "This website, statically generated using clojure, stasis and bulma/sass"
            :t ["clojure_alt" "sass"]}]]
      (->> projects
@@ -86,7 +88,9 @@
           (into [:div.timeline.my-projects
                  [:header.timeline-header
                   [:span.tag.is-rounded
-                   [:i.fa.fa-git-square]]]]))))
+                   [:i.fa.fa-git-square]]]])
+          #_(#(conj % [:header.timeline-header
+                     [:a.tag.is-primary {:style "background-color: #455466" :href (sneakycode.config/url "/work")}"more"]])))))
 
                                         ;https://worldvectorlogo.com/search/pubsub
  :my-tools

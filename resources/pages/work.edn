@@ -9,11 +9,12 @@
       [:a {:href "https://simply.co.za" :target "_blank"}
        [:img {:src (sneakycode.config/url "simply.svg")}]]
       (for [[i p] [["MY DAY JOB" ["senior software engineer" "architect" "remote"]]
-                   ["clojure" [ "compojure" "integrant" "ddd" "event sourcing"
-                               "gcp datastore"
-                               "gcp pubsub"
+                   ["clojure" [ "compojure" "integrant"
                                ]]
                    ["clojurescript" ["rum" "figwheel"]]
+                   ["mirco services" [ "ddd" "event sourcing"
+                                      "gcp datastore"
+                                      "gcp pubsub"]]
                    ["node" ["react" "express" "babel" "webpack"]]]]
         [:div.tags {:style "margin: 5px 0 0 0"}
          [:span.tag.is-info i]
