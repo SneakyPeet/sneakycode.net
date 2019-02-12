@@ -1,7 +1,8 @@
 {:title "Simple clojurescript datepicker using rum and cljs-time"
  :description "I created a simple clojurescript datepicker for a pet project and figured someone else might find it useful"
+ :tags ["clojurescript" "rum"]
  :content
- (fn [_]
+ (fn [{:keys [slug]}]
    [:div.content
     [:p "I created a simple clojurescript datepicker for a pet project and figured someone else might find it useful. It uses:"]
     [:ul
@@ -10,6 +11,7 @@
      [:li [:a.has-text-success {:href "https://bulma.io" :target "_blank"} "bulma.io" ]" for style, which can also be easily swapped out with your stylesheet of choice."]]
 
     [:p "See the " [:a.has-text-success {:href "https://gist.github.com/SneakyPeet/d872a6cf7def18141fdda249188c18af" :target "_blank"} "Github Gist" ] " for any updates."]
+    [:div {:id "date-app"}]
 
 
     (sneakycode.render/clj
@@ -90,4 +92,80 @@
 
 (def initial-date (ds/initial-date 2018 1 1))
 
-(ds/DateCapture 2018 2020 label on-change initial-date)")])}
+(ds/DateCapture 2018 2020 label on-change initial-date)")
+
+
+    (sneakycode.cljs/compile-cljs
+     true slug "s.p"
+     (ns s.p
+       (:require [rum.core :as rum]
+                 [cljs-time.core :as time]))
+
+
+     (defn initial-date
+       ([] (let [selected (time/now)]
+             {:year (time/year selected)
+              :month (time/month selected)
+              :day (time/day selected)}))
+       ([year] (initial-date year 1 1))
+       ([year month] (initial-date year month 1))
+       ([year month day]
+        (let [selected (time/date-time year month day)]
+          {:year (time/year selected)
+           :month (time/month selected)
+           :day (time/day selected)})))
+
+     (rum/defcs DateCapture
+       < (rum/local nil ::year) (rum/local nil ::month) (rum/local nil ::day)
+       {:will-mount (fn [{*day ::day *month ::month *year ::year :as state}]
+                      (let [now (time/now)
+                            year (time/year now)
+                            [start-year end-year _ change init-opts] (:rum/args state)]
+                        (reset! *year (get init-opts :year year))
+                        (reset! *month (get init-opts :month (time/month now)))
+                        (reset! *day (get init-opts :day (time/day now)))
+                        (assoc state
+                               ::years (range start-year (inc end-year))
+                               ::months (range 1 13)
+                               ::notify-change (fn [] (change {:year @*year :month @*month :day @*day})))))
+        :did-update (fn [{notify-change ::notify-change :as state}]
+                      (notify-change)
+                      state)}
+       [{*day ::day *month ::month *year ::year :as state} start-year end-year label change]
+       (let [last-day-of-month (time/day (time/last-day-of-the-month @*year @*month))
+             days (range 1 (inc last-day-of-month))
+             on-change (fn [*k]
+                         (fn [e]
+                           (reset! *k (js/parseInt (.. e -target -value)))
+                           (let [new-last-day-of-month (time/day (time/last-day-of-the-month @*year @*month))]
+                             (when (< new-last-day-of-month @*day)
+                               (reset! *day 1)))))
+             field (fn [range-coll *k]
+                     [:div.control
+                      [:div.select
+                       [:select {:value @*k :on-change (on-change *k)}
+                        (map-indexed (fn [i x] [:option {:key i} x]) range-coll)]]])]
+         [:div.field.is-grouped
+          [:div.field-label.is-normal {:style {:flex-grow "0"}}
+           [:label.label label]]
+          [:br]
+          (field (::years state) *year)
+          (field (::months state) *month)
+          (field days *day)]))
+
+     (defonce *state (atom (initial-date)))
+
+     (rum/defc App < rum/reactive []
+       (let [state (rum/react *state)]
+         [:div
+          [:form (DateCapture 2010 2019 "Date" #(reset! *state %) state)]
+          [:br]
+          [:div
+           [:strong "Year: " (:year state) " | Month: " (:month state) " | Day: " (:day state)]]]))
+
+
+     (rum/mount (App) (. js/document (getElementById "date-app")))
+
+     )
+
+    ])}
