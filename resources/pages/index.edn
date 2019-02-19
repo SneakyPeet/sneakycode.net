@@ -50,6 +50,9 @@
          [{:n "simply.co.za" :l "https://simply.co.za"
            :d "My day job, where we try and improve the financial futures of millions"
            :t ["clojure_alt" "nodejs_small" "react" "google-cloud-platform"]}
+          {:n "TFSA Tracker" :l (sneakycode.config/url "/tfsa-tracker") :g "https://github.com/SneakyPeet/tax-free-savings-tracker"
+           :d "Track your RSA Tax Free Savings Contributions"
+           :t ["clojure_alt" "react"]}
           {:n "Financial Independece Calculator" :l (sneakycode.config/url "/years-to-financial-independence")
            :d "Calculates the years it will take you to reach financial independence"}
           {:n "Gitlab TV" :l "https://sneakypeet.github.io/gitlab-tv/" :g "https://github.com/SneakyPeet/gitlab-tv"

@@ -144,7 +144,7 @@
 
 
 
-(defn layout-page [{:keys [description title render meta props slug tags author no-section? no-menu?] :as page}]
+(defn layout-page [{:keys [description title render meta props slug tags author no-section? no-menu? no-footer?] :as page}]
   (let [head-head [[:meta {:charset "utf-8" :content "text/html"}]
                    [:meta {:http-equiv "Content-Security-Policy" :content "upgrade-insecure-requests"}]
                    [:meta {:name    "viewport"
@@ -176,7 +176,7 @@
       head
       [:body
        (when-not no-menu? (menu))
-       (footer)
+       (when-not no-footer? (footer))
        [:div (when-not no-section? {:class "section"})
         (render page)]]]
      html5
