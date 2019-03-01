@@ -1,0 +1,28 @@
+{:title "Clojurescript with react from scratch live stream"
+ :description "I created a simple clojurescript datepicker for a pet project and figured someone else might find it useful"
+ :tags ["clojurescript" "rum" "figwheel" "live stream"]
+ :content
+ [:div
+  [:p "A recent "
+   [:a {:href "https://medium.com/@suzhinton/my-twitch-live-coding-setup-b2516672fb21" :target "_blank"} "blog post"]
+   " by "
+   [:a {:href "https://twitter.com/noopkat" :target "_blank"} " noopcat"]
+   " made me wonder if there are any devs streaming clojure development. I have always been keen to watch others code clojure as I am self taught and I am not sure what I might be missing. I found both "
+   [:a {:href "https://twitter.com/roman01la" :target "_blank"} "roman01la"]
+   " and "
+   [:a {:href "https://twitter.com/nikitonsky" :target "_blank"} "nikitonsky"]
+   " have some live stream videos on their youtube channels, but these are mostly in languages that I do not understand. Hunting on twitch, youtube, "
+   [:a {:href "https://github.com/bnb/awesome-developer-streams" :target "_blank"} "awesome-developer-streams"]
+   " and the internet in general did not prove successful. There are many streamers, some do functional, very few do lisp, but I just could not find any english clojure streamers."]
+  [:p "So I figured, "
+   [:strong "Hey! I can do this"]
+   " (or at least try). Worst case I have an excuse to build things with clojure and best case I can help grow the clojure community. So I will be streaming on my "
+   [:a {:href "https://www.twitch.tv/sneakycode" :target "_blank"} "sneakycode twitch channel"]
+   [:strong " every Thursday at 20h30 (UTC + 2 / SAST)"]
+   ". It will be a mix of teaching clojure/clojurescript and just hacking at side projects. Tell your friends!"]
+  [:p "The first stream was pretty fun and I talked about " [:strong "Clojurescript with React from scratch using rum and figwheel-main. The video is available on Youtube. Enjoy and I hope to see you next Thursday!"]]
+  [:iframe {:width "300" :height "200"
+            :src "https://www.youtube-nocookie.com/embed/JMXYuLqTFV4"
+            :frameborder "0"
+            :allow "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            :allowfullscreen true}]]}
