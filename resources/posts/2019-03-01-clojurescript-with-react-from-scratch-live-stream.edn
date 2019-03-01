@@ -20,7 +20,8 @@
    [:a {:href "https://www.twitch.tv/sneakycode" :target "_blank"} "sneakycode twitch channel"]
    [:strong " every Thursday at 20h30 (UTC + 2 / SAST)"]
    ". It will be a mix of teaching clojure/clojurescript and just hacking at side projects. Tell your friends!"]
-  [:p "The first stream was pretty fun and I talked about " [:strong "Clojurescript with React from scratch using rum and figwheel-main. The video is available on Youtube. Enjoy and I hope to see you next Thursday!"]]
+  [:p "The first stream was pretty fun and I talked about " [:strong "Clojurescript with React from scratch using rum and figwheel-main. "]
+   "The video is available on Youtube. Enjoy and I hope to see you next Thursday!"]
   [:iframe {:width "300" :height "200"
             :src "https://www.youtube-nocookie.com/embed/JMXYuLqTFV4"
             :frameborder "0"
