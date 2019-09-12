@@ -1,0 +1,53 @@
+{:title "Custom edn readers for dummies"
+ :description "edn is a powerful way to represent data, and you can make it even more powerful by extending it with your own custom reader tags."
+ :tags ["clojure" "edn"]
+ :content
+ (fn [{:keys [slug]}]
+   [:div.content
+    [:p "Here follows a silly example to show you how easy it is to extend edn using your own custom reader tags."]
+    [:h3 "We will need..."]
+    [:ul
+     [:li [:strong "A reader tag: "] "we will use " [:code "#demo/reverse"] " (note: tags always needs a prefix, demo in this case)"]
+     [:li [:strong "A function "] "that will understand what we want to achieve with our custom tag"]
+     [:li [:strong "To tell"] " the edn reader about our custom tag"]]
+    [:h3 "What do we want to achieve?"]
+    [:p "For our demo, we want to reverse some of the collections in our .edn file. I get that you will never use this, but it makes understanding the process easy."]
+    (sneakycode.render/clj
+     ";; data.edn
+{:a \"a\"
+ :b [1 2 3 4 5]
+ :c #demo/reverse [\"e\" \"d\" \"c\" \"b\" \"a\"]}
+
+;; becomes
+{:a \"a\"
+ :b [1 2 3 4 5]
+ :c '(\"a\" \"b\" \"c\" \"d\" \"e\")}")
+    [:h3 "Let's build the reader"]
+    [:p "Our reader will simply check if the value it receives is a collection, and if it is, it will reverse that collection."]
+    (sneakycode.render/clj "
+(defn reverse-reader [coll]
+  (assert (coll? coll) \"you can only reverse collections\")
+  (reverse coll))
+")
+    [:p "Then we link our reader tag with our reader function."]
+    (sneakycode.render/clj " (def custom-readers {'demo/reverse reverse-reader})")
+    [:h3 "Finally we read some custom edn"]
+    (sneakycode.render/clj "
+(def some-edn \"{:a 1
+                :b [1 2 3 4 5]
+                :c #demo/reverse [5 4 3 2 1]}\")
+
+
+(def result-data
+  (clojure.edn/read-string {:readers custom-readers} some-edn))
+
+(prn (:c result-data)) ; => '(1 2 3 4 5)
+")
+
+    [:h3 "It's that easy!"]
+    [:p "For some real world examples have a look at how "
+     [:a {:href "https://github.com/walmartlabs/dyn-edn" :target "_blank"} "dyn-edn"]
+     " and "
+     [:a {:href "https://github.com/weavejester/integrant" :target "_blank"} "integrant"]
+     " use custom reader tags."]
+    ])}
