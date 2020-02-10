@@ -64,7 +64,7 @@
           {:n "bucks" :l "https://sneakypeet.github.io/bucks/" :g "https://github.com/sneakypeet/bucks"
            :d "An app that tells me about my financial well being"
            :t ["clojure_alt" "react" "css3"]}
-          {:n "moola-bank" :l "http://www.moola-bank.me/"
+          {:n "moola-bank" :l "https://sneakycode.net/moola-bank"
            :d "A budgeting app for young kids"
            :t ["clojure_alt" "react" "sass"]}
           #_{:n "sneakycode.net" :l "https://sneakycode.net/" :g "https://github.com/sneakypeet/sneakycode.net"
