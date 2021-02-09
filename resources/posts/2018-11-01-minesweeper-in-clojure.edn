@@ -1,6 +1,7 @@
-{:title "Minesweeper in clojure"
+{:title "Minesweeper in Clojure"
  :description "As a fun experiment, and to show the basics of clojure development, I implemented a minesweeper clone using clojurescript and p5.js."
  :tags ["clojurescript" "p5"]
+
  :link (fn [k]
          (let [links {:coding-challenge ["https://www.youtube.com/playlist?list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH" "Coding Train Coding Challenges"]
                       :p5 ["https://p5js.org/" "p5.js"]
@@ -9,7 +10,7 @@
                       :mine-wiki ["https://en.wikipedia.org/wiki/Minesweeper_(video_game)" "minesweeper"]
                       :minesweeper-game [(sneakycode.config/url "/minesweeper") "play the full version here"]
                       :minesweeper-code [(sneakycode.config/url "/minesweeper") "minesweeper page"]
-                      :clojure ["https://clojurescript.org/" "Clojure/Clojurescript"]}
+                      :clojure ["https://clojurescript.org/" "Clojure/ClojureScript"]}
                [url text] (get links k)]
            [:a {:href url :target "_blank"} text]))
  :content
@@ -20,10 +21,10 @@
      " videos on YouTube. So far they have been quite informative and entertaining.
 There is something about combining math and graphics that has grabbed my attention and I have started to play around with building drawings and games using "
      (link :p5)
-     " and clojurescript. "
+     " and ClojureScript. "
      (link :daniel)
      " does an excellent job in presenting and producing these videos and I suggest you go and check them out."]
-    [:p "Daniel typically does these challenges in a javascript object oriented style. I have been keen for a while to replicate these challenges using Functional Programming (via " (link :clojure) ") and this is the first attempt. In doing this I hope to 1. have fun and 2. get people excited about Clojure.
+    [:p "Daniel typically does these challenges in a javascript object-oriented style. I have been keen for a while to replicate these challenges using Functional Programming (via " (link :clojure) ") and this is the first attempt. In doing this I hope to 1. have fun and 2. get people excited about Clojure.
 Clojure has turned everything I believed about software on its head and I am a better developer because of it. I am also having lots of fun."]
     [:p "I'll be building a " (link :mine-wiki)" clone. You should go and watch the " (link :minesweeper) " as this will give you a nice idea of how the OO and FP paradigm differ. "
      "Below is a tiny demo of the game (shift click to flag) and you can go and " (link :minesweeper-game) "."]
@@ -40,8 +41,8 @@ Clojure has turned everything I believed about software on its head and I am a b
     [:h4 "Let's build!"]
     [:p "Clojure is a dynamic functional hosted lisp. The lisp syntax might be trippy if you come from curly bracket land, but in essence it is always"
      [:code "(my-function arg1 arg2 ...)"]
-     " ... for everything ... ever. Clojure is functional and its core data structures are persistant, so we will be focusing on building the core minesweeper functionality using pure functions that operate on immutable data. Once this is done we will add a state handling mechanism and finally the drawing of the game on the screen. This is typically how we build functional applications. We have a stateful outer layer that calls into a functional inner layer. Like a metaphorical functional sandwich. Yummy!" ]
-    [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essencially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a hash-map of indexes to cells. This allows me to easily do value lookups and updates. Because the basic board state does not change during the game, I can initialize the cells with all the information about their neighboring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid data structure then ends up looking like this:"]
+     " ... for everything ... ever. Clojure is functional and its core data structures are persistent, so we will be focusing on building the core minesweeper functionality using pure functions that operate on immutable data. Once this is done we will add a state handling mechanism and finally the drawing of the game on the screen. This is typically how we build functional applications. We have a stateful outer layer that calls into a functional inner layer. Like a metaphorical functional sandwich. Yummy!" ]
+    [:p "Before I start writing any code I first want to talk about what I want my data to look like. Minesweeper is essentially just rows and columns of cells. Although I can identify each cell by its row and column, I would prefer to give each cell an index and have my entire board represented as a hash-map of indexes to cells. This allows me to easily do value lookups and updates. Because the basic board state does not change during the game, I can initialize the cells with all the information about their neighboring cells so I can avoid having to iterate the cells when I need to check bomb locations etc. My core grid data structure then ends up looking like this:"]
     (sneakycode.render/clj
      "
 {0 {:i 0 :row 0 :col 0
@@ -304,14 +305,14 @@ Let's start with the latter. We have **won the game** if all non-bomb cells have
 (run-game) ; => You died at index 9")
 
     (sneakycode.render/markdown
-     "* All of the code above is expressed using pure functions, meaning that given an input we can always expect the same output. Nowhere are we mutating any state. All of the clojure data types we have used are immutable and persistent. This makes our code very easy to reason about and writing tests trivial.
+     "* All of the code above is expressed using pure functions, meaning that given an input we can always expect the same output. Nowhere are we mutating any state. All of the Clojure data types we have used are immutable and persistent. This makes our code very easy to reason about and writing tests trivial.
 
-* All the code is valid clojure and clojurescript, meaning it will run on the jvm, node and in the browser without us having to make any changes. Technically it will run on the clr too using clojureclr, but I have not tried it. This is the power of a hosted language.")
+* All the code is valid Clojure and ClojureScript, meaning it will run on the JVM, Node and in the browser without us having to make any changes. Technically it will run on the CLR too using ClojureCLR, but I have not tried it. This is the power of a hosted language.")
 
     [:hr]
     [:h5 "Can haz side effects?"]
     (sneakycode.render/markdown
-     "Ultimately, any useful program will end up having some side effects, whether this is writing to disk or reacting to user input. Our game will be rendered in the browser using p5.js and the game state will be kept in a clojure atom. Every time the user clicks we will call a function that will run the current state through our functions and then save the new state in our atom. Our view render code can then simply query the state atom for the latest state. You can see in the `mouse-clicked` function how easily we interop with javascript and p5 by simply using `js/`. ")
+     "Ultimately, any useful program will end up having some side effects, whether this is writing to disk or reacting to user input. Our game will be rendered in the browser using p5.js and the game state will be kept in a Clojure atom. Every time the user clicks we will call a function that will run the current state through our functions and then save the new state in our atom. Our view render code can then simply query the state atom for the latest state. You can see in the `mouse-clicked` function how easily we interop with Javascript and p5 by simply using `js/`. ")
 
     (sneakycode.render/clj
      "
@@ -429,9 +430,9 @@ Let's start with the latter. We have **won the game** if all non-bomb cells have
     (sneakycode.render/markdown
      "Implementing minesweeper we have seen the simplicity of expressing code using a set of pure functions. We simply define some data and then transform that data. We are also free of weird side effects and bugs because we rely on immutable data structures. This results in a codebase that is clean, concise and easy to reason about and maintain. To make the code usable we wrap our functional code in a stateful shell, allowing us to easily run our code anywhere we like, whilst maintaining integrity.
 
-I hope you have found my clojure ramblings useful and I hope that I have planted a small seed of interest/curiosity in your brain that will compel you to have a look at functional programming and at clojure. Personally I have fallen in love with clojure. It is such an elegant and thought through language. Since moving to clojure I have 10X more fun writing code as well as completed many more side projects than I ever manged before. I would encourage you to go and play with clojure. Simply trying out things that you are not familiar with (like lisp, FP and immutability) will make you a better programmer.
+I hope you have found my Clojure ramblings useful and I hope that I have planted a small seed of interest/curiosity in your brain that will compel you to have a look at functional programming and at Clojure. Personally I have fallen in love with Clojure. It is such an elegant and well-thought-out language. Since moving to Clojure I have 10X more fun writing code as well as completed many more side projects than I ever managed before. I would encourage you to go and play with Clojure. Simply trying out things that you are not familiar with (like lisp, FP and immutability) will make you a better programmer.
 
-> note: I am pretty sure that the code above is not perfect, and if you are reading this as an experienced clojure developer, feel free to point that out in the comments below.")
+> note: I am pretty sure that the code above is not perfect, and if you are reading this as an experienced Clojure developer, feel free to point that out in the comments below.")
     [:br]
     (sneakycode.render/snippet :source post)
     ;;;; Load minesweeper
