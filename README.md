@@ -4,6 +4,12 @@
 
 `lein dev`
 
+## Deploy
+
+`npm install --global surge`
+
+`sh deploy.sh`
+
 ## styles
 
 ```
@@ -17,5 +23,3 @@ npm run dev
 npm run once
 
 ```
-
-
