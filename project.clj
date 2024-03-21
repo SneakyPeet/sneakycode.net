@@ -25,6 +25,7 @@
   :ring {:handler sneakycode.core/app
          :init sneakycode.core/app-init
          :auto-refresh? true}
+  :jvm-opts ["--add-opens=java.base/java.lang=ALL-UNNAMED" "--add-opens=java.base/java.time=ALL-UNNAMED"]
+  :resource-paths ["resources"]
   :aliases {"dev" ["ring" "server-headless" "4321"]
-            "build" ["run" "-m" "sneakycode.deploy"]
-            })
+            "build" ["run" "-m" "sneakycode.deploy"]})

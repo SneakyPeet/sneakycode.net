@@ -47,24 +47,27 @@
  :my-projects
  (fn [_]
    (let [projects
-         [{:n "simply.co.za" :l "https://simply.co.za"
-           :d "My day job, where we try and improve the financial futures of millions"
+         [{:n "Read your Bible App" :l "https://read-the-bible.web.app"
+           :d "An app that helps you read the Bible by suggesting chapters to read daily and providing progress reports. Built with Clojurescript and Firebase"
+           :t ["clojure_alt" "google-cloud-platform"]}
+          {:n "simply.co.za" :l "https://simply.co.za"
+           :d "My previous day job, where we try and improve the financial futures of millions"
            :t ["clojure_alt" "nodejs_small" "react" "google-cloud-platform"]}
           {:n "TFSA Tracker" :l (sneakycode.config/url "/tfsa-tracker") :g "https://github.com/SneakyPeet/tax-free-savings-tracker"
            :d "Track your RSA Tax Free Savings Contributions"
            :t ["clojure_alt" "react"]}
           {:n "Financial Independece Calculator" :l (sneakycode.config/url "/years-to-financial-independence")
            :d "Calculates the years it will take you to reach financial independence"}
-          {:n "Gitlab TV" :l "https://sneakypeet.github.io/gitlab-tv/" :g "https://github.com/SneakyPeet/gitlab-tv"
+          #_{:n "Gitlab TV" :l "https://sneakypeet.github.io/gitlab-tv/" :g "https://github.com/SneakyPeet/gitlab-tv"
            :d "A TV for watching gitlab ci pipelines"
            :t ["clojure_alt"]}
           #_{:n "P5 CLJS Starter" :l "https://github.com/SneakyPeet/p5js-cljs-starter"
            :d "A Figwheel project template for building P5.js drawings using clojurescript"
            :t ["clojure_alt"]}
-          {:n "bucks" :l "https://sneakypeet.github.io/bucks/" :g "https://github.com/sneakypeet/bucks"
+          #_{:n "bucks" :l "https://sneakypeet.github.io/bucks/" :g "https://github.com/sneakypeet/bucks"
            :d "An app that tells me about my financial well being"
            :t ["clojure_alt" "react" "css3"]}
-          {:n "moola-bank" :l "https://sneakycode.net/moola-bank"
+          #_{:n "moola-bank" :l "https://sneakycode.net/moola-bank"
            :d "A budgeting app for young kids"
            :t ["clojure_alt" "react" "sass"]}
           #_{:n "sneakycode.net" :l "https://sneakycode.net/" :g "https://github.com/sneakypeet/sneakycode.net"
