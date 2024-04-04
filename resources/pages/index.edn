@@ -50,6 +50,9 @@
          [{:n "Read your Bible App" :l "https://read-the-bible.web.app"
            :d "An app that helps you read the Bible by suggesting chapters to read daily and providing progress reports. Built with Clojurescript and Firebase"
            :t ["clojure_alt" "google-cloud-platform"]}
+          {:n "whats-that-function.com" :l "https://whats-that-function.com"
+           :d "Quick and simple coding videos"
+           :t ["clojure_alt"]}
           {:n "simply.co.za" :l "https://simply.co.za"
            :d "My previous day job, where we try and improve the financial futures of millions"
            :t ["clojure_alt" "nodejs_small" "react" "google-cloud-platform"]}
